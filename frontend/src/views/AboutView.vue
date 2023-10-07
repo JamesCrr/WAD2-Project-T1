@@ -5,11 +5,15 @@
   </div>
 </template>
 
-<script setup>
-import { ref, computed } from "vue"
-import { useStore } from "vuex"
-const store = useStore()
-const count = computed(() => store.getters.getCount)
+<script>
+import { mapState, mapMutations } from "vuex"
+
+export default {
+  computed: mapState("counter", {
+    // arrow functions can make the code very succinct!
+    count: (state) => state.count,
+  }),
+}
 </script>
 
 <style>
