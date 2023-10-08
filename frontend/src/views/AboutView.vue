@@ -1,7 +1,7 @@
 <template>
-  <div class="about">
-    <!-- <h1>This is an about page</h1> -->
-    <p style="color: aqua">Count: {{ count }}</p>
+  <div>
+    <h2>About</h2>
+    <p>Count: {{ count }}</p>
   </div>
 </template>
 

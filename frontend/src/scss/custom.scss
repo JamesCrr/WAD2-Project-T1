@@ -1,0 +1,25 @@
+// Required to modify
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/bootstrap";
+// Variable overrides must come after our functions are imported, but before the rest of the imports.
+
+/** Customize some defaults **/
+// $body-color: #333;
+// $body-bg: #fff;
+// $border-radius: .4rem;
+// $success: #7952b3;
+
+// Default variable overrides
+$body-bg: #e4dcdc;
+
+/**
+* Custom styles
+*/
+body {
+  padding: 1.5rem;
+}
+
+// Import all of Bootstrap's CSS
+@import "bootstrap/scss/bootstrap";

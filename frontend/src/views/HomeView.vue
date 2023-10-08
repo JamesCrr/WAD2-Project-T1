@@ -1,10 +1,10 @@
 <template>
-  <main>
-    <!-- <TheWelcome /> -->
-    <p style="color: aqua">Count: {{ count }}</p>
+  <div>
+    <h2>Home</h2>
+    <p>Count: {{ count }}</p>
     <button v-on:click="increment()">Increment</button>
     <button v-on:click="decrement()">Decrement</button>
-  </main>
+  </div>
 </template>
 
 <script>
