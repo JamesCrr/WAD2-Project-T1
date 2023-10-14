@@ -12,6 +12,12 @@ const mutations = {
     state.isLoggedIn = true
     state.isVolunteer = isVolunteer
     state.authDetails = authDetails
+
+    /**
+     * Prob need to store in Cookies or Local Storage
+     * because when refresh or enter new URL, then all will be gone
+     */
+
     // console.log("LOGIN")
   },
   m_Logout(state) {

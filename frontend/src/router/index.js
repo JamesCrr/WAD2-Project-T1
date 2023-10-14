@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router"
+import store from "../store"
 import HomeView from "../views/HomeView.vue"
 import ChatView from "../views/ChatView.vue"
 import LoginView from "../views/LoginView.vue"
+import RegisterView from "../views/RegisterView.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,6 +12,11 @@ const router = createRouter({
       path: "/login",
       name: "login",
       component: LoginView,
+    },
+    {
+      path: "/register",
+      name: "register",
+      component: RegisterView,
     },
 
     {
@@ -34,18 +41,20 @@ const router = createRouter({
 })
 
 // Enable Guarded Routes for everything other than Login and Register
-router.beforeEach((to, from, next) => {
-  next()
-  return
-
-  if (to.name !== "login" && to.name !== "register" && !this.isloggedin) {
-    next({
-      path: "login",
-      replace: true,
-    })
-  } else {
-    next()
-  }
+router.beforeEach((to, from) => {
+  // const getIsLoggedIn = store.getters["auth/getIsLoggedIn"]
+  // // Not logged in but trying to access other routes
+  // if (to.name !== "login" && to.name !== "register" && !getIsLoggedIn) {
+  //   return { name: "login", replace: true }
+  // }
+  // // Already logged in but trying to login/register again
+  // else if ((to.name === "login" || to.name === "register") && getIsLoggedIn) {
+  //   console.log("AREDD")
+  //   // explicitly return false to cancel the navigation
+  //   return false
+  // }
+  /** Proceed as normal */
+  // ...
 })
 
 export default router

@@ -1,5 +1,5 @@
 <template>
-  <h1>Login</h1>
+  <h1>Register</h1>
 
   <form v-on:submit.prevent="handleSubmit">
     <div class="mb-3">
@@ -33,7 +33,7 @@
 
 <script>
 import { mapMutations } from "vuex"
-import { signInWithEmailAndPassword } from "firebase/auth"
+import { createUserWithEmailAndPassword } from "firebase/auth"
 import { firebase_auth } from "../firebase"
 
 export default {
@@ -51,12 +51,11 @@ export default {
     handleSubmit() {
       console.log("Email:", this.email, "Password:", this.password)
 
-      // Call Firebase and verify
-      signInWithEmailAndPassword(firebase_auth, this.email, this.password)
+      // Call Firebase to sign up
+      createUserWithEmailAndPassword(firebase_auth, this.email, this.password)
         .then((userCredential) => {
-          // Signed in
+          // Registered and Signed in
           const user = userCredential.user
-
           // update Vuex store
           this.m_Login({
             isVolunteer: this.isVolunteer,
@@ -69,7 +68,7 @@ export default {
         .catch((error) => {
           const errorCode = error.code
           const errorMessage = error.message
-          console.log("Failed to sign in, ErrorCode:", errorCode, "Message:", errorMessage)
+          console.log("Failed to register, ErrorCode:", errorCode, "Message:", errorMessage)
           // do some user feedback
         })
     },
