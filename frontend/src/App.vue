@@ -1,15 +1,11 @@
-<script setup>
-import { RouterLink, RouterView } from "vue-router"
-import HelloWorld from "./components/HelloWorld.vue"
-</script>
-
 <template>
   <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
 
   <div class="container-fluid">
     <!-- <HelloWorld msg="You did it!" /> -->
     <div class="row bg-dark-subtle">
-      <div class="col align-middle p-3">
+      IsLoggedIn: {{ getIsLoggedIn }}
+      <div class="col align-middle p-3" v-if="getIsLoggedIn">
         <RouterLink to="/"><button class="btn btn-primary me-4">Home</button></RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </div>
@@ -18,6 +14,17 @@ import HelloWorld from "./components/HelloWorld.vue"
 
   <RouterView />
 </template>
+
+<script>
+import { RouterLink, RouterView } from "vue-router"
+import { mapGetters } from "vuex"
+
+export default {
+  computed: {
+    ...mapGetters("auth", ["getIsLoggedIn", "getIsVolunteer"]),
+  },
+}
+</script>
 
 <style scoped>
 header {

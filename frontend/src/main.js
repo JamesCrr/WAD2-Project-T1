@@ -13,6 +13,6 @@ import store from "./store"
 
 const app = createApp(App)
 
-app.use(router).use(store)
+app.use(store).use(router)
 
 app.mount("#app")

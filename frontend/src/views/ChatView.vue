@@ -29,7 +29,7 @@ export default {
       URL: process.env.NODE_ENV === "production" ? "YOUR SERVER URL HERE" : "http://localhost:3000",
       chatText: "",
 
-      // TMP
+      // TMP variables for SocketIO until server is up and running!
       myUsername: "",
       targetUsername: "",
     }

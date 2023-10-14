@@ -1,5 +1,6 @@
 import counterModule from "./counterModule"
 import socketModule from "./socketModule"
+import authModule from "./authModule"
 import { createStore } from "vuex"
 
 /**
@@ -33,6 +34,7 @@ const store = createStore({
   modules: {
     socket: socketModule,
     counter: counterModule,
+    auth: authModule,
   },
 
   // state() {

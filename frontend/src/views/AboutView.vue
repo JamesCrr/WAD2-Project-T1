@@ -10,7 +10,7 @@ import { mapState, mapMutations } from "vuex"
 
 export default {
   computed: mapState("counter", {
-    // arrow functions can make the code very succinct!
+    // arrow functions can make the code very compact!
     count: (state) => state.count,
   }),
 }
