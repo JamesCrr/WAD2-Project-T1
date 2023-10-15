@@ -7,6 +7,7 @@
       <input
         type="email"
         class="form-control"
+        autocomplete="email"
         id="email"
         aria-describedby="emailHelp"
         v-model="email"
@@ -15,7 +16,13 @@
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-control" id="password" v-model="password" />
+      <input
+        type="password"
+        autocomplete="current-password"
+        class="form-control"
+        id="password"
+        v-model="password"
+      />
     </div>
     <div class="mb-3 form-check">
       <input
@@ -34,7 +41,8 @@
 <script>
 import { mapMutations } from "vuex"
 import { signInWithEmailAndPassword } from "firebase/auth"
-import { firebase_auth } from "../firebase"
+import { collection, doc, setDoc, getDoc } from "firebase/firestore"
+import { firebase_firestore, firebase_auth } from "../firebase"
 
 export default {
   data() {
@@ -48,30 +56,48 @@ export default {
   methods: {
     ...mapMutations("auth", ["m_Login", "m_Logout"]),
 
-    handleSubmit() {
+    async handleSubmit() {
       console.log("Email:", this.email, "Password:", this.password)
 
-      // Call Firebase and verify
-      signInWithEmailAndPassword(firebase_auth, this.email, this.password)
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user
+      try {
+        // Call Firebase and verify
+        const userCredential = await signInWithEmailAndPassword(
+          firebase_auth,
+          this.email,
+          this.password,
+        )
+        // Signed in Success
+        const user = userCredential.user
+        console.log("USER:", user)
 
-          // update Vuex store
-          this.m_Login({
-            isVolunteer: this.isVolunteer,
-            authDetails: user,
-          })
-          // redirect to home page
-          // this.$router.replace({ path: "/" })
-          this.$router.push({ path: "/" })
+        // Fetch all the account's data from firestore
+        const docRef = doc(firebase_firestore, "accounts", user.uid)
+        const docSnap = await getDoc(docRef)
+        let accountDetails = null
+        if (docSnap.exists()) {
+          console.log("Account data:", docSnap.data())
+          accountDetails = docSnap.data()
+        } else {
+          // docSnap.data() will be undefined in this case
+          console.log("No such account document!")
+          return
+        }
+
+        // update Vuex store
+        this.m_Login({
+          isVolunteer: this.isVolunteer,
+          authDetails: user,
+          accountDetails,
         })
-        .catch((error) => {
-          const errorCode = error.code
-          const errorMessage = error.message
-          console.log("Failed to sign in, ErrorCode:", errorCode, "Message:", errorMessage)
-          // do some user feedback
-        })
+        //// redirect to home page
+        // this.$router.replace({ path: "/" })
+        this.$router.push({ path: "/" })
+      } catch (error) {
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log("Failed to sign in, ErrorCode:", errorCode, "Message:", errorMessage)
+        // do some user feedback
+      }
     },
   },
 }

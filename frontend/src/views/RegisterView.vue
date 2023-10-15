@@ -6,6 +6,7 @@
       <label for="email" class="form-label">Email address</label>
       <input
         type="email"
+        autocomplete="email"
         class="form-control"
         id="email"
         aria-describedby="emailHelp"
@@ -14,8 +15,18 @@
       <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
     </div>
     <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input type="text" autocomplete="name" class="form-control" id="name" v-model="name" />
+    </div>
+    <div class="mb-3">
       <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-control" id="password" v-model="password" />
+      <input
+        type="password"
+        autocomplete="new-password"
+        class="form-control"
+        id="password"
+        v-model="password"
+      />
     </div>
     <div class="mb-3 form-check">
       <input
@@ -34,13 +45,15 @@
 <script>
 import { mapMutations } from "vuex"
 import { createUserWithEmailAndPassword } from "firebase/auth"
-import { firebase_auth } from "../firebase"
+import { doc, setDoc } from "firebase/firestore"
+import { firebase_firestore, firebase_auth } from "../firebase"
 
 export default {
   data() {
     return {
       email: "",
       password: "",
+      name: "",
       isVolunteer: true,
     }
   },
@@ -48,29 +61,47 @@ export default {
   methods: {
     ...mapMutations("auth", ["m_Login", "m_Logout"]),
 
-    handleSubmit() {
-      console.log("Email:", this.email, "Password:", this.password)
+    async handleSubmit() {
+      console.log("Email:", this.email, "Password:", this.password, "Name:", this.name)
 
-      // Call Firebase to sign up
-      createUserWithEmailAndPassword(firebase_auth, this.email, this.password)
-        .then((userCredential) => {
-          // Registered and Signed in
-          const user = userCredential.user
-          // update Vuex store
-          this.m_Login({
-            isVolunteer: this.isVolunteer,
-            authDetails: user,
-          })
-          // redirect to home page
-          // this.$router.replace({ path: "/" })
-          this.$router.push({ path: "/" })
+      console.log("Paused Registration!")
+      return
+
+      try {
+        // Call Firebase to sign up
+        const userCredential = await createUserWithEmailAndPassword(
+          firebase_auth,
+          this.email,
+          this.password,
+        )
+        // Registered and Signed in
+        const user = userCredential.user
+
+        // Send new account's data to firestore
+        const accountDetails = {
+          email: this.email,
+          name: this.name,
+          type: this.isVolunteer ? "volunteer" : "organisation",
+        }
+        // Add a new account document in collection "accounts"
+        await setDoc(doc(firebase_firestore, "accounts", user.uid), accountDetails)
+        console.log("New Account Registered!")
+
+        // update Vuex store
+        this.m_Login({
+          isVolunteer: this.isVolunteer,
+          authDetails: user,
+          accountDetails,
         })
-        .catch((error) => {
-          const errorCode = error.code
-          const errorMessage = error.message
-          console.log("Failed to register, ErrorCode:", errorCode, "Message:", errorMessage)
-          // do some user feedback
-        })
+        // redirect to home page
+        // this.$router.replace({ path: "/" })
+        this.$router.push({ path: "/" })
+      } catch (error) {
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log("Failed to register, ErrorCode:", errorCode, "Message:", errorMessage)
+        // do some user feedback
+      }
     },
   },
 }
