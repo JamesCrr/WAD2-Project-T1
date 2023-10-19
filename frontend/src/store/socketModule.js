@@ -4,7 +4,7 @@ const state = {
   socketObj: null, // Socket.IO client instance
   connected: false,
 
-  chatHistory: {}, // Store all your chats
+  chatHistory: {}, // TEMPORARY Store all your chats
 }
 
 const mutations = {
@@ -24,21 +24,24 @@ const mutations = {
 
     console.log(state.chatHistory)
   },
-  m_SendMessageToServer(state, payload) {
+  m_SendMessageToServer(state, payload, rootState, rootGetters) {
     const { message, senderUsername, targetUsername, senderID } = payload
-    const data = {
-      senderSocketID: state.socketObj.id,
-      message,
-      senderUsername,
-      targetUsername,
-      senderID,
-    }
-    state.socketObj.emit("client:send-message", data)
+    // const data = {
+    //   senderSocketID: state.socketObj.id,
+    //   message,
+    //   senderUsername,
+    //   targetUsername,
+    //   senderID,
+    // }
+    // state.socketObj.emit("client:send-message", data)
+
+    // Add into user's chat state in auth Mod
+    this.commit("chat/m_addToChat", { newMessage: message }, { root: true })
   },
 }
 
 const actions = {
-  a_InitializeSocket(context, payload) {
+  async a_InitializeSocket(context, payload) {
     const { dispatch, commit, state } = context
     const { URL, myUsername } = payload
     if (state.socketObj) {
