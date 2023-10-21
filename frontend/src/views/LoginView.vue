@@ -106,8 +106,8 @@ export default {
           }
         }
         // update Vuex store
-        console.log(newChats)
         this.m_initChats(newChats)
+        // console.log(newChats)
 
         // Register SocketIO
         const URL =

@@ -1,8 +1,25 @@
 <template>
   <div class="row">
-    <div class="col-6 text-bg-primary position-fixed bottom-0 end-0 p-2">
-      <h4>Chat</h4>
-      <div class="chat-content-container text-bg-light d-flex flex-row">
+    <div class="col-6 text-bg-primary position-fixed bottom-0 end-0" ref="chat-main-window">
+      <div class="row g-0">
+        <h4 class="col-11">Chat</h4>
+        <div class="col d-flex justify-content-center align-items-center">
+          <BIconXCircleFill
+            v-on:click="windowClosed ? animateOpenWindow() : animateCloseWindow()"
+            class="fs-4"
+            v-if="!windowClosed"
+          />
+          <BIconArrowUpCircleFill
+            v-on:click="windowClosed ? animateOpenWindow() : animateCloseWindow()"
+            class="fs-4"
+            v-else
+          />
+        </div>
+      </div>
+      <div
+        class="row g-0 chat-content-container text-bg-light d-flex flex-row"
+        ref="chat-content-container"
+      >
         <div class="col-4 p-1 overflow-y-scroll border-end border-primary border-2">
           <ChatRoomName
             v-for="(value, key) in getChatDetails"
@@ -44,19 +61,28 @@
 
 <script>
 import { mapState, mapMutations, mapActions, mapGetters } from "vuex"
+import { BIconXCircleFill, BIconArrowUpCircleFill } from "bootstrap-icons-vue"
+import { gsap } from "gsap"
 import ChatRoomName from "./ChatRoomName.vue"
 import ChatRoomMessage from "./ChatRoomMessage.vue"
+
+const animateTime = 0.5
 
 export default {
   data() {
     return {
       newMessage: "",
       selectedRoomKey: "",
+      windowClosed: true,
     }
   },
   components: {
     ChatRoomName,
     ChatRoomMessage,
+
+    // Bootstrap Icons
+    BIconXCircleFill,
+    BIconArrowUpCircleFill,
   },
   computed: {
     ...mapState("socket", {
@@ -81,6 +107,9 @@ export default {
       // console.log(this.selectedRoomKey, this.getChatDetails[this.selectedRoomKey])
     },
 
+    /**
+     * Submits the message to chat
+     */
     async submitMessageToChat() {
       console.log("Submitting:", this.newMessage)
 
@@ -127,6 +156,39 @@ export default {
       // Reset Input field
       this.newMessage = ""
     },
+
+    /**
+     * Closes the Main Chat Window through animation using GSAP
+     */
+    animateCloseWindow() {
+      gsap.to(this.$refs["chat-content-container"], {
+        autoAlpha: 0,
+        duration: animateTime,
+        // repeat: -1,
+      })
+      gsap.to(this.$refs["chat-main-window"], {
+        y: 250,
+        // yPercent: 80,
+        duration: animateTime * 0.75,
+        // repeat: -1,
+      })
+      this.windowClosed = true
+    },
+    animateOpenWindow() {
+      gsap.to(this.$refs["chat-content-container"], {
+        autoAlpha: 1,
+        duration: animateTime,
+      })
+      gsap.to(this.$refs["chat-main-window"], {
+        y: 0,
+        duration: animateTime * 0.75,
+      })
+      this.windowClosed = false
+    },
+  },
+
+  mounted() {
+    this.animateCloseWindow()
   },
 }
 </script>

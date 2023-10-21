@@ -38,10 +38,10 @@ const actions = {
     console.log("Update chat", payload)
     const { chatID, messageList } = payload
 
-    messageList = [
-      { content: "Hello yo, Bob here", senderID: "ClwxrKQVQJhRPpUgDjWWhOqHzFK2" },
-      { content: "Hi Bob, what can we do for you?", senderID: "XWRfwZJPwmbQGrsEukW6C1fuaYo1" },
-    ]
+    // messageList = [
+    //   { content: "Hello yo, Bob here", senderID: "ClwxrKQVQJhRPpUgDjWWhOqHzFK2" },
+    //   { content: "Hi Bob, what can we do for you?", senderID: "XWRfwZJPwmbQGrsEukW6C1fuaYo1" },
+    // ]
 
     // Update firestore
     const userRef = doc(firebase_firestore, "chats", chatID)
