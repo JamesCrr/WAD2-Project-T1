@@ -10,6 +10,7 @@
         <RouterLink to="/about">About</RouterLink>
       </div>
     </div>
+    <!-- Not sure if this commenting is correct, Please check with WX -->
   </div>
 
   <RouterView />

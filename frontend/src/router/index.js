@@ -4,6 +4,9 @@ import HomeView from "../views/HomeView.vue"
 import ChatView from "../views/ChatView.vue"
 import LoginView from "../views/LoginView.vue"
 import RegisterView from "../views/RegisterView.vue"
+import UserView from "../views/UserView.vue"
+import volunteer from "../views/Volunteer.vue"
+import events from "../views/Events.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,6 +22,21 @@ const router = createRouter({
       component: RegisterView,
     },
 
+    {
+      path: "/user",
+      name: "user",
+      component: UserView,
+    },
+    {
+      path: "/volunteer",
+      name: "volunteer",
+      component: volunteer,
+    },
+    {
+      path: "/events",
+      name: "events",
+      component: events,
+    },
     {
       path: "/",
       name: "home",
