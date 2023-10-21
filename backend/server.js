@@ -27,7 +27,7 @@ const deleteUsersFromDictionary_ID = (idToDelete) => {
   for (var key in onlineUsers) {
     if (onlineUsers[key] == idToDelete) {
       delete onlineUsers[key];
-      console.log(`Disconnecting User ${key} deleted from dictionary!`);
+      console.log(`Disconnecting User ${key} deleted from online users dictionary!`);
       return;
     }
   }
@@ -35,11 +35,11 @@ const deleteUsersFromDictionary_ID = (idToDelete) => {
 };
 const addUserIntoDictionary = (newUsername, socketID) => {
   if (onlineUsers.hasOwnProperty(newUsername) || Object.values(onlineUsers).includes(socketID)) {
-    console.log("Username/SocketID already exists in dictionary!");
+    console.log("Username/SocketID already exists in online users dictionary!");
     return;
   }
   onlineUsers[newUsername] = socketID;
-  console.log(`New user of ${newUsername} added into dictionary!`);
+  console.log(`New username ${newUsername} added into online users dictionary!`);
 };
 const getSocketIDFromUsername = (username) => {
   if (!onlineUsers.hasOwnProperty(username)) {
@@ -67,26 +67,28 @@ io.on("connection", (socket) => {
     addUserIntoDictionary(myUsername, socket.id);
   });
   socket.on("client:disconnecting", function (userID) {
-    console.log("User", userID, "is disconnecting!");
+    console.log("User with ID", userID, "is disconnecting!");
   });
   socket.on("client:send-message", async (payload) => {
-    const { message, senderUsername, targetUsername } = payload;
-    const data = {
-      message,
+    const {
+      senderSocketID,
+      messageObj,
+      chatID,
       senderUsername,
+      senderDocRef,
       targetUsername,
-    };
-
-    // await db.storeUserMessage(data);
-    // socket.broadcast.emit("server:send-client-message", data);
-    // socket.emit("server:send-client-message", data);
-
-    // Emit to both the sender and target
-    socket.to(getSocketIDFromUsername(targetUsername)).emit("server:send-client-message", data);
-    socket.emit("server:send-client-message", data);
+      targetDocRef,
+      senderIsVolunteer,
+    } = payload;
 
     try {
-    } catch (e) {}
+      // Emit to the target
+      socket.to(getSocketIDFromUsername(targetUsername)).emit("server:send-client-message", payload);
+      //// Sender emit
+      // socket.emit("server:send-client-message", data);
+    } catch (error) {
+      console.log("SocketIO Error : client:send-message, ", error);
+    }
   });
 
   socket.on("typing", (data) => {

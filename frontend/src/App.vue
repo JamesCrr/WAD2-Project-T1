@@ -4,10 +4,13 @@
   <div class="container-fluid">
     <!-- <HelloWorld msg="You did it!" /> -->
     <div class="row bg-dark-subtle">
-      IsLoggedIn: {{ getIsLoggedIn }}
-      <div class="col align-middle p-3" v-if="getIsLoggedIn">
-        <RouterLink to="/"><button class="btn btn-primary me-4">Home</button></RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+      <div class="col">
+        IsLoggedIn: {{ getIsLoggedIn }}
+        <div v-if="getIsLoggedIn">
+          <RouterLink to="/"><button class="btn btn-primary m-2">Home</button></RouterLink>
+          <RouterLink to="/about">About</RouterLink>
+          <RouterLink class="m-2" to="/chat">Chat</RouterLink>
+        </div>
       </div>
     </div>
     <!-- Not sure if this commenting is correct, Please check with WX -->
@@ -24,6 +27,13 @@ export default {
   computed: {
     ...mapGetters("auth", ["getIsLoggedIn", "getIsVolunteer"]),
   },
+  // beforeMount() {
+  //   // console.log(this.getIsLoggedIn)
+  //   // Has the user logined yet?
+  //   if (!this.getIsLoggedIn) {
+  //     this.$router.replace({ path: "/login" })
+  //   }
+  // },
 }
 </script>
 

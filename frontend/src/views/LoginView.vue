@@ -39,9 +39,9 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex"
+import { mapMutations, mapActions, mapState } from "vuex"
 import { signInWithEmailAndPassword } from "firebase/auth"
-import { collection, doc, setDoc, getDoc } from "firebase/firestore"
+import { collection, doc, getDoc } from "firebase/firestore"
 import { firebase_firestore, firebase_auth } from "../firebase"
 
 export default {
@@ -55,6 +55,8 @@ export default {
 
   methods: {
     ...mapMutations("auth", ["m_Login", "m_Logout"]),
+    ...mapMutations("chat", ["m_initChats"]),
+    ...mapActions("socket", ["a_InitializeSocket"]),
 
     async handleSubmit() {
       console.log("Email:", this.email, "Password:", this.password)
@@ -68,18 +70,17 @@ export default {
         )
         // Signed in Success
         const user = userCredential.user
-        console.log("USER:", user)
+        // console.log("USER:", user)
 
         // Fetch all the account's data from firestore
-        const docRef = doc(firebase_firestore, "accounts", user.uid)
-        const docSnap = await getDoc(docRef)
+        let docRef = doc(firebase_firestore, "accounts", user.uid)
+        let docSnap = await getDoc(docRef)
         let accountDetails = null
         if (docSnap.exists()) {
-          console.log("Account data:", docSnap.data())
+          // console.log("Account data:", docSnap.data())
           accountDetails = docSnap.data()
         } else {
-          // docSnap.data() will be undefined in this case
-          console.log("No such account document!")
+          console.log("Account Doc Fetch: No such account document!")
           return
         }
 
@@ -89,6 +90,30 @@ export default {
           authDetails: user,
           accountDetails,
         })
+
+        // Fetch all the chats related to this account
+        const newChats = {}
+        for (let chatID of accountDetails.chats) {
+          docRef = doc(firebase_firestore, "chats", chatID)
+          docSnap = await getDoc(docRef)
+
+          if (docSnap.exists()) {
+            const data = docSnap.data()
+            // console.log("Document data:", data)
+            newChats[chatID] = data
+          } else {
+            console.log("Chat Doc Fetch: No such document!")
+          }
+        }
+        // update Vuex store
+        this.m_initChats(newChats)
+        // console.log(newChats)
+
+        // Register SocketIO
+        const URL =
+          process.env.NODE_ENV === "production" ? "YOUR SERVER URL HERE" : "http://localhost:3000"
+        this.a_InitializeSocket({ URL, myUsername: accountDetails.username })
+
         //// redirect to home page
         // this.$router.replace({ path: "/" })
         this.$router.push({ path: "/" })

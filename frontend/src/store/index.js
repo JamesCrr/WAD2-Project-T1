@@ -1,6 +1,7 @@
 import counterModule from "./counterModule"
 import socketModule from "./socketModule"
 import authModule from "./authModule"
+import chatModule from "./chatModule"
 import { createStore } from "vuex"
 
 /**
@@ -35,6 +36,7 @@ const store = createStore({
     socket: socketModule,
     counter: counterModule,
     auth: authModule,
+    chat: chatModule,
   },
 
   // state() {
