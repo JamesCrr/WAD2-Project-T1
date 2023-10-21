@@ -53,7 +53,7 @@ export default {
     return {
       email: "",
       password: "",
-      name: "",
+      username: "",
       isVolunteer: true,
     }
   },
@@ -62,7 +62,7 @@ export default {
     ...mapMutations("auth", ["m_Login", "m_Logout"]),
 
     async handleSubmit() {
-      console.log("Email:", this.email, "Password:", this.password, "Name:", this.name)
+      console.log("Email:", this.email, "Password:", this.password, "Username:", this.username)
 
       console.log("Paused Registration!")
       return
@@ -80,8 +80,9 @@ export default {
         // Send new account's data to firestore
         const accountDetails = {
           email: this.email,
-          name: this.name,
+          username: this.username,
           type: this.isVolunteer ? "volunteer" : "organisation",
+          chats: [],
         }
         // Add a new account document in collection "accounts"
         await setDoc(doc(firebase_firestore, "accounts", user.uid), accountDetails)

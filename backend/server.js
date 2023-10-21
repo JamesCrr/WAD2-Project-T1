@@ -70,23 +70,25 @@ io.on("connection", (socket) => {
     console.log("User with ID", userID, "is disconnecting!");
   });
   socket.on("client:send-message", async (payload) => {
-    const { message, senderUsername, targetUsername } = payload;
-    const data = {
-      message,
+    const {
+      senderSocketID,
+      messageObj,
+      chatID,
       senderUsername,
+      senderDocRef,
       targetUsername,
-    };
-
-    // await db.storeUserMessage(data);
-    // socket.broadcast.emit("server:send-client-message", data);
-    // socket.emit("server:send-client-message", data);
-
-    // Emit to both the sender and target
-    socket.to(getSocketIDFromUsername(targetUsername)).emit("server:send-client-message", data);
-    socket.emit("server:send-client-message", data);
+      targetDocRef,
+      senderIsVolunteer,
+    } = payload;
 
     try {
-    } catch (e) {}
+      // Emit to the target
+      socket.to(getSocketIDFromUsername(targetUsername)).emit("server:send-client-message", payload);
+      //// Sender emit
+      // socket.emit("server:send-client-message", data);
+    } catch (error) {
+      console.log("SocketIO Error : client:send-message, ", error);
+    }
   });
 
   socket.on("typing", (data) => {

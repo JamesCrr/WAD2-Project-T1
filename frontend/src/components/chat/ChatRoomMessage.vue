@@ -11,7 +11,7 @@ export default {
   },
   computed: {
     computeStyle() {
-      return this.amITheSender ? { float: "right" } : { float: "left" }
+      return this.amITheSender ? { "align-self": "end" } : { "align-self": "start" }
     },
     computeClasses() {
       return {

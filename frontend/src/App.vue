@@ -26,6 +26,13 @@ export default {
   computed: {
     ...mapGetters("auth", ["getIsLoggedIn", "getIsVolunteer"]),
   },
+  beforeMount() {
+    // console.log(this.getIsLoggedIn)
+    // Has the user logined yet?
+    if (!this.getIsLoggedIn) {
+      this.$router.replace({ path: "/login" })
+    }
+  },
 }
 </script>
 

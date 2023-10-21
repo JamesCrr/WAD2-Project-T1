@@ -9,26 +9,23 @@
             :key="key"
             :roomName="key"
             :isNewMessages="false"
-            :isSelected="selectedRoomIndex == key"
+            :isSelected="selectedRoomKey == key"
             v-on:click="changeSelectedRoomIndex(key)"
           />
           <!-- <p v-for="(value, key) in getChatDetails" :key="key" :roomName="key">{{ key }}</p> -->
         </div>
         <div class="col">
-          <div
-            v-if="selectedRoomIndex != ''"
-            class="d-flex flex-column justify-content-center h-100"
-          >
-            <div class="chat-messages-container overflow-y-scroll">
+          <div v-if="selectedRoomKey != ''" class="d-flex flex-column justify-content-center h-100">
+            <div class="chat-messages-container overflow-y-scroll d-flex flex-column">
               <ChatRoomMessage
-                v-for="(value, key) in getChatDetails[selectedRoomIndex].chats"
+                v-for="(value, key) in getChatDetails[selectedRoomKey].chats"
                 :key="key"
                 :chatMessage="value['content']"
                 :amITheSender="value['senderID'] == getAuthDetails.uid"
               />
             </div>
             <div>
-              <form v-on:submit.prevent="submitChat">
+              <form v-on:submit.prevent="submitMessageToChat">
                 <input type="text" v-model="newMessage" class="form-control w-100" />
               </form>
             </div>
@@ -54,7 +51,7 @@ export default {
   data() {
     return {
       newMessage: "",
-      selectedRoomIndex: "",
+      selectedRoomKey: "",
     }
   },
   components: {
@@ -68,26 +65,66 @@ export default {
     ...mapState("chat", {
       getChatDetails: (state) => state.chatDetails,
     }),
-    ...mapGetters("auth", ["getAuthDetails"]),
+    ...mapGetters("auth", ["getAuthDetails", "getAccountDetails"]),
   },
   methods: {
-    ...mapMutations("socket", ["m_SetSocket", "m_SetConnected", "m_SendMessageToServer"]),
+    ...mapMutations("socket", ["m_EmitMessage"]),
+    ...mapMutations("chat", ["m_ReplaceMessageList_Locally"]),
+    ...mapActions("chat", ["a_UpdateFirestoreChat"]),
 
-    changeSelectedRoomIndex(newIndex) {
-      if (newIndex == this.selectedRoomIndex) return
+    changeSelectedRoomIndex(newKeyIndex) {
+      if (newKeyIndex == this.selectedRoomKey) return
 
-      this.selectedRoomIndex = newIndex
+      this.selectedRoomKey = newKeyIndex
       // console.log(getAuthDetails)
       // console.log(this.getChatDetails)
-      // console.log(this.selectedRoomIndex, this.getChatDetails[this.selectedRoomIndex])
+      // console.log(this.selectedRoomKey, this.getChatDetails[this.selectedRoomKey])
     },
 
-    submitChat() {
+    async submitMessageToChat() {
       console.log("Submitting:", this.newMessage)
 
-      this.m_SendMessageToServer({
-        message: this.newMessage,
-      })
+      // Update Firestore
+      const selectedObject = this.getChatDetails[this.selectedRoomKey]
+      const newMessageObj = { content: this.newMessage, senderID: this.getAuthDetails.uid }
+      // Create the payload to send to firestore
+      const firestorePayload = {
+        volunteerDocRef: selectedObject.volunteerDocRef,
+        organisationDocRef: selectedObject.organisationDocRef,
+        volunteerUsername: selectedObject.volunteerUsername,
+        organisationUsername: selectedObject.organisationUsername,
+        chatID: this.selectedRoomKey,
+        messageList: [...selectedObject.chats, newMessageObj],
+      }
+      // Update firestore
+      await this.a_UpdateFirestoreChat(firestorePayload)
+
+      // Update Local copy inside chat Vuex module
+      this.m_ReplaceMessageList_Locally(firestorePayload)
+
+      // Emit to SocketIO
+      const amIVolunteer = this.getAccountDetails.type == "volunteer"
+      const socketIOPayload = {
+        eventName: "client:send-message",
+        data: {
+          messageObj: newMessageObj,
+          chatID: this.selectedRoomKey,
+          senderUsername: this.getAccountDetails.username,
+          senderDocRef: amIVolunteer
+            ? selectedObject.volunteerDocRef
+            : selectedObject.organisationDocRef,
+          targetUsername: amIVolunteer
+            ? selectedObject.organisationUsername
+            : selectedObject.volunteerUsername,
+          targetDocRef: amIVolunteer
+            ? selectedObject.organisationDocRef
+            : selectedObject.volunteerDocRef,
+          senderIsVolunteer: amIVolunteer,
+        },
+      }
+      this.m_EmitMessage(socketIOPayload)
+
+      // Reset Input field
       this.newMessage = ""
     },
   },

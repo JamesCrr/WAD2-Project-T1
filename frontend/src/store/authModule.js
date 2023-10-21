@@ -31,11 +31,6 @@ const mutations = {
     state.accountDetails = null
     // console.log("LOGOUT")
   },
-
-  m_addToChat(state, payload) {
-    console.log(state)
-    console.log(payload)
-  },
 }
 
 const actions = {
@@ -60,6 +55,7 @@ const getters = {
   getIsLoggedIn: (state) => state.isLoggedIn,
   getIsVolunteer: (state) => state.isVolunteer,
   getAuthDetails: (state) => state.authDetails,
+  getAccountDetails: (state) => state.accountDetails,
 }
 
 export default {

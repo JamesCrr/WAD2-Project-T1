@@ -70,18 +70,17 @@ export default {
         )
         // Signed in Success
         const user = userCredential.user
-        console.log("USER:", user)
+        // console.log("USER:", user)
 
         // Fetch all the account's data from firestore
         let docRef = doc(firebase_firestore, "accounts", user.uid)
         let docSnap = await getDoc(docRef)
         let accountDetails = null
         if (docSnap.exists()) {
-          console.log("Account data:", docSnap.data())
+          // console.log("Account data:", docSnap.data())
           accountDetails = docSnap.data()
         } else {
-          // docSnap.data() will be undefined in this case
-          console.log("No such account document!")
+          console.log("Account Doc Fetch: No such account document!")
           return
         }
 
@@ -113,7 +112,7 @@ export default {
         // Register SocketIO
         const URL =
           process.env.NODE_ENV === "production" ? "YOUR SERVER URL HERE" : "http://localhost:3000"
-        this.a_InitializeSocket({ URL, myUsername: accountDetails.name })
+        this.a_InitializeSocket({ URL, myUsername: accountDetails.username })
 
         //// redirect to home page
         // this.$router.replace({ path: "/" })
