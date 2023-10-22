@@ -1,26 +1,53 @@
-// Required to modify
+// Include functions first (so you can manipulate colors, SVGs, calc, etc)
 @import "bootstrap/scss/functions";
+
+// Include any default variable overrides here
+$ourPrimary: #69d8cd;
+// Theme colors are then put into a Sass map so we can loop over them to generate our utilities, component modifiers, and more.
+$theme-colors: (
+  "primary": $ourPrimary,
+);
+// RGB colors are generated from a separate Sass map:
+$theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
+
+// $body-bg: #e4dcdc;
+$btn-color: #ffffff;
+$component-active-bg: $ourPrimary;
+
+// Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
 @import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+
+// Include any default map overrides here
+
+// Include remainder of required parts
+@import "bootstrap/scss/maps";
 @import "bootstrap/scss/mixins";
+@import "bootstrap/scss/root";
+
+// Optionally include any other parts as needed
+@import "bootstrap/scss/utilities";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/images";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/helpers";
+
+// Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
+@import "bootstrap/scss/utilities/api";
+
+// Add additional custom code here
+
+// Import all of Bootstrap's CSS again for
 @import "bootstrap/scss/bootstrap";
-// Variable overrides must come after our functions are imported, but before the rest of the imports.
 
-/** Customize some defaults **/
-// $body-color: #333;
-// $body-bg: #fff;
-// $border-radius: .4rem;
-// $success: #7952b3;
-
-// Default variable overrides
-$body-bg: #e4dcdc;
-$border-color: #696161;
+// @debug "Color: #{$primary}";
+// @debug "Color: #{$component-active-bg}";
 
 /**
-* Custom styles
+* Overriding of classes to be done AFTER importing of boostrap
 */
-body {
-  // padding: 1.5rem;
+.btn-primary {
+  @include button-variant($ourPrimary, $ourPrimary, $color: $btn-color);
 }
-
-// Import all of Bootstrap's CSS
-@import "bootstrap/scss/bootstrap";

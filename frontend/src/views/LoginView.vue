@@ -1,41 +1,52 @@
 <template>
-  <h1>Login</h1>
+  <div class="container-fluid">
+    <div class="row g-0 justify-content-center">
+      <div class="col-11 position-absolute bg-primary h-50 z-n1 rounded"></div>
+    </div>
+    <div class="row g-0 justify-content-center">
+      <div class="col-6">
+        <h1>Login</h1>
 
-  <form v-on:submit.prevent="handleSubmit">
-    <div class="mb-3">
-      <label for="email" class="form-label">Email address</label>
-      <input
-        type="email"
-        class="form-control"
-        autocomplete="email"
-        id="email"
-        aria-describedby="emailHelp"
-        v-model="email"
-      />
-      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        <form v-on:submit.prevent="handleSubmit">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input
+              type="email"
+              class="form-control"
+              autocomplete="email"
+              id="email"
+              aria-describedby="emailHelp"
+              v-model="email"
+            />
+            <div id="emailHelp" class="form-text">
+              We'll never share your email with anyone else.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              autocomplete="current-password"
+              class="form-control"
+              id="password"
+              v-model="password"
+            />
+          </div>
+          <div class="mb-3 form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="exampleCheck1"
+              checked
+              v-model="isVolunteer"
+            />
+            <label class="form-check-label" for="exampleCheck1">Volunteer</label>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
     </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input
-        type="password"
-        autocomplete="current-password"
-        class="form-control"
-        id="password"
-        v-model="password"
-      />
-    </div>
-    <div class="mb-3 form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="exampleCheck1"
-        checked
-        v-model="isVolunteer"
-      />
-      <label class="form-check-label" for="exampleCheck1">Volunteer</label>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+  </div>
 </template>
 
 <script>
