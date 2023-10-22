@@ -18,6 +18,7 @@
               id="username"
               v-model="username"
               placeholder="Username"
+              style="font-size: 0.8rem"
             />
           </div>
           <div class="mb-3">
@@ -30,6 +31,7 @@
               aria-describedby="emailHelp"
               v-model="email"
               placeholder="@mail.com"
+              style="font-size: 0.8rem"
             />
           </div>
 
@@ -42,6 +44,7 @@
               id="password"
               v-model="password"
               placeholder="Password"
+              style="font-size: 0.8rem"
             />
           </div>
 
@@ -59,12 +62,11 @@
             </div>
           </div>
 
-          <div class="d-grid mt-3">
+          <div class="d-grid mt-5">
             <button type="submit" class="btn btn-primary">Register</button>
           </div>
-
           <div class="row">
-            <div class="col text-center mt-5">
+            <div class="col text-center mt-1">
               <p class="fs-6">
                 Already have an account?
                 <label
