@@ -42,7 +42,6 @@
                         <!-- Navbar end -->
 
                         <!-- Calendar start -->
-                        <!-- CRISIS: Need to redo calendar -->
                         <div class="row p-3">
                             <div class="col p-3" style="border-radius: 10px;border: solid orange;">
                                 <h5>Select A Date</h5>
@@ -69,7 +68,7 @@
                                         <li>Sat</li>
                                     </ul>
                                     <ul class="calendar-dates">
-                                        <li v-for="(day, index) in calendarDays" :key="index" :class="dayClass(day)">{{ day }}</li>
+                                        <li v-on:click="selectDate(day)" v-for="(day, index) in calendarDays" :key="index" :class="dayClass(day)">{{ day }}</li>
                                     </ul>
                                     </div>
                                 </div>
@@ -537,6 +536,7 @@
             calendarDays: [],
             year: new Date().getFullYear(),
             month: new Date().getMonth(),
+            day: new Date().getDay(),
             };
         },
         methods: {
@@ -562,6 +562,7 @@
                     ...placeholders,
                     ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
                 ];
+                console.log(this.calendarDays)
             },
             changeMonth(step) {
                 this.month += step;
@@ -599,6 +600,12 @@
                 }
 
                 return '';
+            },
+
+            selectDate(newDay) {
+                this.day = newDay
+
+                console.log(this.day, this.month+1, this.year)
             },
         },
         created() {
