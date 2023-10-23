@@ -7,6 +7,9 @@ import RegisterView from "../views/RegisterView.vue"
 import UserView from "../views/UserView.vue"
 import volunteer from "../views/Volunteer.vue"
 import events from "../views/Events.vue"
+import AddEventView from "../views/AddEvent.vue"
+import ViewDonation from "../views/ViewDonation.vue"
+import ViewEvent from "../views/ViewEvent.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

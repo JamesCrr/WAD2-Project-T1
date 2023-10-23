@@ -4,6 +4,7 @@ import { initializeApp } from "firebase/app"
 import { getFirestore, collection, doc, setDoc, getDoc } from "firebase/firestore"
 import { getAnalytics } from "firebase/analytics"
 import { getAuth } from "firebase/auth"
+import { getStorage } from 'firebase/storage';
 
 const apiKey = import.meta.env.VITE_FIREBASE_apiKey
 const authDomain = import.meta.env.VITE_FIREBASE_authDomain
@@ -26,6 +27,8 @@ const app = initializeApp(firebaseConfig)
 export const firebase_firestore = getFirestore(app)
 export const firebase_analytics = getAnalytics(app)
 export const firebase_auth = getAuth(app)
+export const firebase_storage = getStorage(app);
+
 
 // const citiesRef = collection(firebase_firestore, "cities")
 // await setDoc(doc(citiesRef, "SF"), {
