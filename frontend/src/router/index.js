@@ -48,6 +48,21 @@ const router = createRouter({
       component: ChatView,
     },
     {
+      path: "/addEvent",
+      name: "addEvent",
+      component: AddEventView,
+    },
+    {
+      path: "/viewDonation",
+      name: "viewDonation",
+      component: ViewDonation,
+    },
+    {
+      path: "/viewEvent",
+      name: "viewEvent",
+      component: ViewEvent,
+    },
+    {
       path: "/about",
       name: "about",
       // route level code-splitting

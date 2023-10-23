@@ -10,6 +10,8 @@
           <RouterLink to="/"><button class="btn btn-primary m-2">Home</button></RouterLink>
           <RouterLink to="/about">About</RouterLink>
           <RouterLink class="m-2" to="/chat">Chat</RouterLink>
+          <RouterLink to="/addEvent">Add Event</RouterLink>
+          <RouterLink to="/viewEvent">View Event</RouterLink>
         </div>
       </div>
     </div>
