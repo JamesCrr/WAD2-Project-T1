@@ -174,8 +174,10 @@
   
   <script>
   import { getFirestore, collection, addDoc } from "firebase/firestore"
-  import { firebase_firestore, firebase_storage } from "../firebase"; // Replace with the correct import path
-  import { ref, uploadBytes } from "firebase/storage"; // Replace with the correct import path
+  import { firebase_firestore, firebase_storage } from "../firebase";
+  import { ref, uploadBytes } from "firebase/storage";
+  import { mapGetters } from "vuex"
+
 
   export default {
     data() {
@@ -192,8 +194,12 @@
         selectedFileName: "",
         selectedDonation: false,
         budget: 0,
+        organiserRef: "",
         signups: []
       }
+    },
+    computed: {
+        ...mapGetters("auth", ["getAuthDetails", "getAccountDetails"]),
     },
     methods: {
         handleFileSelect(event) {
@@ -207,72 +213,68 @@
         },
         async createEvent(eventData) {
             try {
-            // Add the event data to a Firebase collection (replace "events" with your desired collection name)
-            const docRef = await addDoc(collection(firebase_firestore, "events"), eventData);
-            // Reset the form fields after successful submission
-            this.title = "";
-            this.date = "";
-            this.startTime = "";
-            this.endTime = "";
-            this.location = "";
-            this.desc = "";
-            this.suitability = "";
-            this.category = "";
-            this.openings = 0;
-            this.selectedDonation = "Yes";
-            this.budget = 0;
-            this.signups = [];
-            console.log("Document written with ID: ", docRef.id);
+                const docRef = await addDoc(collection(firebase_firestore, "events"), eventData);
+                // Reset the form fields after successful submission
+                this.title = "";
+                this.date = "";
+                this.startTime = "";
+                this.endTime = "";
+                this.location = "";
+                this.desc = "";
+                this.suitability = "";
+                this.category = "";
+                this.openings = 0;
+                this.selectedDonation = false;
+                this.budget = 0;
+                this.organiserRef = "";
+                this.signups = [];
+                console.log("Document written with ID: ", docRef.id);
             } catch (error) {
-            console.error("Error adding document: ", error);
-            // Handle error (e.g., display an error message to the user)
+                console.error("Error adding document: ", error);
             }
         },
         async uploadFileAndCreateEvent() {
             // Check if a file has been selected
             if (this.selectedFile) {
-                // Generate a unique filename (you can use a library for this or just create your own logic)
+                // Generate a unique filename
                 const fileName = Date.now() + '_' + this.selectedFile.name;
-
                 const storageRef = ref(firebase_storage, 'posts/' + fileName);
 
                 try {
-                // Upload the file to Firebase Storage
-                await uploadBytes(storageRef, this.selectedFile);
+                    // Upload the file to Firebase Storage
+                    await uploadBytes(storageRef, this.selectedFile);
 
-                // The image has been successfully uploaded
-                console.log('Image uploaded:', fileName);
+                    // The image has been successfully uploaded
+                    console.log('Image uploaded:', fileName);
 
-                // Prepare the event data from the form inputs
-                const eventData = {
-                    title: this.title,
-                    date: this.date,
-                    startTime: this.startTime,
-                    endTime: this.endTime,
-                    location: this.location,
-                    desc: this.desc,
-                    suitability: this.suitability,
-                    category: this.category,
-                    openings: this.openings,
-                    selectedDonation: this.selectedDonation,
-                    budget: this.budget,
-                    imageUrl: fileName, // Add the image filename to event data
-                    signups: this.signups
-                };
+                    // Prepare the event data from the form inputs
+                    const eventData = {
+                        title: this.title,
+                        date: this.date,
+                        startTime: this.startTime,
+                        endTime: this.endTime,
+                        location: this.location,
+                        desc: this.desc,
+                        suitability: this.suitability,
+                        category: this.category,
+                        openings: this.openings,
+                        selectedDonation: this.selectedDonation,
+                        budget: this.budget,
+                        imageUrl: fileName, // Add the image filename to event data
+                        organiserRef: "/accounts/" + this.getAuthDetails.uid,
+                        signups: this.signups
+                    };
 
-                // Create the event with the image filename
-                await this.createEvent(eventData);
+                    // Create the event with the image filename
+                    await this.createEvent(eventData);
 
-                // The file and event have been successfully uploaded and created
-                alert("Event Created Successfully!")
-                console.log("File and event created.");
+                    // The file and event have been successfully uploaded and created
+                    alert("Event Created Successfully!")
+                    console.log("File and event created.");
                 } catch (error) {
-                console.error("Error uploading file or creating event: ", error);
-                // Handle the error (e.g., display an error message to the user)
+                    console.error("Error uploading file or creating event: ", error);
                 }
             } else {
-                // Handle the case when no file is selected
-                // You can display an error message or prevent event creation
                 console.error("No file selected.");
             }
         },
