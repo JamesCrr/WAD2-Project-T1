@@ -1,45 +1,100 @@
 <template>
-  <h1>Register</h1>
+  <div class="container-fluid">
+    <div class="row g-0 justify-content-center">
+      <div class="col-11 position-absolute bg-primary h-50 z-n1 rounded"></div>
+    </div>
+    <div class="row g-0 justify-content-center mt-4">
+      <h2 class="text-light text-center mb-4">Sign up with us!</h2>
+    </div>
+    <div class="row g-0 justify-content-center">
+      <div class="col-11 col-sm-6 p-4 bg-light rounded">
+        <form
+          class="needs-validation"
+          v-bind:class="{ 'was-validated': !formValid }"
+          v-on:submit.prevent="handleFirebaseRegistration"
+          novalidate=""
+          ref="formRef"
+        >
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              autocomplete="name"
+              class="form-control"
+              id="username"
+              v-model="username"
+              placeholder="Username"
+              style="font-size: 0.8rem"
+              required
+            />
+            <div class="invalid-feedback">Please enter a username.</div>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input
+              type="email"
+              autocomplete="email"
+              class="form-control"
+              id="email"
+              aria-describedby="emailHelp"
+              v-model="email"
+              placeholder="@mail.com"
+              style="font-size: 0.8rem"
+              required
+            />
+            <div class="invalid-feedback">Please provide a valid email.</div>
+          </div>
 
-  <form v-on:submit.prevent="handleSubmit">
-    <div class="mb-3">
-      <label for="email" class="form-label">Email address</label>
-      <input
-        type="email"
-        autocomplete="email"
-        class="form-control"
-        id="email"
-        aria-describedby="emailHelp"
-        v-model="email"
-      />
-      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              autocomplete="new-password"
+              class="form-control"
+              id="password"
+              v-model="password"
+              placeholder="Password"
+              style="font-size: 0.8rem"
+              required
+              minlength="6"
+            />
+            <div class="invalid-feedback">Please provide password with at least 6 characters.</div>
+          </div>
+
+          <div class="d-flex justify-content-center mt-3">
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="flexSwitchCheckDefault"
+                v-model="isVolunteer"
+                checked
+              />
+              <label class="form-check-label" for="flexSwitchCheckDefault">Volunteer</label>
+            </div>
+          </div>
+
+          <div class="d-grid mt-5">
+            <button type="submit" class="btn btn-primary">Register</button>
+          </div>
+          <div class="row">
+            <div class="col text-center mt-1">
+              <p class="fs-6">
+                Already have an account?
+                <label
+                  class="text-primary"
+                  v-on:click="$router.push({ path: '/login' })"
+                  style="cursor: pointer"
+                  >Sign In</label
+                >
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
-    <div class="mb-3">
-      <label for="name" class="form-label">Name</label>
-      <input type="text" autocomplete="name" class="form-control" id="name" v-model="name" />
-    </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input
-        type="password"
-        autocomplete="new-password"
-        class="form-control"
-        id="password"
-        v-model="password"
-      />
-    </div>
-    <div class="mb-3 form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="exampleCheck1"
-        checked
-        v-model="isVolunteer"
-      />
-      <label class="form-check-label" for="exampleCheck1">Volunteer</label>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+  </div>
 </template>
 
 <script>
@@ -55,14 +110,26 @@ export default {
       password: "",
       username: "",
       isVolunteer: true,
+
+      formValid: true,
     }
   },
 
   methods: {
     ...mapMutations("auth", ["m_Login", "m_Logout"]),
 
-    async handleSubmit() {
+    /**
+     * Sends Registration Reques to Firebase and if successful, redirect to home page
+     */
+    async handleFirebaseRegistration(event) {
       console.log("Email:", this.email, "Password:", this.password, "Username:", this.username)
+
+      // console.log(event, this.$refs.formRef.checkValidity())
+      this.formValid = this.$refs.formRef.checkValidity()
+      if (!this.formValid) {
+        console.log("Form not submitted!")
+        return
+      }
 
       console.log("Paused Registration!")
       return

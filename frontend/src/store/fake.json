@@ -1,3 +1,18 @@
 {
-    "events": "beach clean up"
+  "data": [
+    {
+      "budget": 1000,
+      "desc": "A community-driven initiative aimed at preserving the natural beauty of our coastlines. During these events, passionate volunteers come together armed with gloves and trash bags, ready to tackle the litter that mars our beaches. As the sun rises or sets, these dedicated individuals comb the sands, picking up plastic bottles, cigarette butts, and other debris, ensuring that marine life and visitors can enjoy a clean, safe environment. These efforts not only beautify our shores but also raise awareness about the importance of responsible waste disposal, inspiring others to join the movement for a cleaner, healthier planet.",
+      "imageUrl": "/src/assets/copium.jpg",
+      "location": "East Coast Park, ECP Pavilion 4C Singapore 442886",
+      "openings": 17,
+      "selectedDonation": "Yes",
+      "date": "2023-10-23",
+      "startTime": "13:21",
+      "endTime": "16:21",
+      "title": "Beach Clean Up",
+
+      "organiserRef": "/accounts/XWRfwZJPwmbQGrsEukW6C1fuaYo1"
+    }
+  ]
 }

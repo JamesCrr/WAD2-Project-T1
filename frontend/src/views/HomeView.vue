@@ -4,16 +4,26 @@
     <p>Count: {{ count }}</p>
     <button v-on:click="increment()">Increment</button>
     <button v-on:click="decrement()">Decrement</button>
+
+    <div class="container-fluid">
+      <div class="row">
+        <router-link v-for="obj of fakeData" v-bind:to="'/events/' + obj.budget" :key="obj.budget">
+          {{ obj.budget }}
+        </router-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from "vuex"
+import fakeData from "../store/fake.json"
 
 export default {
   data() {
     return {
       localCount: 3,
+      fakeData: fakeData.data,
     }
   },
   computed: mapState("counter", {
