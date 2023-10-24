@@ -11,8 +11,18 @@ import App from "./App.vue"
 import router from "./router"
 import store from "./store"
 
-const app = createApp(App)
+// IMport google Maps
+import VueGoogleMaps from "@fawmi/vue-google-maps"
 
-app.use(store).use(router)
+const app = createApp(App)
+app
+  .use(store)
+  .use(router)
+  .use(VueGoogleMaps, {
+    load: {
+      key: import.meta.env.VITE_GOOGLEMAPS_apiKey,
+      libraries: "places",
+    },
+  })
 
 app.mount("#app")
