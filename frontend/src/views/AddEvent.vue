@@ -205,10 +205,10 @@
         handleFileSelect(event) {
             const fileInput = event.target;
             if (fileInput.files.length > 0) {
-            this.selectedFile = fileInput.files[0];
-            console.log("File selected:", this.selectedFile.name);
+                this.selectedFile = fileInput.files[0];
+                console.log("File selected:", this.selectedFile.name);
             } else {
-            this.selectedFile = null;
+                this.selectedFile = null;
             }
         },
         async createEvent(eventData) {
@@ -226,6 +226,7 @@
                 this.openings = 0;
                 this.selectedDonation = false;
                 this.budget = 0;
+                this.imageUrl = "";
                 this.organiserRef = "";
                 this.signups = [];
                 console.log("Document written with ID: ", docRef.id);
@@ -247,6 +248,7 @@
                     // The image has been successfully uploaded
                     console.log('Image uploaded:', fileName);
 
+                    this.location = this.capitalizeWords(this.location)
                     // Prepare the event data from the form inputs
                     const eventData = {
                         title: this.title,
@@ -278,6 +280,9 @@
                 console.error("No file selected.");
             }
         },
+        capitalizeWords(str) {
+            return str.replace(/\b\w/g, (char) => char.toUpperCase());
+        }
     },
   }
   </script>
