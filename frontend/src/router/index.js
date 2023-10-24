@@ -10,6 +10,7 @@ import events from "../views/Events.vue"
 import AddEventView from "../views/AddEvent.vue"
 import ViewDonation from "../views/ViewDonation.vue"
 import ViewEvent from "../views/ViewEvent.vue"
+import OrgDashboardView from "../views/OrgDashboardView.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -77,6 +78,11 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import("../views/AboutView.vue"),
+    },
+    {
+      path: "/orgdashboard",
+      name: "orgdashboard",
+      component: OrgDashboardView,
     },
   ],
 })
