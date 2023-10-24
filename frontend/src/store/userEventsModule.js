@@ -1,22 +1,26 @@
-import { collection, doc, getDoc } from "firebase/firestore"
-import { firebase_firestore, firebase_auth } from "../firebase"
+import { collection, doc, getDocs } from "firebase/firestore"
+import { firebase_firestore } from "../firebase"
 
 const state = {
-    eventDetails: {},
+  eventDetails: {},
 }
 
 const mutations = {
-    // put all the functions you want to use here
-    m_InitEvents(state, payload) {
-        state.eventDetails = payload
-      },
-    addEvents_Locally(state, payload){
-        const {
-            eventName, 
-            eventDate,
-            eventLocation,
-            eventSuitable,
-        } = payload
-    }
+  m_InitEvents(state, payload) {
+    state.eventDetails = payload
+  },
+  addEvents_Locally(state, payload) {
+    const { title, imageUrl, location, date, suitability } = payload
+    // Implement logic to add events locally if needed
+  },
 }
 
+// const actions = {
+  
+// }
+
+export default {
+  state,
+  mutations,
+  actions,
+}
