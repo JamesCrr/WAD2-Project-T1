@@ -50,15 +50,17 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-5 col-md-5 col-sm-5">
-                        <label for="startDate" class="form-label">Start Date</label>
+                    <div class="col-lg-10 col-md-10 col-sm-10">
+                        <label for="date" class="form-label">Date</label>
                         <input
                             type="date"
                             class="form-control"
-                            id="startDate"
-                            v-model="startDate"
+                            id="date"
+                            v-model="date"
                         />
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-lg-5 col-md-5 col-sm-5">
                         <label for="startTime" class="form-label">Start Time</label>
                         <input
@@ -66,17 +68,6 @@
                             class="form-control"
                             id="startTime"
                             v-model="startTime"
-                        />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-5 col-md-5 col-sm-5">
-                        <label for="endDate" class="form-label">End Date</label>
-                        <input
-                            type="date"
-                            class="form-control"
-                            id="endDate"
-                            v-model="endDate"
                         />
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-5">
@@ -115,6 +106,27 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-5 col-md-5 col-sm-5">
+                        <label for="suitability" class="form-label">Suitability</label>
+                        <select class="form-select" aria-label="Default select example" id="suitability" v-model="suitability">
+                            <option selected value="First Timers">First Timers</option>
+                            <option value="Seniors">Seniors</option>
+                            <option value="Family Friendly">Family Friendly</option>
+                            <option value="Open to All">Open to All</option>
+                            <option value="Organisations">Organisations</option>
+                            <option value="Group">Group</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5">
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-select" aria-label="Default select example" id="category" v-model="category">
+                            <option selected value="Tree Planting">Tree Planting</option>
+                            <option value="Beach Cleanups">Beach Cleanups</option>
+                            <option value="Community Composting">Community Composting</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-5">
                         <label for="openings" class="form-label">Number of Openings</label>
                         <input
                             type="number"
@@ -133,8 +145,8 @@
                     <div class="col-lg-5 col-md-5 col-sm-5">
                         <label for="donation" class="form-label">Ask for Donation</label>
                         <select class="form-select" aria-label="Default select example" id="donation" v-model="selectedDonation">
-                            <option selected value="Yes">Yes</option>
-                            <option value="No">No</option>
+                            <option selected :value="true">Yes</option>
+                            <option :value="false">No</option>
                         </select>
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-5">
@@ -161,7 +173,7 @@
   </template>
   
   <script>
-  import { getFirestore, collection, addDoc } from "firebase/firestore/lite"
+  import { getFirestore, collection, addDoc } from "firebase/firestore"
   import { firebase_firestore, firebase_storage } from "../firebase"; // Replace with the correct import path
   import { ref, uploadBytes } from "firebase/storage"; // Replace with the correct import path
 
@@ -169,16 +181,18 @@
     data() {
       return {
         title: "",
-        startDate: "",
+        date: "",
         startTime: "",
-        endDate: "",
         endTime: "",
         location: "",
         desc: "",
+        suitability: "",
+        category: "",
         openings: 0,
         selectedFileName: "",
-        selectedDonation: "Yes",
+        selectedDonation: false,
         budget: 0,
+        signups: []
       }
     },
     methods: {
@@ -197,15 +211,17 @@
             const docRef = await addDoc(collection(firebase_firestore, "events"), eventData);
             // Reset the form fields after successful submission
             this.title = "";
-            this.startDate = "";
+            this.date = "";
             this.startTime = "";
-            this.endDate = "";
             this.endTime = "";
             this.location = "";
             this.desc = "";
+            this.suitability = "";
+            this.category = "";
             this.openings = 0;
             this.selectedDonation = "Yes";
             this.budget = 0;
+            this.signups = [];
             console.log("Document written with ID: ", docRef.id);
             } catch (error) {
             console.error("Error adding document: ", error);
@@ -230,16 +246,18 @@
                 // Prepare the event data from the form inputs
                 const eventData = {
                     title: this.title,
-                    startDate: this.startDate,
+                    date: this.date,
                     startTime: this.startTime,
-                    endDate: this.endDate,
                     endTime: this.endTime,
                     location: this.location,
                     desc: this.desc,
+                    suitability: this.suitability,
+                    category: this.category,
                     openings: this.openings,
                     selectedDonation: this.selectedDonation,
                     budget: this.budget,
                     imageUrl: fileName, // Add the image filename to event data
+                    signups: this.signups
                 };
 
                 // Create the event with the image filename

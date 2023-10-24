@@ -193,7 +193,7 @@
 </template>
   
 <script>
-import { getFirestore, collection, doc, getDocs, deleteDoc } from 'firebase/firestore/lite'; // Import Firestore functions
+import { getFirestore, collection, doc, getDocs, deleteDoc } from 'firebase/firestore'; // Import Firestore functions
 import { getStorage, ref as storageRef, getDownloadURL } from 'firebase/storage';
 
 export default {
