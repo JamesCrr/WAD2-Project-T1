@@ -32,9 +32,14 @@ const router = createRouter({
       name: "volunteer",
       component: volunteer,
     },
+    // {
+    //   path: "/events",
+    //   name: "events",
+    //   component: events,
+    // },
     {
-      path: "/events",
-      name: "events",
+      path: "/events/:id",
+      name: "eventdetail",
       component: events,
     },
     {

@@ -8,7 +8,13 @@
     </div>
     <div class="row g-0 justify-content-center">
       <div class="col-11 col-sm-6 p-4 bg-light rounded">
-        <form v-on:submit.prevent="handleFirebaseRegistration">
+        <form
+          class="needs-validation"
+          v-bind:class="{ 'was-validated': !formValid }"
+          v-on:submit.prevent="handleFirebaseRegistration"
+          novalidate=""
+          ref="formRef"
+        >
           <div class="mb-3">
             <label for="username" class="form-label">Username</label>
             <input
@@ -19,7 +25,9 @@
               v-model="username"
               placeholder="Username"
               style="font-size: 0.8rem"
+              required
             />
+            <div class="invalid-feedback">Please enter a username.</div>
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
@@ -32,7 +40,9 @@
               v-model="email"
               placeholder="@mail.com"
               style="font-size: 0.8rem"
+              required
             />
+            <div class="invalid-feedback">Please provide a valid email.</div>
           </div>
 
           <div class="mb-3">
@@ -45,7 +55,10 @@
               v-model="password"
               placeholder="Password"
               style="font-size: 0.8rem"
+              required
+              minlength="6"
             />
+            <div class="invalid-feedback">Please provide password with at least 6 characters.</div>
           </div>
 
           <div class="d-flex justify-content-center mt-3">
@@ -97,6 +110,8 @@ export default {
       password: "",
       username: "",
       isVolunteer: true,
+
+      formValid: true,
     }
   },
 
@@ -106,8 +121,15 @@ export default {
     /**
      * Sends Registration Reques to Firebase and if successful, redirect to home page
      */
-    async handleFirebaseRegistration() {
+    async handleFirebaseRegistration(event) {
       console.log("Email:", this.email, "Password:", this.password, "Username:", this.username)
+
+      // console.log(event, this.$refs.formRef.checkValidity())
+      this.formValid = this.$refs.formRef.checkValidity()
+      if (!this.formValid) {
+        console.log("Form not submitted!")
+        return
+      }
 
       console.log("Paused Registration!")
       return

@@ -17,7 +17,13 @@
 
         <div class="row">
           <div class="col mt-4">
-            <form v-on:submit.prevent="handleFirebaseLogin">
+            <form
+              class="needs-validation"
+              v-bind:class="{ 'was-validated': !formValid }"
+              v-on:submit.prevent="handleFirebaseLogin"
+              novalidate=""
+              ref="formRef"
+            >
               <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
                 <input
@@ -29,7 +35,9 @@
                   v-model="email"
                   placeholder="@mail.com"
                   style="font-size: 0.8rem"
+                  required
                 />
+                <div class="invalid-feedback">Please enter a email.</div>
               </div>
 
               <div class="mb-3">
@@ -42,7 +50,9 @@
                   v-model="password"
                   placeholder="Password"
                   style="font-size: 0.8rem"
+                  required
                 />
+                <div class="invalid-feedback">Please enter a password.</div>
               </div>
 
               <div class="d-flex justify-content-center mt-3">
@@ -140,6 +150,8 @@ export default {
       email: "",
       password: "",
       isVolunteer: true,
+
+      formValid: true,
     }
   },
 
@@ -152,8 +164,14 @@ export default {
     ...mapMutations("chat", ["m_initChats"]),
     ...mapActions("socket", ["a_InitializeSocket"]),
 
-    async handleFirebaseLogin() {
+    async handleFirebaseLogin(event) {
       console.log("Email:", this.email, "Password:", this.password)
+
+      this.formValid = this.$refs.formRef.checkValidity()
+      if (!this.formValid) {
+        console.log("Form not submitted!")
+        return
+      }
 
       try {
         // Call Firebase and verify
