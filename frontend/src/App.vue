@@ -1,8 +1,7 @@
 <template>
   <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
 
-  <div class="container-fluid">
-    <!-- <HelloWorld msg="You did it!" /> -->
+  <!-- <div class="container-fluid">
     <div class="row bg-dark-subtle">
       IsLoggedIn: {{ getIsLoggedIn }}
       <div class="col align-middle p-3" v-if="getIsLoggedIn">
@@ -10,7 +9,7 @@
         <RouterLink to="/about">About</RouterLink>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <RouterView />
 </template>
