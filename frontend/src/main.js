@@ -11,6 +11,8 @@ import App from "./App.vue"
 import router from "./router"
 import store from "./store"
 import { BootstrapIconsPlugin } from 'bootstrap-icons-vue'
+import { StripeCheckout } from '@vue-stripe/vue-stripe';
+
 
 const app = createApp(App)
 

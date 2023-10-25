@@ -23,6 +23,7 @@
 import { RouterLink, RouterView } from "vue-router"
 import { mapGetters } from "vuex"
 
+
 export default {
   computed: {
     ...mapGetters("auth", ["getIsLoggedIn", "getIsVolunteer"]),

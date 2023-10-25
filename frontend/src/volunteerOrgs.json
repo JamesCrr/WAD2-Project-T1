@@ -1,0 +1,26 @@
+[
+  {
+    "id": 0,
+    "orgName": "orgA",
+    "desc": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    "picture": "../assets/volunteer-orgs/orgA.jpg"
+  },
+  {
+    "id": 1,
+    "orgName": "orgB",
+    "desc": "Nostrum, totam?",
+    "picture": "../assets/volunteer-orgs/orgB.jpg"
+  },
+  {
+    "id": 2,
+    "orgName": "orgC",
+    "desc": "Sequi alias eveniet ut quas ullam delectus et quasi incidunt rem deserunt asperiores reiciendis assumenda doloremque provident,",
+    "picture": "../assets/volunteer-orgs/orgC.jpg"
+  },
+  {
+    "id": 3,
+    "orgName": "orgD",
+    "desc": "dolores aspernatur neque.",
+    "picture": "../assets/volunteer-orgs/orgD.jpg"
+  }
+]
