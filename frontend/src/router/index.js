@@ -12,6 +12,8 @@ import OrganiserEditEvent from "../views/OrganiserEditEvent.vue"
 import OrganiserDonations from "../views/OrganiserDonations.vue"
 import OrganiserEvents from "../views/OrganiserEvents.vue"
 
+import OrgDashboardView from "../views/OrgDashboardView.vue"
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
