@@ -13,6 +13,10 @@ import OrganiserDonations from "../views/OrganiserDonations.vue"
 import OrganiserEvents from "../views/OrganiserEvents.vue"
 
 import OrgDashboardView from "../views/OrgDashboardView.vue"
+import UserDonationsView from "../views/UserDonationsView.vue"
+import Donate from "../views/Donate.vue"
+import SuccessPage from "../views/SuccessPage.vue"
+import ErrorPage from "../views/ErrorPage.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -77,6 +81,36 @@ const router = createRouter({
       path: "/organiser/events",
       name: "organiser_events",
       component: OrganiserEvents,
+    },
+    {
+      path: "/userdonations",
+      name: "userDonations",
+      component: UserDonationsView,
+    },
+    {
+      path: "/viewDonation",
+      name: "viewDonation",
+      component: ViewDonation,
+    },
+    {
+      path: "/donate",
+      name: "donate",
+      component: Donate,
+    },
+    {
+      path: "/success",
+      name: "success",
+      component: SuccessPage,
+    },
+    {
+      path: "/error",
+      name: "error",
+      component: ErrorPage,
+    },
+    {
+      path: "/viewEvent",
+      name: "viewEvent",
+      component: ViewEvent,
     },
     {
       path: "/about",

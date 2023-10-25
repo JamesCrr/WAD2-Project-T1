@@ -14,6 +14,8 @@ import { BootstrapIconsPlugin } from "bootstrap-icons-vue"
 
 // IMport google Maps
 import VueGoogleMaps from "@fawmi/vue-google-maps"
+import { StripeCheckout } from '@vue-stripe/vue-stripe';
+
 
 const app = createApp(App)
 app
