@@ -4,7 +4,7 @@
       <div
         class="d-none d-sm-flex col-5 bg-primary min-vh-100 justify-content-center align-items-center"
       >
-        <SVGIconVue name="loginImage" />
+        <SVGIconVue name="loginImage" style="width: 400" />
       </div>
 
       <div class="col-sm-7 p-5">
@@ -69,9 +69,27 @@
                 </div>
               </div>
 
-              <div class="d-grid mt-5">
-                <button type="submit" class="btn btn-primary">Login</button>
+              <div v-if="formError" class="row">
+                <div class="col mt-3">
+                  <p class="rounded p-2 bg-danger-subtle border border-danger text-center">
+                    Invalid Email or Password!
+                  </p>
+                </div>
               </div>
+
+              <div class="d-grid mt-3">
+                <button type="submit" class="btn btn-primary" v-bind:disabled="submitting">
+                  <span
+                    class="spinner-border spinner-border-sm text-light"
+                    v-bind:class="{ 'd-none': !submitting }"
+                    aria-hidden="true"
+                  ></span>
+                  <span role="status" class="text-light" v-bind:class="{ 'd-none': submitting }"
+                    >Login</span
+                  >
+                </button>
+              </div>
+
               <div class="row">
                 <div class="col text-center mt-1">
                   <p class="fs-6">
@@ -90,56 +108,12 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="row g-0 justify-content-center">
-      <div class="col-6">
-        <h1>Login</h1>
-
-        <form v-on:submit.prevent="handleFirebaseLogin">
-          <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input
-              type="email"
-              class="form-control"
-              autocomplete="email"
-              id="email"
-              aria-describedby="emailHelp"
-              v-model="email"
-            />
-            <div id="emailHelp" class="form-text">
-              We'll never share your email with anyone else.
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input
-              type="password"
-              autocomplete="current-password"
-              class="form-control"
-              id="password"
-              v-model="password"
-            />
-          </div>
-          <div class="mb-3 form-check">
-            <input
-              type="checkbox"
-              class="form-check-input"
-              id="exampleCheck1"
-              checked
-              v-model="isVolunteer"
-            />
-            <label class="form-check-label" for="exampleCheck1">Volunteer</label>
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-      </div>
-    </div> -->
   </div>
 </template>
 
 <script>
 import { mapMutations, mapActions, mapState } from "vuex"
-import { signInWithEmailAndPassword } from "firebase/auth"
+import { signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { collection, doc, getDoc } from "firebase/firestore"
 import { firebase_firestore, firebase_auth } from "../firebase"
 import SVGIconVue from "../components/SVGIcon.vue"
@@ -152,6 +126,8 @@ export default {
       isVolunteer: true,
 
       formValid: true,
+      formError: false,
+      submitting: false,
     }
   },
 
@@ -166,12 +142,14 @@ export default {
 
     async handleFirebaseLogin(event) {
       console.log("Email:", this.email, "Password:", this.password)
-
       this.formValid = this.$refs.formRef.checkValidity()
       if (!this.formValid) {
         console.log("Form not submitted!")
+        this.submitting = false
         return
       }
+      this.submitting = true
+      this.formError = false
 
       try {
         // Call Firebase and verify
@@ -193,6 +171,20 @@ export default {
           accountDetails = docSnap.data()
         } else {
           console.log("Account Doc Fetch: No such account document!")
+          this.submitting = false
+          return
+        }
+
+        // DOes it belong to volunteer or organisation?
+        console.log(accountDetails.type, this.isVolunteer)
+        if (
+          (accountDetails.type === "volunteer" && !this.isVolunteer) ||
+          (accountDetails.type === "organisation" && this.isVolunteer)
+        ) {
+          console.log("SIGNING OUT")
+          await signOut(firebase_auth)
+          this.formError = true
+          this.submitting = false
           return
         }
 
@@ -229,11 +221,15 @@ export default {
         //// redirect to home page
         // this.$router.replace({ path: "/" })
         this.$router.push({ path: "/" })
+        this.submitting = false
       } catch (error) {
         const errorCode = error.code
         const errorMessage = error.message
-        console.log("Failed to sign in, ErrorCode:", errorCode, "Message:", errorMessage)
+        // console.log("Failed to sign in, ErrorCode:", errorCode, "Message:", errorMessage)
+
         // do some user feedback
+        this.formError = true
+        this.submitting = false
       }
     },
   },

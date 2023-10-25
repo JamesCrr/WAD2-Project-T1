@@ -1,54 +1,57 @@
 <template>
-  <div>
-    <h2>Home</h2>
-    <p>Count: {{ count }}</p>
-    <button v-on:click="increment()">Increment</button>
-    <button v-on:click="decrement()">Decrement</button>
-
-    <div class="container-fluid">
-      <div class="row">
-        <router-link v-for="obj of fakeData" v-bind:to="'/events/' + obj.budget" :key="obj.budget">
-          {{ obj.budget }}
-        </router-link>
-      </div>
+  <div class="container-fluid">
+    <div class="row">
+      <router-link v-for="event of events" v-bind:to="'/events/' + event.id" :key="event.id">
+        {{ event.id }}
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from "vuex"
-import fakeData from "../store/fake.json"
+import { firebase_firestore, firebase_storage } from "../firebase"
+import { collection, doc, getDocs, deleteDoc } from "firebase/firestore"
+import { deleteObject, ref, getDownloadURL } from "firebase/storage"
 
 export default {
   data() {
     return {
-      localCount: 3,
-      fakeData: fakeData.data,
+      events: [],
     }
   },
-  computed: mapState("counter", {
-    // arrow functions can make the code very succinct!
-    count: (state) => state.count,
-
-    // to access local state with `this`
-    countPlusLocalState(state) {
-      return state.count + this.localCount
-    },
-  }),
+  computed: {},
   methods: {
-    ...mapMutations("counter", [
-      // map `this.increment()` to `this.$store.counter.commit('increment')`
-      "increment",
-      "decrement",
+    async fetchEvents() {
+      const eventsCollection = collection(firebase_firestore, "events") // Reference to the 'events' collection
 
-      // `mapMutations` also supports payloads:
-      // map `this.incrementBy(amount)` to `this.$store.counter.commit('incrementBy', amount)`
-      "incrementBy",
-    ]),
-    ...mapMutations("counter", {
-      // map `this.add()` to `this.$store.counter.commit('increment')`
-      add: "increment",
-    }),
+      try {
+        const querySnapshot = await getDocs(eventsCollection) // Get all documents in the collection
+        const events = []
+
+        for (const doc of querySnapshot.docs) {
+          // Access the data from each document
+          const eventData = doc.data()
+
+          // Fetch the image URL from Firebase Storage
+          const imageRef = ref(firebase_storage, `posts/${eventData.imageUrl}`)
+          const downloadedURL = await getDownloadURL(imageRef)
+
+          // Append the event data with the downloadedURL to the events array
+          events.push({ ...eventData, downloadedURL, id: doc.id })
+        }
+
+        // Set the events data in your component's data
+        this.events = events
+        console.log(events)
+      } catch (error) {
+        console.error("Error getting documents: ", error)
+      }
+    },
+  },
+
+  created() {
+    this.fetchEvents()
   },
 }
 </script>

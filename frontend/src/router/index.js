@@ -6,11 +6,11 @@ import LoginView from "../views/LoginView.vue"
 import RegisterView from "../views/RegisterView.vue"
 import UserView from "../views/UserView.vue"
 import volunteer from "../views/Volunteer.vue"
-import events from "../views/Events.vue"
-import AddEventView from "../views/AddEvent.vue"
-import ViewDonation from "../views/ViewDonation.vue"
-import ViewEvent from "../views/ViewEvent.vue"
-import OrgDashboardView from "../views/OrgDashboardView.vue"
+import UserEvent from "../views/UserEvent.vue"
+import OrganiserAddEvent from "../views/OrganiserAddEvent.vue"
+import OrganiserEditEvent from "../views/OrganiserEditEvent.vue"
+import OrganiserDonations from "../views/OrganiserDonations.vue"
+import OrganiserEvents from "../views/OrganiserEvents.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,7 +44,7 @@ const router = createRouter({
     {
       path: "/events/:id",
       name: "eventdetail",
-      component: events,
+      component: UserEvent,
     },
     {
       path: "/",
@@ -57,19 +57,24 @@ const router = createRouter({
       component: ChatView,
     },
     {
-      path: "/addEvent",
-      name: "addEvent",
-      component: AddEventView,
+      path: "/organiser/addevent",
+      name: "organiser_addevent",
+      component: OrganiserAddEvent,
     },
     {
-      path: "/viewDonation",
-      name: "viewDonation",
-      component: ViewDonation,
+      path: "/organiser/editevent/:id",
+      name: "organiser_editevent",
+      component: OrganiserEditEvent,
     },
     {
-      path: "/viewEvent",
-      name: "viewEvent",
-      component: ViewEvent,
+      path: "/organiser/donations",
+      name: "organiser_donations",
+      component: OrganiserDonations,
+    },
+    {
+      path: "/organiser/events",
+      name: "organiser_events",
+      component: OrganiserEvents,
     },
     {
       path: "/about",
@@ -96,7 +101,7 @@ router.beforeEach((to, from) => {
   // }
   // // Already logged in but trying to login/register again
   // else if ((to.name === "login" || to.name === "register") && getIsLoggedIn) {
-  //   console.log("AREDD")
+  //   // console.log("AREDD")
   //   // explicitly return false to cancel the navigation
   //   return false
   // }

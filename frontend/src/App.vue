@@ -6,11 +6,25 @@
       <div class="col">
         IsLoggedIn: {{ getIsLoggedIn }}
         <div v-if="getIsLoggedIn">
-          <RouterLink to="/"><button class="btn btn-primary m-2">Home</button></RouterLink>
-          <RouterLink to="/about">About</RouterLink>
-          <RouterLink class="m-2" to="/chat">Chat</RouterLink>
-          <RouterLink to="/addEvent">Add Event</RouterLink>
-          <RouterLink to="/viewEvent">View Event</RouterLink>
+          <!-- Organisation Navbar -->
+          <div v-if="!getIsVolunteer">
+            <div class="row">
+              <div class="col">
+                <RouterLink to="/organiser/events">events</RouterLink>
+              </div>
+              <div class="col">
+                <RouterLink to="/organiser/donations">donations</RouterLink>
+              </div>
+              <!-- <RouterLink to="/organiser/events">events</RouterLink>
+        <RouterLink to="/organiser/donations">donations</RouterLink> -->
+              <!-- <RouterLink to="/organiser/addevent">addevent</RouterLink>
+        <RouterLink to="/organiser/editevent">Editevent</RouterLink> -->
+            </div>
+          </div>
+          <!-- Volunteer Navbar -->
+          <div v-else>
+            <UserNavBar />
+          </div>
         </div>
       </div>
     </div>
@@ -20,12 +34,16 @@
 </template>
 
 <script>
+import UserNavBar from "./components/UserNavBar.vue"
 import { RouterLink, RouterView } from "vue-router"
 import { mapGetters } from "vuex"
 
 export default {
   computed: {
     ...mapGetters("auth", ["getIsLoggedIn", "getIsVolunteer"]),
+  },
+  components: {
+    UserNavBar,
   },
   // beforeMount() {
   //   // console.log(this.getIsLoggedIn)
@@ -37,7 +55,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<!-- <style scoped>
 header {
   line-height: 1.5;
   max-height: 100vh;
@@ -99,4 +117,4 @@ nav a:first-of-type {
     margin-top: 1rem;
   }
 }
-</style>
+</style> -->

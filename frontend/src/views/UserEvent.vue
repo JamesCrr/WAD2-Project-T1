@@ -37,7 +37,7 @@
     <!-- Events description start -->
     <div class="row pt-3">
       <div class="col-md-8 col-sm-12">
-        <img v-bind:src="eventDetails.imageUrl" class="h-100 w-100 object-fit-contain" alt="" />
+        <img v-bind:src="downloadedUrl" class="w-100 object-fit-fill" alt="" />
       </div>
       <div class="col-md-4 col-sm-12">
         <h3 class="mb-0">{{ eventDetails.title }}</h3>
@@ -65,7 +65,7 @@
             <div class="row">
               <!-- <div class="col-12">East Coast Park</div> -->
               <p class="col-12 fw-light mb-0" style="font-size: smaller">
-                {{ eventDetails.location }}
+                {{ eventDetails.location ? eventDetails.location.address : "" }}
               </p>
             </div>
           </div>
@@ -74,7 +74,7 @@
           <div class="col-2 d-flex justify-content-center align-items-center">
             <BIconPersonFill class="fs-5" />
           </div>
-          <div class="col">Suitable for: XXXXX</div>
+          <div class="col">Suitable for: {{ eventDetails.suitability }}</div>
         </div>
 
         <div class="row pt-5 pb-0">
@@ -88,7 +88,7 @@
     </div>
 
     <div class="row mt-4">
-      <div class="col-md-8 col-sm-12" style="min-height: 40vh">
+      <div class="col-md-8 col-sm-12">
         <h2>About the Activity</h2>
         <p>
           {{ eventDetails.desc }}
@@ -112,11 +112,34 @@
         </div>
       </div>
     </div>
+
+    <div class="row mt-4 mb-5">
+      <div class="col d-flex justify-content-center align-items-center">
+        <GMapMap
+          :center="mapcenter"
+          :options="mapoptions"
+          :zoom="16"
+          map-type-id="terrain"
+          id="gmap"
+          style="width: 60vw; height: 20rem"
+        >
+          <GMapMarker
+            :position="mapmarker.position"
+            :clickable="false"
+            :draggable="false"
+            @click="center = mapmarker.position"
+          >
+            <!-- <GMapInfoWindow>
+              <div>I am in info window <MyComponent /></div>
+            </GMapInfoWindow> -->
+          </GMapMarker>
+        </GMapMap>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import fakeData from "../store/fake.json"
 import {
   BIconCalendar3,
   BIconClock,
@@ -125,29 +148,45 @@ import {
   BIconTelephoneFill,
   BIconEnvelopeFill,
 } from "bootstrap-icons-vue"
-import { doc, updateDoc, setDoc, getDoc } from "firebase/firestore"
-import { firebase_firestore } from "../firebase"
+import { firebase_firestore, firebase_storage } from "../firebase"
+import { collection, doc, getDoc } from "firebase/firestore"
+import { ref, getDownloadURL } from "firebase/storage"
 
 export default {
   data() {
     return {
-      eventID: "",
       eventDetails: {},
       eventDates: {},
       organiserDetails: {},
+      downloadedUrl: null,
+
+      // Google Map API
+      mapmarker: {
+        position: {
+          lat: 51.093048,
+          lng: 6.84212,
+        },
+      },
+      mapcenter: { lat: 51.093048, lng: 6.84212 },
+      mapoptions: {
+        styles: [],
+        zoomControl: true,
+        mapTypeControl: true,
+        scaleControl: true,
+        streetViewControl: true,
+        rotateControl: false,
+        fullscreenControl: false,
+      },
     }
   },
   methods: {
     convertTo12HourFormat(time24) {
       // Split the time string into hours and minutes
       const [hours, minutes] = time24.split(":").map(Number)
-
       // Determine if it's AM or PM
       const period = hours < 12 ? "AM" : "PM"
-
       // Convert hours to 12-hour format
       const hours12 = hours % 12 || 12 // 0 should be converted to 12
-
       // Create the 12-hour formatted string
       const time12 = `${hours12}:${minutes.toString().padStart(2, "0")} ${period}`
 
@@ -157,9 +196,20 @@ export default {
 
     async async_FetchDetails() {
       // Fetch the Event data from firebase
-      this.eventDetails = fakeData.data[this.eventID / 1000 - 1]
+      let docRef = doc(firebase_firestore, "events", this.$route.params.id)
+      try {
+        const docSnap = await getDoc(docRef)
+        if (docSnap.exists()) {
+          this.eventDetails = docSnap.data()
+        } else {
+          console.log("No such document!")
+        }
+      } catch (error) {
+        console.log("Event Doc Fetch Error!", error)
+      }
+
       // console.log(this.eventDetails)
-      // console.log(this.eventID)
+      // console.log(this.$route.params.id)
       // console.log(fakeData.data)
 
       // Convert the date into an object
@@ -171,20 +221,27 @@ export default {
         endTime: this.convertTo12HourFormat(this.eventDetails.endTime),
       }
 
+      // Update the map marker
+      this.mapmarker.position.lat = this.eventDetails.location.lat
+      this.mapmarker.position.lng = this.eventDetails.location.lng
+      this.mapcenter.lat = this.eventDetails.location.lat
+      this.mapcenter.lng = this.eventDetails.location.lng
+
+      // Fetch the image from firestore
+      const imageRef = ref(firebase_storage, `posts/${this.eventDetails.imageUrl}`)
+      const downloadedUrl = await getDownloadURL(imageRef)
+      this.downloadedUrl = downloadedUrl
+
       // Fetch the Organiser data from firebase
-      const refArray = this.eventDetails.organiserRef.split("/")
-      const TEMPREFID = refArray[refArray.length - 1]
-
-      // console.log(refArray, TEMPREFID)
-      let docRef = await doc(firebase_firestore, "accounts", TEMPREFID)
-      let docSnap = await getDoc(docRef)
-
-      if (docSnap.exists()) {
-        let data = docSnap.data()
-        // console.log(data)
-        this.organiserDetails = data
-      } else {
-        console.log("No such document!")
+      try {
+        let docSnap = await getDoc(this.eventDetails.organiserRef)
+        if (docSnap.exists()) {
+          this.organiserDetails = docSnap.data()
+        } else {
+          console.log("No such document!")
+        }
+      } catch (error) {
+        console.log("Organiser Doc Fetch Error!", error)
       }
     },
   },
@@ -199,7 +256,6 @@ export default {
   },
 
   created() {
-    this.eventID = this.$route.params.id
     this.async_FetchDetails()
   },
 }
