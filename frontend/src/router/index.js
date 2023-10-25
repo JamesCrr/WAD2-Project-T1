@@ -11,7 +11,7 @@ import OrganiserAddEvent from "../views/OrganiserAddEvent.vue"
 import OrganiserEditEvent from "../views/OrganiserEditEvent.vue"
 import OrganiserDonations from "../views/OrganiserDonations.vue"
 import OrganiserEvents from "../views/OrganiserEvents.vue"
-
+import ViewDonation from "../views/viewDonation.vue"
 import OrgDashboardView from "../views/OrgDashboardView.vue"
 import UserDonationsView from "../views/UserDonationsView.vue"
 import Donate from "../views/Donate.vue"
@@ -107,11 +107,11 @@ const router = createRouter({
       name: "error",
       component: ErrorPage,
     },
-    {
-      path: "/viewEvent",
-      name: "viewEvent",
-      component: ViewEvent,
-    },
+    // {
+    //   path: "/viewEvent",
+    //   name: "viewEvent",
+    //   component: ViewEvent,
+    // },
     {
       path: "/about",
       name: "about",
