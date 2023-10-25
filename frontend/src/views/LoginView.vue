@@ -211,7 +211,10 @@ export default {
         }
         // update Vuex store
         this.m_initChats(newChats)
-        // console.log(newChats)
+        console.log(newChats)
+
+        const obj = {"esse" : newChats["GreenSG-Bob"].chats}
+        console.log(obj)
 
         // Register SocketIO
         const URL =

@@ -42,7 +42,6 @@
                         <!-- Navbar end -->
 
                         <!-- Calendar start -->
-                        <!-- CRISIS: Need to redo calendar -->
                         <div class="row p-3">
                             <div class="col p-3" style="border-radius: 10px;border: solid orange;">
                                 <h5>Select A Date</h5>
@@ -69,7 +68,7 @@
                                         <li>Sat</li>
                                     </ul>
                                     <ul class="calendar-dates">
-                                        <li v-for="(day, index) in calendarDays" :key="index" :class="dayClass(day)">{{ day }}</li>
+                                        <li v-on:click="selectDate(day)" v-for="(day, index) in calendarDays" :key="index" :class="dayClass(day)">{{ day }}</li>
                                     </ul>
                                     </div>
                                 </div>
@@ -362,7 +361,7 @@
                             </div>
                             <div class="col-lg-9 col-sm-12">
                                 <div class="row">
-                                    <div class="col-lg-4 col-md-6 pb-2 text-center">
+                                    <!-- <div class="col-lg-4 col-md-6 pb-2 text-center">
                                         <div class="card">
                                             <img src="https://learn.uvm.edu/foodsystemsblog/wordpress/wp-content/uploads/comcrop_2.jpg" class="card-img-top" alt="...">
                                             <div class="card-body">
@@ -371,9 +370,9 @@
                                                 <a href="/events" class="btn" style="color: #69D8CD; font-weight: bold;">LEARN MORE</a>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
 
-                                    <div class="col-lg-4 col-md-6 pb-2 text-center">
+                                    <!-- <div class="col-lg-4 col-md-6 pb-2 text-center">
                                         <div class="card">
                                             <img src="https://futr.sg/wp-content/uploads/2022/04/futr-beach-cleanup-session-4-1024x684.jpg" class="card-img-top" alt="...">
                                             <div class="card-body">
@@ -382,9 +381,9 @@
                                                 <a href="/events" class="btn" style="color: #69D8CD; font-weight: bold;">LEARN MORE</a>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
 
-                                    <div class="col-lg-4 col-md-6 pb-2 text-center">
+                                    <!-- <div class="col-lg-4 col-md-6 pb-2 text-center">
                                         <div class="card">
                                             <img src="https://patron.groundupinitiative.org/wp-content/uploads/2020/11/hero-image.jpg" class="card-img-top" alt="...">
                                             <div class="card-body">
@@ -392,6 +391,22 @@
                                                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                                                 <a href="/events" class="btn" style="color: #69D8CD; font-weight: bold;">LEARN MORE</a>
                                             </div>
+                                        </div>
+                                    </div> -->
+                                    
+                                    <div class="col-lg-4 col-md-6 pb-2" v-for="(event, eventId) in eventDetails" :key="eventId">
+                                        <div class="card">
+                                        <img :src="event.imageURL" class="card-img-top" alt="Event Image">
+                                        <div class="card-body">
+                                            <h4 class="card-title" style="text-align: center;">{{ event.title }}</h4>
+                                            <img src="https://cdn-icons-png.flaticon.com/512/109/109613.png" style="width:40px; height: auto; margin: 15px" alt="">
+                                            <p class="card-text" style="display: inline; font-size: large; ">{{ event.startTime }} to {{ event.endTime }}</p>
+                                            <img src="https://media.istockphoto.com/id/1193451471/vector/map-pin-vector-glyph-icon.jpg?s=612x612&w=0&k=20&c=wuWVeHuthNAXzjOO5_VY9SUOd-6cxwpVH8VVfh6Y7Lc=" style="width:70px; height: auto;" alt="">
+                                            <p class="card-text" style="display: inline; font-size: large;">{{ event.location }}</p>
+                                            <img src="https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg" style="width:70px; height: auto;" alt="">
+                                            <p class="card-text" style="display: inline; font-size: large;">{{ event.suitability }}</p>
+                                            <a href="" style="display: block; text-align: center; text-decoration: none;color: #69D8CD; font-size: larger; font-weight: bold;">LEARN MORE</a>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -530,6 +545,9 @@
 </style>
 
 <script>
+    import { collection, getDocs } from "firebase/firestore";
+    import { firebase_firestore, firebase_auth } from "../firebase"
+    import { getStorage, ref as storageRef, getDownloadURL } from 'firebase/storage';
     export default {
         data() {
             return {
@@ -537,9 +555,45 @@
             calendarDays: [],
             year: new Date().getFullYear(),
             month: new Date().getMonth(),
+            day: new Date().getDay(),
+            eventDetails: {},
             };
         },
+        mounted() {
+            this.fetchEvents(); // Fetch events when the component is mounted
+        },
         methods: {
+            async fetchEvents() {
+                try {
+                    const eventCollectionRef = collection(firebase_firestore, "events");
+                    const eventSnapshot = await getDocs(eventCollectionRef);
+                    const eventDetails = {};
+
+                    const storage = getStorage(); // Initialize Firebase Storage
+
+                    eventSnapshot.forEach(async (doc) => {
+                        // Assuming each event document has fields eventName, eventDate, eventLocation, eventSuitable, and imageUrl
+                        const eventData = doc.data();
+                        const imageRef = storageRef(storage, `posts/${eventData.imageUrl}`);
+
+                        try {
+                            const imageURL = await getDownloadURL(imageRef);
+                            eventData.imageURL = imageURL;
+                        } catch (error) {
+                            console.error("Error fetching image URL for event:", error.message);
+                            // Handle error fetching image URL, you can set a default image or show a placeholder
+                            eventData.imageURL = "URL_TO_DEFAULT_OR_PLACEHOLDER_IMAGE";
+                        }
+
+                        this.eventDetails[doc.id] = eventData;
+                    });
+
+                    console.log(this.eventDetails);
+                } catch (error) {
+                    console.error("Error fetching events:", error.message);
+                    // Handle error or provide user feedback as needed
+                }
+            },
             manipulate() {
                 // Set currentDate to the formatted current month and year
                 const months = [
@@ -562,6 +616,7 @@
                     ...placeholders,
                     ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
                 ];
+                // console.log(this.calendarDays)
             },
             changeMonth(step) {
                 this.month += step;
@@ -600,9 +655,19 @@
 
                 return '';
             },
+
+            selectDate(newDay) {
+                this.day = newDay
+
+                console.log(this.day, this.month+1, this.year)
+            },
         },
         created() {
             this.manipulate();
         },
+
     };
+    
+    // console.log(fetchEvents)
+
 </script>
