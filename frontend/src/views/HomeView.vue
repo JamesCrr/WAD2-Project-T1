@@ -1,6 +1,6 @@
 <template>
 
-  <OrgNavBar/>
+  <NavBar/>
 
   <!-- content -->
   <div class="content">
@@ -25,7 +25,7 @@ import { mapState, mapMutations } from "vuex"
 import { firebase_firestore, firebase_storage } from "../firebase"
 import { collection, doc, getDocs, deleteDoc } from "firebase/firestore"
 import { deleteObject, ref, getDownloadURL } from "firebase/storage"
-import OrgNavBar from "../components/OrgNavBar.vue"
+import NavBar from "../components/NavBar.vue"
 
 export default {
   data() {
@@ -34,7 +34,7 @@ export default {
     }
   },
   components: {
-    OrgNavBar,
+    NavBar,
   },
   computed: {},
   methods: {

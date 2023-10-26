@@ -29,6 +29,32 @@
         <img class="profile-photo" src="/ran-profile-photo.png" alt="">
     </nav>
 </div>
+<div v-else>
+    <nav class="navbar navbar-expand-lg navbar-light bs-side-navbar justify-content-start" style="background-color: #69D8cD;" id="navbarContainer">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="/ecoconnect-logo.ico" style="width: 3rem;"><h3 style="color: white;">EcoConnect</h3></a>
+  
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                  <li class="nav-item">
+                      <router-link to="/volunteer" class="item"><i class="bi bi-people"></i> Volunteer</router-link>
+                  </li>
+                  <li class="nav-item">
+                      <router-link to="" class="item"><i class="bi bi-calendar3 me-1"></i> My Events</router-link>
+                  </li>
+                  <li class="nav-item">
+                      <router-link to="/chat" class="item"><i class="bi bi-chat-dots me-1"></i> Chats</router-link>
+                  </li>
+                  <li class="nav-item">
+                      <a style="cursor: pointer;" class="item" @click="logOut"><i class="bi bi-box-arrow-left me-1"></i> Logout</a>
+                  </li>
+              </ul>
+          </div>
+          <img class="profile-photo" src="/volunteer-profile-photo.png" alt="">
+      </nav>
+</div>
 
 </template>
 

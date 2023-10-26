@@ -1,14 +1,14 @@
 <template>
   <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
 
-  <div class="container-fluid">
+  <!-- <div class="container-fluid">
     <div class="row bg-dark-subtle">
       <div class="col">
         IsLoggedIn: {{ getIsLoggedIn }}
         <div v-if="getIsLoggedIn"></div>
       </div>
     </div>
-  </div>
+  </div> -->
 
           <!-- Organisation Navbar -->
           <!-- <div v-if="!getIsVolunteer">

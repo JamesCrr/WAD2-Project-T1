@@ -1,5 +1,5 @@
 <template>
-    <OrgNavBar/>
+    <NavBar/>
    
     <div class="content">
         <div class="dashboard-content p-3">
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import OrgNavBar from '../components/OrgNavBar.vue'
+import NavBar from '../components/NavBar.vue'
 
 export default {
     data() {
@@ -20,7 +20,7 @@ export default {
         }
     },
     components: {
-        OrgNavBar,
+        NavBar,
     },
     methods: {
         
