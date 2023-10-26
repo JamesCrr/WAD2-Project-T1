@@ -1,13 +1,15 @@
 <template>
   <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
 
-  <div class="container-fluid">
+  <!-- <div class="container-fluid">
     <div class="row bg-dark-subtle">
       <div class="col">
         IsLoggedIn: {{ getIsLoggedIn }}
         <div v-if="getIsLoggedIn">
+ -->
+
           <!-- Organisation Navbar -->
-          <div v-if="!getIsVolunteer">
+          <!-- <div v-if="!getIsVolunteer">
             <div class="row">
               <div class="col">
                 <RouterLink to="/organiser/events">events</RouterLink>
@@ -15,20 +17,17 @@
               <div class="col">
                 <RouterLink to="/organiser/donations">donations</RouterLink>
               </div>
-              <!-- <RouterLink to="/organiser/events">events</RouterLink>
-        <RouterLink to="/organiser/donations">donations</RouterLink> -->
-              <!-- <RouterLink to="/organiser/addevent">addevent</RouterLink>
-        <RouterLink to="/organiser/editevent">Editevent</RouterLink> -->
             </div>
-          </div>
+          </div> -->
+
           <!-- Volunteer Navbar -->
-          <div v-else>
+          <!-- <div v-else>
             <UserNavBar />
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <RouterView />
 </template>

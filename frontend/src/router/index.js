@@ -82,6 +82,7 @@ const router = createRouter({
       name: "organiser_events",
       component: OrganiserEvents,
     },
+    // scrap this userdonationsview page
     {
       path: "/userdonations",
       name: "userDonations",
@@ -92,10 +93,11 @@ const router = createRouter({
       name: "viewDonation",
       component: ViewDonation,
     },
+    // donate is a test page
     {
       path: "/donate",
       name: "donate",
-      component: Donate,
+      component: Donate, 
     },
     {
       path: "/success",

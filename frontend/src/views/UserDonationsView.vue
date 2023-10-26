@@ -131,7 +131,7 @@ export default {
     margin-top: 2rem;
 }
 .donate-text {
-    text-decoration: underline;
+    /* text-decoration: underline; */
     text-align: center;
 }
 .donation-btn-container {
