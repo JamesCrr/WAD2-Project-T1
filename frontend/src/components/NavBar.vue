@@ -82,6 +82,8 @@ export default {
         async logOut() {
             await signOut(firebase_auth)
             this.m_Logout()
+            this.$cookies.remove("wadt1_email")
+            this.$cookies.remove("wadt1_password")
             router.push("/login")
             return
         },
