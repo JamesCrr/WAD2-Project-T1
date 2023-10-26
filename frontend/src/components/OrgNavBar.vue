@@ -22,7 +22,7 @@
                     <router-link to="/chat" class="item"><i class="bi bi-chat-dots me-1"></i> Chats</router-link>
                 </li>
                 <li class="nav-item">
-                    <a class="item" @click="logOut"><i class="bi bi-box-arrow-left me-1"></i> Logout</a>
+                    <a style="cursor: pointer;" class="item" @click="logOut"><i class="bi bi-box-arrow-left me-1"></i> Logout</a>
                 </li>
             </ul>
         </div>
