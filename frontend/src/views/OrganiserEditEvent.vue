@@ -115,7 +115,6 @@
               @change="handleFileSelect"
               ref="fileSelect"
             />
-            <!-- <label id="filename-label" for="filename">Insert Image</label> -->
           </div>
         </div>
         <div class="row">
@@ -178,6 +177,7 @@ export default {
       budget: 0,
       organiserRef: null,
       signups: [],
+      donations: [],
 
       oldImageURL: "",
 
@@ -218,6 +218,7 @@ export default {
       this.selectedDonation = data.selectedDonation
       this.budget = data.budget
       this.signups = data.signups
+      this.donations = data.donations
 
       // Update local location field
       this.locationSearchText = data.location.searchValue
