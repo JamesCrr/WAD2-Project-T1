@@ -12,17 +12,17 @@
                     <router-link to="/orgdashboard" class="item"><i class="bi bi-speedometer me-1"></i> Dashboard</router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/orgevents" class="item"><i class="bi bi-calendar3 me-1"></i> Events</router-link>
+                    <router-link to="/organiser/events" class="item"><i class="bi bi-calendar3 me-1"></i> Events</router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/viewdonation" class="item"><i class="bi bi-piggy-bank me-1"></i> Donations</router-link>
                 </li>
                 <li class="nav-item">
                     <!-- change the router link -->
-                    <router-link to="/orgchats" class="item"><i class="bi bi-chat-dots me-1"></i> Chats</router-link>
+                    <router-link to="/chat" class="item"><i class="bi bi-chat-dots me-1"></i> Chats</router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/" class="item logout"><i class="bi bi-box-arrow-left me-1"></i> Logout</router-link>
+                    <button class="btn btn-secondary" @click="logOut"><i class="bi bi-box-arrow-left me-1"></i> Logout</button>
                 </li>
             </ul>
         </div>
@@ -40,6 +40,10 @@
 </template>
 
 <script>
+import { mapMutations, mapActions, mapState } from "vuex"
+import {signOut } from "firebase/auth"
+import { firebase_auth } from "../firebase"
+import router from "../router"
 
 export default {
     data() {
@@ -50,7 +54,13 @@ export default {
 
     },
     methods: {
-        
+        ...mapMutations("auth", ["m_Login", "m_Logout"]),
+        async logOut() {
+            await signOut(firebase_auth)
+            this.m_Logout()
+            router.push("/login")
+            return
+        }
     }
 
 }

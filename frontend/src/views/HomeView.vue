@@ -4,6 +4,8 @@
       <router-link v-for="event of events" v-bind:to="'/events/' + event.id" :key="event.id">
         {{ event.id }}
       </router-link>
+
+      <router-link to="/orgdashboard"> go to org dashboard</router-link>
     </div>
   </div>
 </template>
