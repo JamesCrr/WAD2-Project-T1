@@ -34,158 +34,18 @@
       </div>
     </div>
   </div>
-
-  <!-- Edit Event Modal -->
-  <!-- <div class="modal" id="editEventModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog custom-modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Edit Event</h5>
-        </div>
-        <div class="modal-body">
-          <div class="container-fluid">
-            <h1 class="mb-5">Create Event</h1>
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <label for="title" class="form-label">Event Title</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="title"
-                  v-model="title"
-                  placeholder="Enter Event Name"
-                />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-6 col-md-6 col-sm-6">
-                <label for="startDate" class="form-label">Start Date</label>
-                <input type="date" class="form-control" id="startDate" v-model="startDate" />
-              </div>
-              <div class="col-lg-6 col-md-6 col-sm-6">
-                <label for="startTime" class="form-label">Start Time</label>
-                <input type="time" class="form-control" id="startTime" v-model="startTime" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-6 col-md-6 col-sm-6">
-                <label for="endDate" class="form-label">End Date</label>
-                <input type="date" class="form-control" id="endDate" v-model="endDate" />
-              </div>
-              <div class="col-lg-6 col-md-6 col-sm-6">
-                <label for="endTime" class="form-label">End Time</label>
-                <input type="time" class="form-control" id="endTime" v-model="endTime" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <label for="location" class="form-label">Location</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="location"
-                  v-model="location"
-                  placeholder="Enter Event Location"
-                />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <label for="desc" class="form-label">Event Description</label>
-                <textarea
-                  type="text"
-                  class="form-control"
-                  id="desc"
-                  v-model="desc"
-                  placeholder="Enter Event Description"
-                ></textarea>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-6 col-md-6 col-sm-6">
-                <label for="openings" class="form-label">Number of Openings</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="openings"
-                  v-model="openings"
-                  min="0"
-                />
-              </div>
-              <div class="col-lg-6 col-md-6 col-sm-6 mt-4">
-                <input
-                  type="file"
-                  accept="image/*"
-                  id="filename"
-                  name="filename"
-                  @change="handleFileSelect"
-                />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-6 col-md-6 col-sm-6">
-                <label for="donation" class="form-label">Ask for Donation</label>
-                <select
-                  class="form-select"
-                  aria-label="Default select example"
-                  id="donation"
-                  v-model="selectedDonation"
-                >
-                  <option selected value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
-              </div>
-              <div class="col-lg-6 col-md-6 col-sm-6">
-                <label for="budget" class="form-label">Budget</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="budget"
-                  v-model="budget"
-                  min="1"
-                  placeholder="Enter the Budget"
-                />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <button
-                  type="submit"
-                  class="btn btn-primary w-100"
-                  @click="uploadFileAndCreateEvent"
-                >
-                  Create Event
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-dismiss="modal"
-            @click="closeEditModal()"
-          >
-            Close
-          </button>
-          <button type="button" class="btn btn-primary">Save Changes</button>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </template>
 
 <script>
 import { RouterLink } from "vue-router"
-import { collection, doc, getDocs, deleteDoc } from "firebase/firestore" // Import Firestore functions
+import { collection, doc, getDocs, deleteDoc } from "firebase/firestore"
 import { deleteObject, ref, getDownloadURL } from "firebase/storage"
 import { firebase_firestore, firebase_storage } from "../firebase"
 
 export default {
   data() {
     return {
-      events: [], // Array to store retrieved events
+      events: [],
     }
   },
   created() {
@@ -194,10 +54,10 @@ export default {
   },
   methods: {
     async fetchEventData() {
-      const eventsCollection = collection(firebase_firestore, "events") // Reference to the 'events' collection
+      const eventsCollection = collection(firebase_firestore, "events")
 
       try {
-        const querySnapshot = await getDocs(eventsCollection) // Get all documents in the collection
+        const querySnapshot = await getDocs(eventsCollection)
         const events = []
 
         for (const doc of querySnapshot.docs) {
@@ -241,40 +101,6 @@ export default {
       // Update local copy
       this.events = this.events.filter((item) => item.id !== eventObj.id)
     },
-    // openEditModal(event) {
-    //   // Here, you can set up the data and logic to populate the modal
-    //   // based on the event that was clicked.
-
-    //   // For example, you can set up data properties in your component
-    //   // to hold the data for the currently edited event.
-
-    //   // Then, you can trigger the modal to open:
-    //   $("#editEventModal").modal("show")
-    // },
-    // closeEditModal() {
-    //   // Here, you can set up the data and logic to populate the modal
-    //   // based on the event that was clicked.
-
-    //   // For example, you can set up data properties in your component
-    //   // to hold the data for the currently edited event.
-
-    //   // Then, you can trigger the modal to open:
-    //   $("#editEventModal").modal("hide")
-    // },
   },
 }
 </script>
-
-<!-- <style scoped>
-.btn {
-  margin-top: 0px;
-}
-
-.card {
-  background-color: white;
-}
-
-.custom-modal-dialog {
-  max-width: 800px; /* Adjust the width as needed */
-}
-</style> -->

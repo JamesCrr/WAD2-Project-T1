@@ -115,7 +115,6 @@
               @change="handleFileSelect"
               ref="fileSelect"
             />
-            <!-- <label id="filename-label" for="filename">Insert Image</label> -->
           </div>
         </div>
         <div class="row">

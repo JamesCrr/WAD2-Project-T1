@@ -1,51 +1,6 @@
 <template>
   <div class="container-fluid p-0">
     <div class="row m-0">
-      <!-- <div
-        class="d-flex flex-column flex-shrink-0 p-3 text-white"
-        style="width: 280px; background-color: #69d8cd"
-      >
-        <a
-          href="/"
-          class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
-        >
-          <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-          <span class="fs-4">EcoConnect</span>
-        </a>
-        <hr />
-        <ul class="nav nav-pills flex-column mb-auto">
-          <li class="nav-item">
-            <router-link to="/" class="nav-link text-white"
-              ><span class="fa fa-line-chart pe-2"></span>Dashboard</router-link
-            >
-          </li>
-          <li>
-            <router-link to="/addEvent" class="nav-link text-white active"
-              ><span class="fa fa-calendar pe-2"></span>Event</router-link
-            >
-          </li>
-          <li>
-            <router-link to="/viewDonation" class="nav-link text-white"
-              ><span class="fa fa-dollar pe-2"></span>Donation</router-link
-            >
-          </li>
-          <li>
-            <router-link to="/chat" class="nav-link text-white"
-              ><span class="fa fa-paper-plane pe-2"></span>Chat</router-link
-            >
-          </li>
-        </ul>
-        <hr />
-        <div class="dropdown">
-          <ul class="nav nav-pills flex-column mb-auto">
-            <li>
-              <router-link to="/chat" class="nav-link text-white"
-                ><span class="fa fa-sign-out pe-2"></span>Log Out</router-link
-              >
-            </li>
-          </ul>
-        </div>
-      </div> -->
       <div class="col-md-9 my-3 ms-lg-5 ms-md-5 ms-sm-5" style="min-height: 100vh">
         <div class="row">
           <h1 class="mb-5">Create Event</h1>
@@ -160,7 +115,6 @@
               @change="handleFileSelect"
               ref="fileSelectRef"
             />
-            <!-- <label id="filename-label" for="filename">Insert Image</label> -->
           </div>
         </div>
         <div class="row">
@@ -345,66 +299,6 @@ export default {
         console.error("No file selected.")
       }
     },
-
-    // this.location = this.capitalizeWords(this.location)
-    // capitalizeWords(str) {
-    //   return str.replace(/\b\w/g, (char) => char.toUpperCase())
-    // },
   },
 }
 </script>
-
-<!-- <style scoped>
-body {
-  padding: 0;
-  margin: 0;
-  background-color: white;
-}
-
-input[type="text"],
-input[type="date"],
-input[type="time"],
-input[type="number"],
-.form-select,
-#desc {
-  background-color: white;
-}
-
-.active {
-  background-color: #44baae !important;
-}
-
-.row {
-  margin-bottom: 30px;
-}
-
-.btn-primary,
-.btn-primary:hover,
-.btn-primary:active,
-.btn-primary:visited {
-  margin-top: 10px;
-  background-color: #69d8cd;
-  border-color: #69d8cd;
-}
-
-input[type="text"],
-input[type="date"],
-input[type="time"],
-input[type="number"],
-.form-select,
-#desc {
-  background-color: white;
-}
-
-#filename {
-  display: none;
-}
-
-#filename-label {
-  border: 1px solid #69d8cd;
-  width: 10%;
-  background-color: #69d8cd;
-  color: white;
-  margin-left: 15px;
-}
-</style> -->
