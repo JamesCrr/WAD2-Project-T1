@@ -194,6 +194,10 @@ export default {
           authDetails: user,
           accountDetails,
         })
+        // update login cookies never expire , only -1, other negative Numbers are invalid
+        this.$cookies.set("wadt1_email", this.email, -1)
+        this.$cookies.set("wadt1_password", this.password, -1)
+        // By right need to hash before setting as cookie, but we no time :(
 
         // Fetch all the chats related to this account
         const newChats = {}
@@ -211,20 +215,19 @@ export default {
         }
         // update Vuex store
         this.m_initChats(newChats)
-        console.log(newChats)
-
-        const obj = {"esse" : newChats["GreenSG-Bob"].chats}
-        console.log(obj)
+        // console.log(newChats)
 
         // Register SocketIO
         const URL =
           process.env.NODE_ENV === "production" ? "YOUR SERVER URL HERE" : "http://localhost:3000"
         this.a_InitializeSocket({ URL, myUsername: accountDetails.username })
 
+        // Reset form
+        this.submitting = false
+        this.formError = false
         //// redirect to home page
         // this.$router.replace({ path: "/" })
         this.$router.push({ path: "/" })
-        this.submitting = false
       } catch (error) {
         const errorCode = error.code
         const errorMessage = error.message
@@ -235,6 +238,13 @@ export default {
         this.submitting = false
       }
     },
+  },
+
+  created() {
+    // check if auth cookie exist
+    if (this.$cookies.isKey("wadt1_email")) {
+      this.$router.replace({ path: "/" })
+    }
   },
 }
 </script>

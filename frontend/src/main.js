@@ -12,13 +12,16 @@ import router from "./router"
 import store from "./store"
 import { BootstrapIconsPlugin } from "bootstrap-icons-vue"
 
+// IMport cookies
+import VueCookies from "vue-cookies"
+
 // IMport google Maps
 import VueGoogleMaps from "@fawmi/vue-google-maps"
-import { StripeCheckout } from '@vue-stripe/vue-stripe';
-
+import { StripeCheckout } from "@vue-stripe/vue-stripe"
 
 const app = createApp(App)
 app
+  .use(VueCookies)
   .use(store)
   .use(router)
   .use(BootstrapIconsPlugin)

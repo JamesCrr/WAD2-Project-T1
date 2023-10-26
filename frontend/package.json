@@ -20,6 +20,7 @@
     "socket.io-client": "^4.7.2",
     "vite-svg-loader": "^4.0.0",
     "vue": "^3.3.4",
+    "vue-cookies": "^1.8.3",
     "vue-router": "^4.2.4",
     "vuex": "^4.0.2"
   },

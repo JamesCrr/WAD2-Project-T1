@@ -34,10 +34,12 @@
 </template>
 
 <script>
-import UserNavBar from "./components/UserNavBar.vue"
 import { RouterLink, RouterView } from "vue-router"
-import { mapGetters } from "vuex"
-
+import { mapGetters, mapMutations, mapActions, mapState } from "vuex"
+import { signInWithEmailAndPassword, signOut } from "firebase/auth"
+import { doc, getDoc } from "firebase/firestore"
+import { firebase_firestore, firebase_auth } from "./firebase"
+import UserNavBar from "./components/UserNavBar.vue"
 
 export default {
   computed: {
@@ -46,13 +48,78 @@ export default {
   components: {
     UserNavBar,
   },
-  // beforeMount() {
-  //   // console.log(this.getIsLoggedIn)
-  //   // Has the user logined yet?
-  //   if (!this.getIsLoggedIn) {
-  //     this.$router.replace({ path: "/login" })
-  //   }
-  // },
+
+  methods: {
+    ...mapMutations("auth", ["m_Login", "m_Logout"]),
+    ...mapMutations("chat", ["m_initChats"]),
+    ...mapActions("socket", ["a_InitializeSocket"]),
+
+    async firebaseLoginFromCookies() {
+      const email = this.$cookies.get("wadt1_email")
+      const password = this.$cookies.get("wadt1_password")
+      console.log("Email:", email, "Password:", password)
+
+      try {
+        // Call Firebase and verify
+        const userCredential = await signInWithEmailAndPassword(firebase_auth, email, password)
+        // Signed in Success
+        const user = userCredential.user
+
+        // Fetch all the account's data from firestore
+        let docRef = doc(firebase_firestore, "accounts", user.uid)
+        let docSnap = await getDoc(docRef)
+        let accountDetails = null
+        if (docSnap.exists()) {
+          // console.log("Account data:", docSnap.data())
+          accountDetails = docSnap.data()
+        } else {
+          console.log("Account Doc Fetch: No such account document!")
+          return
+        }
+
+        // update Vuex store
+        this.m_Login({
+          isVolunteer: accountDetails.type === "volunteer",
+          authDetails: user,
+          accountDetails,
+        })
+
+        // Fetch all the chats related to this account
+        const newChats = {}
+        for (let chatID of accountDetails.chats) {
+          docRef = doc(firebase_firestore, "chats", chatID)
+          docSnap = await getDoc(docRef)
+
+          if (docSnap.exists()) {
+            const data = docSnap.data()
+            // console.log("Document data:", data)
+            newChats[chatID] = data
+          } else {
+            console.log("Chat Doc Fetch: No such document!")
+          }
+        }
+        // Update Vuex store
+        this.m_initChats(newChats)
+
+        // Register SocketIO
+        const URL =
+          process.env.NODE_ENV === "production" ? "YOUR SERVER URL HERE" : "http://localhost:3000"
+        this.a_InitializeSocket({ URL, myUsername: accountDetails.username })
+
+        // redirect to home page
+        this.$router.replace({ path: "/" })
+      } catch (error) {
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log("Failed to sign in, ErrorCode:", errorCode, "Message:", errorMessage)
+      }
+    },
+  },
+  beforeMount() {
+    if (this.$cookies.isKey("wadt1_email")) {
+      this.firebaseLoginFromCookies()
+    }
+  },
 }
 </script>
 
