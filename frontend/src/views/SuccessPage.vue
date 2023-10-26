@@ -23,6 +23,8 @@
     top: 10rem;
     width: 25rem;
 }
+
+/* success animation */
 .swal-icon--success {
   border-color: #a5dc86
 }
