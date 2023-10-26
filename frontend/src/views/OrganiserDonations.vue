@@ -33,7 +33,7 @@
                   >
                     <div class="progress-bar" :style="{ width: progressBarWidth(event) }"></div>
                   </div>
-                  <h4>${{ totalDonations }}<span style="font-size: medium; color: black;">, raised from {{ event.donations.length }} donors</span></h4>
+                  <h4>${{ totalDonations(event) }}<span style="font-size: medium; color: black;">, raised from {{ event.donations.length }} donors</span></h4>
                 </td>
               </tr>
             </tbody>
@@ -55,17 +55,6 @@ export default {
       events: [],
     }
   },
-  computed: {
-    totalDonations() {
-      let sum = 0;
-      for (const event of this.events) {
-        if (Array.isArray(event.donations)) {
-          sum += event.donations.reduce((acc, donation) => acc + donation.amount, 0);
-        }
-      }
-      return sum;
-    }
-  },
   methods: {
     async fetchEventData() {
       const eventsCollection = collection(firebase_firestore, "events")
@@ -78,8 +67,10 @@ export default {
           // Access the data from each document
           const eventData = doc.data()
 
-          // Append the event data with the downloadedURL to the events array
-          events.push({ ...eventData, id: doc.id })
+          if(eventData.selectedDonation == true){
+            // Append the event data with the downloadedURL to the events array
+            events.push({ ...eventData, id: doc.id })
+          }
         }
 
         // Set the events data in your component's data
@@ -89,19 +80,26 @@ export default {
         console.error("Error getting documents: ", error)
       }
     },
+    totalDonations(event) {
+      let sum = 0;
+      if (Array.isArray(event.donations)) {
+        sum += event.donations.reduce((acc, donation) => acc + donation.amount, 0);
+      }
+      return sum;
+    },
     getProgressStatus(event) {
       if (event.budget <= 0) {
         return "0% completed";
       }
       
-      const percentage = (this.totalDonations / event.budget) * 100;
+      const percentage = (this.totalDonations(event) / event.budget) * 100;
       return percentage >= 100 ? "100% Completed" : `${percentage}% completed`;
     },
     progressBarWidth(event) {
       if (event.budget <= 0) {
         return "0%";
       }
-      const percentage = (this.totalDonations / event.budget) * 100;      
+      const percentage = (this.totalDonations(event) / event.budget) * 100;      
       return percentage >= 100 ? "100%" : `${percentage}%`;
     }
   },

@@ -276,11 +276,11 @@ export default {
             category: this.category,
             openings: this.openings,
             selectedDonation: this.selectedDonation,
-            donatedAmount: 0,
             budget: this.budget,
             imageUrl: fileName, // Add the image filename to event data
             organiserRef: targetDocumentRef,
             signups: [],
+            donations: []
           }
 
           // Create the event with the image filename
