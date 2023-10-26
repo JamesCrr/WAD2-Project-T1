@@ -1,132 +1,141 @@
 <template>
-  <link
-    rel="stylesheet"
-    href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-  />
-
-  <div>
-    <div class="container-fluid p-0">
-      <div class="row m-0">
-        <div
-          class="d-flex flex-column flex-shrink-0 p-3 text-white"
-          style="width: 280px; background-color: #69d8cd"
-        >
-          <a
-            href="/"
-            class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
-          >
-            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-            <span class="fs-4">EcoConnect</span>
-          </a>
-          <hr />
-          <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-              <router-link to="/" class="nav-link text-white"
-                ><span class="fa fa-line-chart pe-2"></span>Dashboard</router-link
-              >
-            </li>
-            <li>
-              <router-link to="/addEvent" class="nav-link text-white"
-                ><span class="fa fa-calendar pe-2"></span>Event</router-link
-              >
-            </li>
-            <li>
-              <router-link to="/viewDonation" class="nav-link text-white active"
-                ><span class="fa fa-dollar pe-2"></span>Donation</router-link
-              >
-            </li>
-            <li>
-              <router-link to="/chat" class="nav-link text-white"
-                ><span class="fa fa-paper-plane pe-2"></span>Chat</router-link
-              >
-            </li>
-          </ul>
-          <hr />
-          <div class="dropdown">
-            <ul class="nav nav-pills flex-column mb-auto">
-              <li>
-                <router-link to="/chat" class="nav-link text-white"
-                  ><span class="fa fa-sign-out pe-2"></span>Log Out</router-link
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div
-          class="col-md-9 my-3 ms-lg-5 ms-md-5 ms-sm-5"
-          style="min-height: 100vh; position: relative"
-        >
-          <a
-            href="#"
-            class="d-flex align-items-center text-dark text-decoration-none"
-            style="position: absolute; right: 10px"
-          >
-            <img
-              src="https://cf.shopee.com.my/file/2668a8d450d82d38574d01f51694f714"
-              alt=""
-              width="50"
-              height="50"
-              class="rounded-circle me-2"
-            />
-            <strong>Takahashi</strong>
-          </a>
-          <div class="row">
-            <h1 class="mb-5">Donations</h1>
-            <table class="table table-light">
-              <thead>
-                <tr>
-                  <th scope="col">Events</th>
-                  <th scope="col">Budget</th>
-                  <th scope="col">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Plant a Tree</td>
-                  <td>$14,000</td>
-                  <td scope="col">
-                    <p>In Progress</p>
-                    <div
-                      class="progress"
-                      role="progressbar"
-                      aria-label="Basic example"
-                      aria-valuenow="0"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    >
-                      <div class="progress-bar" style="width: 50%"></div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div
+        class="col-md-9 my-3 ms-lg-5 ms-md-5 ms-sm-5"
+        style="min-height: 100vh; position: relative"
+      >
+        <div class="row">
+          <h1 class="mb-5">Donations</h1>
+          <table class="table table-light">
+            <thead>
+              <tr>
+                <th scope="col">Events</th>
+                <th scope="col">Date</th>
+                <th scope="col">Target</th>
+                <th scope="col">Donations Received</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="event in events" :key="event.id">
+                <td>{{ event.title }}</td>
+                <td>{{ event.date }}</td>
+                <td>${{ event.budget }}</td>
+                <td scope="col">
+                  <p>{{ getProgressStatus(event) }}</p>
+                  <div
+                    class="progress"
+                    role="progressbar"
+                    aria-label="Basic example"
+                    aria-valuenow="0"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <div class="progress-bar" :style="{ width: progressBarWidth(event) }"></div>
+                  </div>
+                  <h4>${{ totalDonations }}<span style="font-size: medium; color: black;">, raised from {{ event.donations.length }} donors</span></h4>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script></script>
+<script>
+import { collection, doc, getDocs, deleteDoc } from "firebase/firestore" // Import Firestore functions
+import { ref, getDownloadURL } from "firebase/storage"
+import { firebase_firestore, firebase_storage } from "../firebase"
 
-<!-- <style>
-    body {
-        padding: 0;
-        margin: 0;
-        background-color: white;
+
+export default {
+  data() {
+    return {
+      events: [], // Array to store retrieved events
     }
-  
-    .active {
-        background-color: #44BAAE !important;
+  },
+  computed: {
+    totalDonations() {
+      let sum = 0;
+      for (const event of this.events) {
+        if (Array.isArray(event.donations)) {
+          sum += event.donations.reduce((acc, donation) => acc + donation.amount, 0);
+        }
+      }
+      return sum;
     }
-  
-    .row {
-        margin-bottom: 30px;
+  },
+  methods: {
+    async fetchEventData() {
+      const eventsCollection = collection(firebase_firestore, "events") // Reference to the 'events' collection
+
+      try {
+        const querySnapshot = await getDocs(eventsCollection) // Get all documents in the collection
+        const events = []
+
+        for (const doc of querySnapshot.docs) {
+          // Access the data from each document
+          const eventData = doc.data()
+
+          // Fetch the image URL from Firebase Storage
+          const imageRef = ref(firebase_storage, `posts/${eventData.imageUrl}`)
+          const downloadedURL = await getDownloadURL(imageRef)
+
+          // Append the event data with the downloadedURL to the events array
+          events.push({ ...eventData, downloadedURL, id: doc.id })
+        }
+
+        // Set the events data in your component's data
+        this.events = events
+        console.log(events)
+      } catch (error) {
+        console.error("Error getting documents: ", error)
+      }
+    },
+    async deleteEvent(eventObj) {
+      // console.log(eventObj.id)
+      // Delete from firebase
+      try {
+        await deleteDoc(doc(firebase_firestore, "events", eventObj.id))
+      } catch (error) {
+        console.log("Delete Event Error:", error)
+      }
+      // Delete image in firebase storage
+      const imageRef = ref(firebase_storage, `posts/${eventObj.imageUrl}`)
+      deleteObject(imageRef)
+        .then(() => {
+          // File deleted successfully
+        })
+        .catch((error) => {
+          // Uh-oh, an error occurred!
+          console.log(error)
+        })
+
+      // Update local copy
+      this.events = this.events.filter((item) => item.id !== eventObj.id)
+    },
+    getProgressStatus(event) {
+      if (event.budget <= 0) {
+        return "In Progress";
+      }
+      
+      const percentage = (this.totalDonations / event.budget) * 100;
+      return percentage >= 100 ? "Completed" : "In Progress";
+    },
+    progressBarWidth(event) {
+      if (event.budget <= 0) {
+        return "0%";
+      }
+      const percentage = (this.totalDonations / event.budget) * 100;      
+      // Ensure the width is not greater than 100%
+      return percentage >= 100 ? "100%" : `${percentage}%`;
     }
-  
-    .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
-        margin-top: 10px;
-        background-color: #69D8cD;
-        border-color: #69D8cD;
-    }
-  </style> -->
+  },
+  created() {
+    // Call the fetchEventData method when the component is created
+    this.fetchEventData()
+  },
+}
+</script>
