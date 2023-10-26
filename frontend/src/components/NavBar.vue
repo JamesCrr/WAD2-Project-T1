@@ -39,13 +39,13 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                   <li class="nav-item">
+                      <router-link to="/" class="item"><i class="bi bi-house"></i> Home</router-link>
+                  </li>
+                  <li class="nav-item">
                       <router-link to="/volunteer" class="item"><i class="bi bi-people"></i> Volunteer</router-link>
                   </li>
                   <li class="nav-item">
                       <router-link to="" class="item"><i class="bi bi-calendar3 me-1"></i> My Events</router-link>
-                  </li>
-                  <li class="nav-item">
-                      <router-link to="/chat" class="item"><i class="bi bi-chat-dots me-1"></i> Chats</router-link>
                   </li>
                   <li class="nav-item">
                       <a style="cursor: pointer;" class="item" @click="logOut"><i class="bi bi-box-arrow-left me-1"></i> Logout</a>
