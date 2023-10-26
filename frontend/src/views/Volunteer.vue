@@ -106,37 +106,54 @@
                                             </h2>
                                             <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                
+                                                <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="treeplanting" id="treeplantingmain">
+                                                        <label class="form-check-label" for="treeplantingmain">
+                                                            Tree Planting
+                                                        </label>
+                                                </div>
+                                                <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="communitycomposting" id="communitycompostingmain">
+                                                        <label class="form-check-label" for="communitycompostingmain">
+                                                            Community Composting
+                                                        </label>
+                                                </div>
+                                                <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="beachcleanup" id="beachcleanupmain">
+                                                        <label class="form-check-label" for="beachcleanupmain">
+                                                            Beach Clean Up
+                                                        </label>
+                                                </div>
                                             </div>
                                             </div>
                                         </div>
                                         <div class="accordion-item">
-                                            <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                <strong>TYPE OF EVENT</strong>
-                                            </button>
-                                            </h2>
-                                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="allevent" id="allevent">
-                                                    <label class="form-check-label" for="allevent">
-                                                        All Events
-                                                    </label>
+                                                <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                    <strong>LOCATIONS</strong>
+                                                </button>
+                                                </h2>
+                                                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="Yishun" id="Yishunmain">
+                                                        <label class="form-check-label" for="Yishunmain">
+                                                            Yishun
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="Sembawang" id="Sembawangmain">
+                                                        <label class="form-check-label" for="Sembawangmain">
+                                                            Sembawang
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="Angmokio" id="Angmokiomain">
+                                                        <label class="form-check-label" for="Angmokiomain">
+                                                            Ang Mo Kio
+                                                        </label>
+                                                    </div>
                                                 </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="virtual" id="virtual">
-                                                    <label class="form-check-label" for="virtual">
-                                                        Virtual
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="physical" id="physical">
-                                                    <label class="form-check-label" for="physical">
-                                                        Physical
-                                                    </label>
-                                                </div>
-                                            </div>
                                             </div>
                                         </div>
                                         <div class="accordion-item">
@@ -148,26 +165,26 @@
                                             <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="lessthan10" id="lessthan10">
-                                                    <label class="form-check-label" for="lessthan10">
+                                                    <input class="form-check-input" type="checkbox" value="lessthan10" id="lessthan10main">
+                                                    <label class="form-check-label" for="lessthan10main">
                                                         1-10
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="lessthan20" id="lessthan20">
-                                                    <label class="form-check-label" for="lessthan20">
+                                                    <input class="form-check-input" type="checkbox" value="lessthan20" id="lessthan20main">
+                                                    <label class="form-check-label" for="lessthan20main">
                                                         11-20
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="lessthan30" id="lessthan30">
-                                                    <label class="form-check-label" for="lessthan30">
+                                                    <input class="form-check-input" type="checkbox" value="lessthan30" id="lessthan30main">
+                                                    <label class="form-check-label" for="lessthan30main">
                                                         21-30
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="above30" id="above30">
-                                                    <label class="form-check-label" for="above30">
+                                                    <input class="form-check-input" type="checkbox" value="above30" id="above30main">
+                                                    <label class="form-check-label" for="above30main">
                                                         Above 30
                                                     </label>
                                                 </div>
@@ -183,32 +200,32 @@
                                             <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="firsttimers" id="firsttimers">
-                                                    <label class="form-check-label" for="firsttimers">
+                                                    <input class="form-check-input" type="checkbox" value="firsttimers" id="firsttimersmain" v-bind:value="selectedSuitability" @change="filterEvents">
+                                                    <label class="form-check-label" for="firsttimersmain">
                                                         First Timers
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="seniors" id="seniors">
-                                                    <label class="form-check-label" for="seniors">
+                                                    <input class="form-check-input" type="checkbox" value="seniors" id="seniorsmain" :value="selectedSuitability" @change="filterEvents">
+                                                    <label class="form-check-label" for="seniorsmain">
                                                         Seniors
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="all" id="all">
-                                                    <label class="form-check-label" for="all">
+                                                    <input class="form-check-input" type="checkbox" value="all" id="allmain" :value="selectedSuitability" @change="filterEvents">
+                                                    <label class="form-check-label" for="allmain">
                                                         Open to all
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="family" id="family">
-                                                    <label class="form-check-label" for="family">
+                                                    <input class="form-check-input" type="checkbox" value="family" id="familymain"  :value="selectedSuitability" @change="filterEvents">
+                                                    <label class="form-check-label" for="familymain">
                                                         Family Friendly
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="organisation" id="organisation">
-                                                    <label class="form-check-label" for="organisation">
+                                                    <input class="form-check-input" type="checkbox" value="organisation" id="organisationmain" :value="selectedSuitability" @change="filterEvents">
+                                                    <label class="form-check-label" for="organisationmain">
                                                         Organisations or Group
                                                     </label>
                                                 </div>
@@ -235,166 +252,153 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                        <div class="accordion" id="accordionExample">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header">
-                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                    <strong>CATEGORIES</strong>
-                                                </button>
-                                                </h2>
-                                                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
-                                                    
-                                                </div>
+                                            <div class="accordion" id="accordionExample">
+                                                <div class="accordion" id="accordionExample">
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header">
+                                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                            <strong>CATEGORIES</strong>
+                                                        </button>
+                                                        </h2>
+                                                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="treeplanting" id="treeplantingmodal">
+                                                                    <label class="form-check-label" for="treeplantingmodal">
+                                                                        Tree Planting
+                                                                    </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="communitycomposting" id="communitycompostingmodal">
+                                                                    <label class="form-check-label" for="communitycompostingmodal">
+                                                                        Community Composting
+                                                                    </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="beachcleanup" id="beachcleanupmodal">
+                                                                    <label class="form-check-label" for="beachcleanupmodal">
+                                                                        Beach Clean Up
+                                                                    </label>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="accordion-item">
+                                                            <h2 class="accordion-header">
+                                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                                <strong>LOCATIONS</strong>
+                                                            </button>
+                                                            </h2>
+                                                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                                            <div class="accordion-body">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="Yishun" id="Yishunmodal">
+                                                                    <label class="form-check-label" for="Yishunmodal">
+                                                                        Yishun
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="Sembawang" id="Sembawangmodal">
+                                                                    <label class="form-check-label" for="Sembawangmodal">
+                                                                        Sembawang
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="Angmokio" id="Angmokiomodal">
+                                                                    <label class="form-check-label" for="Angmokiomodal">
+                                                                        Ang Mo Kio
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header">
+                                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                            <strong>OPENINGS</strong>
+                                                        </button>
+                                                        </h2>
+                                                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" value="lessthan10" id="lessthan10modal">
+                                                                <label class="form-check-label" for="lessthan10modal">
+                                                                    1-10
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" value="lessthan20" id="lessthan20modal">
+                                                                <label class="form-check-label" for="lessthan20modal">
+                                                                    11-20
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" value="lessthan30" id="lessthan30modal">
+                                                                <label class="form-check-label" for="lessthan30modal">
+                                                                    21-30
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" value="above30" id="above30modal">
+                                                                <label class="form-check-label" for="above30modal">
+                                                                    Above 30
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header">
+                                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                                            <strong>SUITABILITY</strong>
+                                                        </button>
+                                                        </h2>
+                                                        <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" value="firsttimers" id="firsttimersmodal" :value="selectedSuitability" @change="filterEvents">
+                                                                <label class="form-check-label" for="firsttimersmodal">
+                                                                    First Timers
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" value="seniors" id="seniorsmodal" :value="selectedSuitability" @change="filterEvents">
+                                                                <label class="form-check-label" for="seniorsmodal">
+                                                                    Seniors
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" value="all" id="allmodal" :value="selectedSuitability" @change="filterEvents">
+                                                                <label class="form-check-label" for="allmodal">
+                                                                    Open to all
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" value="family" id="familymodal"  :value="selectedSuitability" @change="filterEvents">
+                                                                <label class="form-check-label" for="familymodal">
+                                                                    Family Friendly
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" value="organisation" id="organisationmodal" :value="selectedSuitability" @change="filterEvents">
+                                                                <label class="form-check-label" for="organisationmodal">
+                                                                    Organisations or Group
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                    <strong>TYPE OF EVENT</strong>
-                                                </button>
-                                                </h2>
-                                                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="allevent" id="allevent">
-                                                        <label class="form-check-label" for="allevent">
-                                                            All Events
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="virtual" id="virtual">
-                                                        <label class="form-check-label" for="virtual">
-                                                            Virtual
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="physical" id="physical">
-                                                        <label class="form-check-label" for="physical">
-                                                            Physical
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                </div>
-                                            </div>
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                    <strong>OPENINGS</strong>
-                                                </button>
-                                                </h2>
-                                                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="lessthan10" id="lessthan10">
-                                                        <label class="form-check-label" for="lessthan10">
-                                                            1-10
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="lessthan20" id="lessthan20">
-                                                        <label class="form-check-label" for="lessthan20">
-                                                            11-20
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="lessthan30" id="lessthan30">
-                                                        <label class="form-check-label" for="lessthan30">
-                                                            21-30
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="above30" id="above30">
-                                                        <label class="form-check-label" for="above30">
-                                                            Above 30
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                </div>
-                                            </div>
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                                    <strong>SUITABILITY</strong>
-                                                </button>
-                                                </h2>
-                                                <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="firsttimers" id="firsttimers">
-                                                        <label class="form-check-label" for="firsttimers">
-                                                            First Timers
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="seniors" id="seniors">
-                                                        <label class="form-check-label" for="seniors">
-                                                            Seniors
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="all" id="all">
-                                                        <label class="form-check-label" for="all">
-                                                            Open to all
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="family" id="family">
-                                                        <label class="form-check-label" for="family">
-                                                            Family Friendly
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="organisation" id="organisation">
-                                                        <label class="form-check-label" for="organisation">
-                                                            Organisations or Group
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         </div>
                                     </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- Filtering plus event cards start -->
                             <div class="col-lg-9 col-sm-12">
                                 <div class="row">
-                                    <!-- <div class="col-lg-4 col-md-6 pb-2 text-center">
-                                        <div class="card">
-                                            <img src="https://learn.uvm.edu/foodsystemsblog/wordpress/wp-content/uploads/comcrop_2.jpg" class="card-img-top" alt="...">
-                                            <div class="card-body">
-                                                <h4 class="card-title">Urban Farming</h4>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <a href="/events" class="btn" style="color: #69D8CD; font-weight: bold;">LEARN MORE</a>
-                                            </div>
-                                        </div>
-                                    </div> -->
-
-                                    <!-- <div class="col-lg-4 col-md-6 pb-2 text-center">
-                                        <div class="card">
-                                            <img src="https://futr.sg/wp-content/uploads/2022/04/futr-beach-cleanup-session-4-1024x684.jpg" class="card-img-top" alt="...">
-                                            <div class="card-body">
-                                                <h4 class="card-title">Beach Clean Up</h4>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <a href="/events" class="btn" style="color: #69D8CD; font-weight: bold;">LEARN MORE</a>
-                                            </div>
-                                        </div>
-                                    </div> -->
-
-                                    <!-- <div class="col-lg-4 col-md-6 pb-2 text-center">
-                                        <div class="card">
-                                            <img src="https://patron.groundupinitiative.org/wp-content/uploads/2020/11/hero-image.jpg" class="card-img-top" alt="...">
-                                            <div class="card-body">
-                                                <h4 class="card-title">Tree Planting</h4>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <a href="/events" class="btn" style="color: #69D8CD; font-weight: bold;">LEARN MORE</a>
-                                            </div>
-                                        </div>
-                                    </div> -->
-                                    
-                                    <div class="col-lg-4 col-md-6 pb-2" v-for="(event, eventId) in eventDetails" :key="eventId">
+                                    <div class="col-lg-4 col-md-6 pb-2" v-for="(event, eventId) in filteredEventDetails" :key="eventId">
                                         <div class="card">
                                         <img :src="event.imageURL" class="card-img-top" alt="Event Image">
                                         <div class="card-body">
@@ -402,7 +406,7 @@
                                             <img src="https://cdn-icons-png.flaticon.com/512/109/109613.png" style="width:40px; height: auto; margin: 15px" alt="">
                                             <p class="card-text" style="display: inline; font-size: large; ">{{ event.startTime }} to {{ event.endTime }}</p>
                                             <img src="https://media.istockphoto.com/id/1193451471/vector/map-pin-vector-glyph-icon.jpg?s=612x612&w=0&k=20&c=wuWVeHuthNAXzjOO5_VY9SUOd-6cxwpVH8VVfh6Y7Lc=" style="width:70px; height: auto;" alt="">
-                                            <p class="card-text" style="display: inline; font-size: large;">{{ event.location }}</p>
+                                            <p class="card-text" style="display: inline; font-size: large;">{{ event.location.address }}</p>
                                             <img src="https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg" style="width:70px; height: auto;" alt="">
                                             <p class="card-text" style="display: inline; font-size: large;">{{ event.suitability }}</p>
                                             <a href="" style="display: block; text-align: center; text-decoration: none;color: #69D8CD; font-size: larger; font-weight: bold;">LEARN MORE</a>
@@ -411,8 +415,8 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Filtering plus event cards end -->
                         </div>
-                        <!-- Filtering plus event cards end -->
                     </div>
                 </body>
             </html>
@@ -557,6 +561,11 @@
             month: new Date().getMonth(),
             day: new Date().getDay(),
             eventDetails: {},
+            selectedCategory: null,
+            selectedLocation: null,
+            selectedOpenings: [],
+            selectedSuitability: [],
+            filteredEventDetails: [],
             };
         },
         mounted() {
@@ -567,7 +576,6 @@
                 try {
                     const eventCollectionRef = collection(firebase_firestore, "events");
                     const eventSnapshot = await getDocs(eventCollectionRef);
-                    const eventDetails = {};
 
                     const storage = getStorage(); // Initialize Firebase Storage
 
@@ -586,13 +594,28 @@
                         }
 
                         this.eventDetails[doc.id] = eventData;
+                        await this.filterEvents()
                     });
 
-                    console.log(this.eventDetails);
+                    console.log("ED:", this.eventDetails);
+
                 } catch (error) {
                     console.error("Error fetching events:", error.message);
                     // Handle error or provide user feedback as needed
                 }
+            },
+            filterEvents() {
+                console.log("S:", this.selectedSuitability)
+
+                this.filteredEventDetails = Object.values(this.eventDetails).filter((event, index) => {
+                    console.log(index, event)
+                    const suitabilityMatch = this.selectedSuitability.length === 0 || this.selectedSuitability.some(s => this.eventDetails.suitability.includes(s));
+                    console.log(suitabilityMatch)
+                    return suitabilityMatch;
+                    
+                })
+
+                
             },
             manipulate() {
                 // Set currentDate to the formatted current month and year
@@ -664,6 +687,7 @@
         },
         created() {
             this.manipulate();
+
         },
 
     };
