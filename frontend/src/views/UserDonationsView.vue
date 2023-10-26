@@ -30,34 +30,68 @@
         <img class="profile-photo" src="/ran-profile-photo.png" alt="">
     </nav>
    
+    <!-- modal -->
+    <div v-for="org in orgs" class="modal fade" id="exampleModalCenteredScrollable" tabindex="-1" aria-labelledby="exampleModalCenteredScrollableTitle" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalCenteredScrollableTitle">{{ org.orgName }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img class="modal-picture" src="../assets/volunteer-orgs/orgA.jpg" alt="">
+                    <p>{{ org.desc }}</p>
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. A, atque odio facilis aliquam officia doloribus sint blanditiis quasi animi modi, nostrum perspiciatis mollitia fuga ducimus. Velit optio rem pariatur rerum.</p>
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. A, atque odio facilis aliquam officia doloribus sint blanditiis quasi animi modi, nostrum perspiciatis mollitia fuga ducimus. Velit optio rem pariatur rerum.</p>
+                    <br><br>
+                    <h4 class="donate-text">Choose an amount to donate:</h4>
+                    <div class="grid-container donation-btn-container">
+                        <Donate2 class="donate-btn"/>
+                        <Donate5 class="donate-btn"/>
+                        <Donate10 class="donate-btn"/>
+                        <Donate50 class="donate-btn"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="content">
         <!-- volunteer organisations near you -->
         <div class="row">
-            <h3>Volunteer Organisations Near You</h3>
+            <h3>Popular Volunteer Organisations</h3>
         </div>
         
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
             <!-- card 1 -->
-            <div v-for="org in orgs" class="col">
+            <div v-for="org in orgs" class="col card-container">
                 <div class="card h-100">
                     <!-- idk how to make the src take the pathname from json -->
                 <img src="" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title"> {{ org.orgName }} </h5>
                     <p class="card-text"> {{ org.desc }} </p>
-                    
+                    <button type="button" class="btn btn-primary modal-button" data-bs-toggle="modal" data-bs-target="#exampleModalCenteredScrollable">
+                        Learn More !
+                    </button>
                 </div>
                 </div>
             </div>
         </div>
 
-        <!-- popular volunteer organisations -->
-        <div class="row"></div>
+        
     </div>
 </template>
 
 <script>
 import orgs from "../volunteerOrgs.json"
+import Donate2 from "../components/Donate2.vue"
+import Donate5 from "../components/Donate5.vue"
+import Donate10 from "../components/Donate10.vue"
+import Donate50 from "../components/Donate50.vue"
 
 export default {
     data() {
@@ -66,7 +100,10 @@ export default {
         }
     },
     components: {
-
+        Donate2,
+        Donate5,
+        Donate10,
+        Donate50,
     },
     methods: {
         
@@ -76,6 +113,52 @@ export default {
 </script>
 
 <style>
+/* modal */
+.modal-body {
+    display: grid;
+    justify-content: center;
+}
+.modal-picture {
+    margin-left: auto;
+    margin-right: auto;
+}
+.modal-title {
+    width: 100%;
+    text-align: center;
+    padding-left: 1.5rem;
+}
+.modal-body > p {
+    margin-top: 2rem;
+}
+.donate-text {
+    text-decoration: underline;
+    text-align: center;
+}
+.donation-btn-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    margin-top: 1rem;
+    justify-content: space-evenly;
+}
 
+/* card */
+.card-title, .card-text {
+    overflow: hidden;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+            line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.card-text {
+    height: 4.5rem;
+}
+.card-body {
+    display: grid;
+}
+
+.btn-primary {
+    height: 3rem;
+}
 
 </style>

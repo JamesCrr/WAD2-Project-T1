@@ -1,10 +1,3 @@
-<!-- DON'T USE THIS PAGE, IT'S A TEST PAGE ONLY -->
-<!-- MEOWWWWWWWWW -->
-<!-- ╱|、
-    (˚ˎ 。7  
-    |、˜〵          
-    じしˍ,)ノ -->
-
 <template>
     <!-- stripe-checkout -->
     <div>
@@ -17,7 +10,7 @@
       :cancel-url="cancelURL"
       @loading="v => loading = v"
     />
-    <button @click="submit">Pay now!</button>
+    <button class="btn btn-primary" @click="submit">$2</button>
   </div>
 </template>
 
@@ -51,3 +44,7 @@ export default {
 
 };
 </script>
+
+<style>
+
+</style>

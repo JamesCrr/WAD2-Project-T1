@@ -119,7 +119,7 @@ nav li .item {
     }
     .profile-photo {
         width: 3rem;
-        margin-top: 40rem;
+        margin-top: 47rem;
         margin-left: 2rem;
     }
     #navbarSupportedContent {
@@ -145,7 +145,7 @@ nav li .item {
     .content {
         position: absolute;
         max-width: 76%;
-        left: 17rem;
+        left: 16rem;
         top: 2rem;
     }
 }

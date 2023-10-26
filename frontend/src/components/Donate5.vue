@@ -1,10 +1,3 @@
-<!-- DON'T USE THIS PAGE, IT'S A TEST PAGE ONLY -->
-<!-- MEOWWWWWWWWW -->
-<!-- ╱|、
-    (˚ˎ 。7  
-    |、˜〵          
-    じしˍ,)ノ -->
-
 <template>
     <!-- stripe-checkout -->
     <div>
@@ -17,7 +10,7 @@
       :cancel-url="cancelURL"
       @loading="v => loading = v"
     />
-    <button @click="submit">Pay now!</button>
+    <button class="btn btn-primary" @click="submit">$5</button>
   </div>
 </template>
 
@@ -31,7 +24,7 @@ export default {
             loading: false,
             lineItems: [
                 {
-                price: 'price_1O52dvBWraf69XnWH3UeV9OC', // The id of the one-time price you created in your Stripe dashboard
+                price: 'price_1O5KRPBWraf69XnWeBHNrucd', // The id of the one-time price you created in your Stripe dashboard
                 quantity: 1,
                 },
             ],
@@ -51,3 +44,7 @@ export default {
 
 };
 </script>
+
+<style>
+
+</style>
