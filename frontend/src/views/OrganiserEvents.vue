@@ -1,14 +1,16 @@
 <template>
-  <div class="container-fluid">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <OrgNavBar/>
+  <div class="content">
     <div class="row">
       <div class="col">
-        <button class="btn btn-primary">
-          <RouterLink to="/organiser/addevent">Create new Event</RouterLink>
+        <button class="btn btn-primary mt-3 ps-4">
+          <RouterLink class="link-text" to="/organiser/addevent">Create new Event <i class="bi bi-plus-circle"></i></RouterLink>
         </button>
       </div>
     </div>
-    <div class="row">
-      <div class="col-3" v-for="event in events" :key="event.id">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+      <div class="col" v-for="event in events" :key="event.id">
         <div class="card">
           <img
             :src="event.downloadedURL"
@@ -19,9 +21,9 @@
           <div class="card-body d-flex flex-column">
             <h5 class="card-title">{{ event.title }}</h5>
             <p class="card-text">{{ event.desc }}</p>
-            <div class="">
+            <div class="grid-container">
               <button type="button" class="btn btn-primary">
-                <router-link v-bind:to="'/organiser/editevent/' + event.id" :key="event.id">
+                <router-link class="link-text" v-bind:to="'/organiser/editevent/' + event.id" :key="event.id">
                   Edit
                 </router-link>
               </button>
@@ -33,6 +35,8 @@
         </div>
       </div>
     </div>
+    <!-- <div class="container-fluid">
+    </div> -->
   </div>
 </template>
 
@@ -41,12 +45,16 @@ import { RouterLink } from "vue-router"
 import { collection, doc, getDocs, deleteDoc } from "firebase/firestore"
 import { deleteObject, ref, getDownloadURL } from "firebase/storage"
 import { firebase_firestore, firebase_storage } from "../firebase"
+import OrgNavBar from "../components/OrgNavBar.vue"
 
 export default {
   data() {
     return {
       events: [],
     }
+  },
+  components: {
+    OrgNavBar,
   },
   created() {
     // Call the fetchEventData method when the component is created
@@ -104,3 +112,40 @@ export default {
   },
 }
 </script>
+
+<style>
+/* content */
+
+.content {
+    position: absolute;
+    width: 100%;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    top: 5rem;
+}
+
+@media (min-width: 992px) {
+    .content {
+        position: absolute;
+        max-width: 76%;
+        left: 16rem;
+        top: 2rem;
+    }
+}
+
+.link-text {
+  text-decoration: none;
+  color: white;
+}
+.bi-plus-circle {
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  margin-right: 0.25rem;
+}
+.grid-container {
+  display: grid;
+  justify-content: space-evenly;
+  grid-template-columns: 45% 45%;
+  gap: 1rem;
+}
+</style>
