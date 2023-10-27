@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
+    <div class="row mt-0">
       <div
         class="d-none d-sm-flex col-5 bg-primary min-vh-100 justify-content-center align-items-center"
       >
