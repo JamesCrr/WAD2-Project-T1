@@ -17,6 +17,7 @@ import UserDonationsView from "../views/UserDonationsView.vue"
 import Donate from "../views/Donate.vue"
 import SuccessPage from "../views/SuccessPage.vue"
 import ErrorPage from "../views/ErrorPage.vue"
+import MyEvents from "../views/MyEvents.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +42,11 @@ const router = createRouter({
       path: "/volunteer",
       name: "volunteer",
       component: volunteer,
+    },
+    {
+      path: "/myevents",
+      name: "myevents",
+      component: MyEvents,
     },
     // {
     //   path: "/events",

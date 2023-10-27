@@ -45,7 +45,7 @@
                       <router-link to="/volunteer" class="item"><i class="bi bi-people"></i> Volunteer</router-link>
                   </li>
                   <li class="nav-item">
-                      <router-link to="" class="item"><i class="bi bi-calendar3 me-1"></i> My Events</router-link>
+                      <router-link to="/myevents" class="item"><i class="bi bi-calendar3 me-1"></i> My Events</router-link>
                   </li>
                   <li class="nav-item">
                       <a style="cursor: pointer;" class="item" @click="logOut"><i class="bi bi-box-arrow-left me-1"></i> Logout</a>
