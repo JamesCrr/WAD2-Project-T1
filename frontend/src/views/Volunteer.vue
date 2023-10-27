@@ -6,9 +6,6 @@
     <div class="row p-3">
       <div class="col big-cal-container">
         <h3 class="calendar-title">Select A Date</h3>
-        <!-- <form>
-                    <input type="datetime-local" class="form-control">
-                </form> -->
         <div class="calendar-container">
           <header class="calendar-header">
             <p class="calendar-current-date">{{ currentDate }}</p>
@@ -37,7 +34,7 @@
                 v-on:click="selectDate(day)"
                 v-for="(day, index) in calendarDays"
                 :key="index"
-                :class="dayClass(day)"
+                :class="dayClass(day)" 
               >
                 {{ day }}
               </li>
@@ -51,7 +48,7 @@
     <!-- Show results start -->
     <div class="row">
       <div class="col" style="text-align: center">
-        <h3>Show event on <span>14 March 2023</span></h3>
+        <h3>Show event on <span>{{ selectedDate }}</span></h3>
       </div>
     </div>
     <!-- Show results end -->
@@ -685,7 +682,7 @@
             v-for="(event, eventId) in filteredEventDetails"
             :key="eventId"
           >
-            <div class="card">
+            <!-- <div class="card">
               <img :src="event.imageURL" class="card-img-top" alt="Event Image" />
               <div class="card-body">
                 <h4 class="card-title" style="text-align: center">{{ event.title }}</h4>
@@ -725,8 +722,30 @@
                   "
                   >LEARN MORE</a
                 >
+                
               </div>
-            </div>
+            </div> -->
+            <div class="card h-100">
+                    <!-- idk how to make the src take the pathname from json -->
+                <img :src="event.imageURL" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h4 class="card-title"> {{ event.title }} </h4>
+                    <p class="card-text" style="display: inline; height: 40px; padding-top: 10px;"> 
+                      <BIconClock class="fs-5" /> {{ event.startTime }} to {{ event.endTime }} 
+                    </p>
+                    <p class="card-text" style="display: inline;"> 
+                      <BIconGeoAltFill class="fs-5" /> {{ event.location.address }} 
+                    </p>
+                    <p class="card-text" style="display: inline;"> 
+                      <BIconPersonFill class="fs-5" /> {{ event.suitability }}
+                    </p>
+                      <router-link :to="'/events/' + Object.keys(this.eventDetails)[eventId]" style="text-align: center;">
+                        <button class="btn btn-primary">
+                          Learn More
+                        </button>
+                      </router-link>
+                </div>
+                </div>
           </div>
         </div>
       </div>
@@ -736,6 +755,11 @@
 </template>
 
 <script>
+import {
+  BIconClock,
+  BIconPersonFill,
+  BIconGeoAltFill,
+} from "bootstrap-icons-vue"
 import { collection, getDocs } from "firebase/firestore"
 import { firebase_firestore, firebase_storage } from "../firebase"
 import { ref as storageRef, getDownloadURL } from "firebase/storage"
@@ -748,6 +772,7 @@ export default {
       year: new Date().getFullYear(),
       month: new Date().getMonth(),
       day: new Date().getDay(),
+      selectedDate: "",
 
       doneloading: false,
       eventDetails: {},
@@ -756,6 +781,7 @@ export default {
       selectedOpenings: [],
       selectedSuitability: [],
       filteredEventDetails: [],
+      //dateEventDetails:[],
     }
   },
   components: {
@@ -786,8 +812,8 @@ export default {
 
                 reject() // when error
               }
-
               this.eventDetails[doc.id] = eventData
+              // console.log(Object.keys(this.eventDetails))
               resolve() // when successful
             }),
           )
@@ -833,8 +859,10 @@ export default {
           this.selectedSuitability.length === 0 ||
           this.selectedSuitability.some((s) => event.suitability.toLowerCase().includes(s))
 
+        // const dateMatch = !this.dateEventDetails || event.date === this.dateEventDetails;
+        // console.log(this.selectedSuitability)
         // console.log(suitabilityMatch, categoryMatch, locationMatch, openingsMatch)
-        return suitabilityMatch || categoryMatch || locationMatch || openingsMatch
+        return suitabilityMatch || categoryMatch || locationMatch || openingsMatch //|| dateMatch
       })
     },
     manipulate() {
@@ -853,7 +881,7 @@ export default {
         "November",
         "December",
       ]
-      this.currentDate = `${months[this.month]} ${this.year}`
+      this.currentDate = `${this.day} ${months[this.month]} ${this.year}`
 
       // Get the total number of days in the current month
       const daysInMonth = new Date(this.year, this.month + 1, 0).getDate()
@@ -907,9 +935,27 @@ export default {
     },
 
     selectDate(newDay) {
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ]
       this.day = newDay
-
+      this.selectedDate = `${this.day} ${months[this.month]} ${this.year}`
+      this.dateEventDetails = `${this.year}-${this.month+1}-${this.day}`
       console.log(this.day, this.month + 1, this.year)
+
+      //create another filter to filter this.filteredEventDetails events with the date
+      //this.finalobjects = Object.values(this.filteredEventDetails).filter((event, index) => {const dateMatch = !this.dateEventDetails || event.date === this.dateEventDetails; return dateMatch}
     },
   },
   created() {
@@ -1063,12 +1109,12 @@ header .calendar-current-date {
   transform: translate(-50%, -50%);
 }
 
-.calendar-dates li.active::before {
+/* .calendar-dates li.active::before {
   background: #69d8cd;
-}
+} */
 
 .calendar-dates li:not(.active):hover::before {
-  background: #e4e1e1;
+  background: #69d8cd;
 }
 
 .card {
@@ -1078,5 +1124,9 @@ header .calendar-current-date {
 .card-img-top {
   object-fit: cover; /* Ensure the image covers the entire card without stretching */
   height: 200px; /* Set a fixed height for the image */
+}
+
+.card-text{
+  height: 50px;
 }
 </style>

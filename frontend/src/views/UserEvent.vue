@@ -132,7 +132,7 @@
           <div class="col-2">
             <BIconTelephoneFill />
           </div>
-          <div class="col">{{ organiserDetails.contactnumber }}</div>
+          <div class="col">{{ organiserDetails.contactNumber }}</div>
         </div>
         <div class="row">
           <div class="col-2">
