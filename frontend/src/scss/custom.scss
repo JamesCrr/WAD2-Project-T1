@@ -73,3 +73,7 @@ $font-sizes: (
 // .btn-primary {
 //   @include button-variant($ourPrimary, $ourPrimary, $color: $btn-color);
 // }
+
+.btn, .btn:hover {
+  color: white;
+}
