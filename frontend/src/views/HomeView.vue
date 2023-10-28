@@ -1,23 +1,27 @@
 <template>
-
-  <NavBar/>
+  <NavBar />
 
   <!-- content -->
   <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <router-link v-for="event of events" v-bind:to="'/events/' + event.id" :key="event.id">
-            {{ event.id }}
-          </router-link>
-        </div>
+    <div class="container-fluid">
+      <div class="row">
+        <router-link v-for="event of events" v-bind:to="'/events/' + event.id" :key="event.id">
+          {{ event.id }}
+        </router-link>
+      </div>
     </div>
     <div class="dashboard-content p-3">
-        <h2 class="fs-5"> Dashboard</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, totam? Sequi alias eveniet ut quas
-            ullam delectus et quasi incidunt rem deserunt asperiores reiciendis assumenda doloremque provident,
-            dolores aspernatur neque.</p>
+      <h2 class="fs-5">Dashboard</h2>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, totam? Sequi alias eveniet
+        ut quas ullam delectus et quasi incidunt rem deserunt asperiores reiciendis assumenda
+        doloremque provident, dolores aspernatur neque.
+      </p>
     </div>
   </div>
+  <!-- <div style="float: right">
+    <p v-for="index in 100" :key="index">{{ index }}</p>
+  </div> -->
 </template>
 
 <script>
@@ -72,24 +76,23 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
 /* content */
 
 .content {
-    position: absolute;
-    width: 100%;
-    padding-left: 3rem;
-    padding-right: 3rem;
-    top: 5rem;
+  position: absolute;
+  width: 100%;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  top: 5rem;
 }
 
 @media (min-width: 992px) {
-    .content {
-        position: absolute;
-        max-width: 76%;
-        left: 16rem;
-        top: 2rem;
-    }
+  .content {
+    position: absolute;
+    max-width: 76%;
+    left: 16rem;
+    top: 2rem;
+  }
 }
 </style>

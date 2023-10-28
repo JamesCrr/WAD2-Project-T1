@@ -34,32 +34,46 @@
     </div> -->
     <!-- Navbar end -->
 
-    <div class="modal fade" id="exampleModalCenteredScrollable" tabindex="-1" aria-labelledby="exampleModalCenteredScrollableTitle" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalCenteredScrollableTitle">{{ organiserDetails.username }}</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- <img class="modal-picture" src="../assets/volunteer-orgs/orgA.jpg" alt="">
+    <div
+      class="modal fade"
+      id="exampleModalCenteredScrollable"
+      tabindex="-1"
+      aria-labelledby="exampleModalCenteredScrollableTitle"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalCenteredScrollableTitle">
+              {{ organiserDetails.username }}
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <!-- <img class="modal-picture" src="../assets/volunteer-orgs/orgA.jpg" alt="">
                     <p>{{ eventDetails.title }}</p>
                     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. A, atque odio facilis aliquam officia doloribus sint blanditiis quasi animi modi, nostrum perspiciatis mollitia fuga ducimus. Velit optio rem pariatur rerum.</p>
                     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. A, atque odio facilis aliquam officia doloribus sint blanditiis quasi animi modi, nostrum perspiciatis mollitia fuga ducimus. Velit optio rem pariatur rerum.</p>
                     <br><br> -->
-                    <h4 class="donate-text">Choose an amount to donate:</h4>
-                    <div class="grid-container donation-btn-container">
-                        <Donate2 class="donate-btn"/>
-                        <Donate5 class="donate-btn"/>
-                        <Donate10 class="donate-btn"/>
-                        <Donate50 class="donate-btn"/>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
+            <h4 class="donate-text">Choose an amount to donate:</h4>
+            <div class="grid-container donation-btn-container">
+              <Donate2 class="donate-btn" />
+              <Donate5 class="donate-btn" />
+              <Donate10 class="donate-btn" />
+              <Donate50 class="donate-btn" />
             </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Events description start -->
@@ -110,7 +124,12 @@
         </div>
         <div class="d-grid gap-2">
           <button type="button" class="btn btn-primary">Volunteer Now!</button>
-          <button type="button" class="btn btn-warning modal-button" data-bs-toggle="modal" data-bs-target="#exampleModalCenteredScrollable">
+          <button
+            type="button"
+            class="btn btn-warning modal-button"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModalCenteredScrollable"
+          >
             Donate!
           </button>
         </div>
@@ -132,13 +151,18 @@
           <div class="col-2">
             <BIconTelephoneFill />
           </div>
-          <div class="col">{{ organiserDetails.contactnumber }}</div>
+          <div class="col">{{ organiserDetails.contactNumber }}</div>
         </div>
         <div class="row">
           <div class="col-2">
             <BIconEnvelopeFill />
           </div>
           <div class="col">{{ organiserDetails.email }}</div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-primary">Chat with Us</button>
+          </div>
         </div>
       </div>
     </div>
@@ -166,6 +190,8 @@
         </GMapMap>
       </div>
     </div>
+
+    <MainChatWindow />
   </div>
 </template>
 
@@ -185,6 +211,7 @@ import Donate2 from "../components/Donate2.vue"
 import Donate5 from "../components/Donate5.vue"
 import Donate10 from "../components/Donate10.vue"
 import Donate50 from "../components/Donate50.vue"
+import MainChatWindow from "../components/chat/MainChatWindow.vue"
 
 export default {
   data() {
@@ -292,6 +319,7 @@ export default {
     Donate5,
     Donate10,
     Donate50,
+    MainChatWindow,
   },
 
   created() {

@@ -1,11 +1,16 @@
 <template>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-  <NavBar/>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+  />
+  <NavBar />
   <div class="content">
     <div class="row">
       <div class="col">
         <button class="btn btn-primary mt-3 ps-4">
-          <RouterLink class="link-text" to="/organiser/addevent">Create new Event <i class="bi bi-plus-circle"></i></RouterLink>
+          <RouterLink class="link-text" to="/organiser/addevent"
+            >Create new Event <i class="bi bi-plus-circle"></i
+          ></RouterLink>
         </button>
       </div>
     </div>
@@ -23,7 +28,11 @@
             <p class="card-text">{{ event.desc }}</p>
             <div class="grid-container">
               <button type="button" class="btn btn-primary">
-                <router-link class="link-text" v-bind:to="'/organiser/editevent/' + event.id" :key="event.id">
+                <router-link
+                  class="link-text"
+                  v-bind:to="'/organiser/editevent/' + event.id"
+                  :key="event.id"
+                >
                   Edit
                 </router-link>
               </button>
@@ -113,24 +122,24 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 /* content */
 
 .content {
-    position: absolute;
-    width: 100%;
-    padding-left: 3rem;
-    padding-right: 3rem;
-    top: 5rem;
+  position: absolute;
+  width: 100%;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  top: 5rem;
 }
 
 @media (min-width: 992px) {
-    .content {
-        position: absolute;
-        max-width: 76%;
-        left: 16rem;
-        top: 2rem;
-    }
+  .content {
+    position: absolute;
+    max-width: 76%;
+    left: 16rem;
+    top: 2rem;
+  }
 }
 
 .link-text {
