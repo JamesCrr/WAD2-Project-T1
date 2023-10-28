@@ -195,8 +195,8 @@ export default {
           accountDetails,
         })
         // update login cookies never expire , only -1, other negative Numbers are invalid
-        this.$cookies.set("wadt1_email", this.email, -1)
-        this.$cookies.set("wadt1_password", this.password, -1)
+        // this.$cookies.set("wadt1_email", this.email, -1)
+        // this.$cookies.set("wadt1_password", this.password, -1)
         // By right need to hash before setting as cookie, but we no time :(
 
         // Fetch all the chats related to this account

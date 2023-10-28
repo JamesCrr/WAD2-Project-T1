@@ -1,35 +1,36 @@
 <template>
-    <div class="card success-card">
-        <!-- tick animation -->
-        <div class="swal-icon swal-icon--success">
-            <span class="swal-icon--success__line swal-icon--success__line--long"></span>
-            <span class="swal-icon--success__line swal-icon--success__line--tip"></span>
-            <div class="swal-icon--success__ring"></div>
-            <div class="swal-icon--success__hide-corners"></div>
-        </div>
-        <!-- card body -->
-        <div class="card-body">
-            <h5 class="card-title">Donation received!</h5>
-            <p class="card-text">Thank you for your donation! A little goes a long way :)</p>
-            <button @click="$router.go(-3)" class="btn btn-primary">Return to Event Page</button>
-        </div>
+  <div class="card success-card">
+    <!-- tick animation -->
+    <div class="swal-icon swal-icon--success">
+      <span class="swal-icon--success__line swal-icon--success__line--long"></span>
+      <span class="swal-icon--success__line swal-icon--success__line--tip"></span>
+      <div class="swal-icon--success__ring"></div>
+      <div class="swal-icon--success__hide-corners"></div>
     </div>
+    <!-- card body -->
+    <div class="card-body">
+      <h5 class="card-title">Donation received!</h5>
+      <p class="card-text">Thank you for your donation! A little goes a long way :)</p>
+      <button @click="$router.go(-3)" class="btn btn-primary">Return to Event Page</button>
+    </div>
+  </div>
 </template>
-<style>
+<style scoped>
 .success-card {
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-    top: 10rem;
-    width: 25rem;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  top: 10rem;
+  width: 25rem;
 }
 
 /* success animation */
 .swal-icon--success {
-  border-color: #a5dc86
+  border-color: #a5dc86;
 }
 
-.swal-icon--success:after, .swal-icon--success:before {
+.swal-icon--success:after,
+.swal-icon--success:before {
   content: "";
   border-radius: 50%;
   position: absolute;
@@ -37,7 +38,7 @@
   height: 120px;
   background: #fff;
   -webkit-transform: rotate(45deg);
-  transform: rotate(45deg)
+  transform: rotate(45deg);
 }
 
 .swal-icon--success:before {
@@ -47,7 +48,7 @@
   -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
   -webkit-transform-origin: 60px 60px;
-  transform-origin: 60px 60px
+  transform-origin: 60px 60px;
 }
 
 .swal-icon--success:after {
@@ -59,19 +60,19 @@
   -webkit-transform-origin: 0 60px;
   transform-origin: 0 60px;
   -webkit-animation: rotatePlaceholder 4.25s ease-in;
-  animation: rotatePlaceholder 4.25s ease-in
+  animation: rotatePlaceholder 4.25s ease-in;
 }
 
 .swal-icon--success__ring {
   width: 80px;
   height: 80px;
-  border: 4px solid hsla(98, 55%, 69%, .2);
+  border: 4px solid hsla(98, 55%, 69%, 0.2);
   border-radius: 50%;
   box-sizing: content-box;
   position: absolute;
   left: -4px;
   top: -4px;
-  z-index: 2
+  z-index: 2;
 }
 
 .swal-icon--success__hide-corners {
@@ -84,7 +85,7 @@
   top: 8px;
   z-index: 1;
   -webkit-transform: rotate(-45deg);
-  transform: rotate(-45deg)
+  transform: rotate(-45deg);
 }
 
 .swal-icon--success__line {
@@ -93,7 +94,7 @@
   display: block;
   border-radius: 2px;
   position: absolute;
-  z-index: 2
+  z-index: 2;
 }
 
 .swal-icon--success__line--tip {
@@ -102,8 +103,8 @@
   top: 46px;
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
-  -webkit-animation: animateSuccessTip .75s;
-  animation: animateSuccessTip .75s
+  -webkit-animation: animateSuccessTip 0.75s;
+  animation: animateSuccessTip 0.75s;
 }
 
 .swal-icon--success__line--long {
@@ -112,8 +113,8 @@
   top: 38px;
   -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
-  -webkit-animation: animateSuccessLong .75s;
-  animation: animateSuccessLong .75s
+  -webkit-animation: animateSuccessLong 0.75s;
+  animation: animateSuccessLong 0.75s;
 }
 
 .swal-icon {
@@ -125,52 +126,52 @@
   padding: 0;
   position: relative;
   box-sizing: content-box;
-  margin: 20px auto
+  margin: 20px auto;
 }
 
 .swal-icon:first-child {
-  margin-top: 32px
+  margin-top: 32px;
 }
 
 @keyframes animateSuccessLong {
   0% {
     width: 0;
     right: 46px;
-    top: 54px
+    top: 54px;
   }
   65% {
     width: 0;
     right: 46px;
-    top: 54px
+    top: 54px;
   }
   84% {
     width: 55px;
     right: 0;
-    top: 35px
+    top: 35px;
   }
   to {
     width: 47px;
     right: 8px;
-    top: 38px
+    top: 38px;
   }
 }
 
 @keyframes rotatePlaceholder {
   0% {
     -webkit-transform: rotate(-45deg);
-    transform: rotate(-45deg)
+    transform: rotate(-45deg);
   }
   5% {
     -webkit-transform: rotate(-45deg);
-    transform: rotate(-45deg)
+    transform: rotate(-45deg);
   }
   12% {
     -webkit-transform: rotate(-405deg);
-    transform: rotate(-405deg)
+    transform: rotate(-405deg);
   }
   to {
     -webkit-transform: rotate(-405deg);
-    transform: rotate(-405deg)
+    transform: rotate(-405deg);
   }
 }
 
@@ -178,27 +179,27 @@
   0% {
     width: 0;
     left: 1px;
-    top: 19px
+    top: 19px;
   }
   54% {
     width: 0;
     left: 1px;
-    top: 19px
+    top: 19px;
   }
   70% {
     width: 50px;
     left: -8px;
-    top: 37px
+    top: 37px;
   }
   84% {
     width: 17px;
     left: 21px;
-    top: 48px
+    top: 48px;
   }
   to {
     width: 25px;
     left: 14px;
-    top: 45px
+    top: 45px;
   }
 }
 
@@ -220,7 +221,7 @@
   background-size: contain;
   width: 70px;
   height: 40px;
-  margin-left: .5em;
+  margin-left: 0.5em;
   color: transparent;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid mb-5">
     <div class="row g-0 justify-content-center">
       <div class="col-11 position-absolute bg-primary h-50 z-n1 rounded"></div>
     </div>
@@ -61,6 +61,71 @@
             <div class="invalid-feedback">Please provide password with at least 6 characters.</div>
           </div>
 
+          <!-- Age & Phone Number -->
+          <div v-if="isVolunteer">
+            <div class="mb-3">
+              <div class="row">
+                <div class="col-4">
+                  <label for="age" class="form-label">Age</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="age"
+                    v-model="age"
+                    placeholder="23"
+                    style="font-size: 0.8rem"
+                    required
+                  />
+                  <div class="invalid-feedback">Please provide your age.</div>
+                </div>
+                <div class="col">
+                  <label for="contactnumber" class="form-label">Contact Number</label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="contactnumber"
+                    v-model="contactNumber"
+                    style="font-size: 0.8rem"
+                    required
+                    placeholder="12345678"
+                    pattern="[0-9]{8}"
+                  />
+                  <div class="invalid-feedback">Please provide a contact number.</div>
+                </div>
+              </div>
+            </div>
+            <!-- Education Level -->
+            <div class="mb-3">
+              <label for="password" class="form-label">Highest Education</label>
+              <select class="form-select" aria-label="Default select example" v-model="education">
+                <!-- <option disabled value="" selected>Select Here</option> -->
+                <option selected value="secondary">Secondary</option>
+                <option value="diploma">Diploma</option>
+                <option value="bachelors">Bachelors</option>
+                <option value="masters">Masters</option>
+                <option value="phd">PhD</option>
+              </select>
+              <div class="invalid-feedback">Please select a level</div>
+            </div>
+          </div>
+          <div v-else>
+            <!-- Organisation Contact Number -->
+            <div class="mb-3">
+              <label for="contactnumber" class="form-label">Contact Number</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="contactnumber"
+                v-model="contactNumber"
+                style="font-size: 0.8rem"
+                required
+                placeholder="12345678"
+                pattern="[0-9]{8}"
+              />
+              <div class="invalid-feedback">Please provide a contact number.</div>
+            </div>
+          </div>
+
           <div class="d-flex justify-content-center mt-3">
             <div class="form-check form-switch">
               <input
@@ -109,6 +174,9 @@ export default {
       email: "",
       password: "",
       username: "",
+      age: 0,
+      contactNumber: "",
+      education: "secondary",
       isVolunteer: true,
 
       formValid: true,
@@ -122,7 +190,20 @@ export default {
      * Sends Registration Reques to Firebase and if successful, redirect to home page
      */
     async handleFirebaseRegistration(event) {
-      console.log("Email:", this.email, "Password:", this.password, "Username:", this.username)
+      // console.log(
+      //   "Email:",
+      //   this.email,
+      //   "Password:",
+      //   this.password,
+      //   "Username:",
+      //   this.username,
+      //   "Age:",
+      //   this.age,
+      //   "contactNumber:",
+      //   this.contactNumber,
+      //   "education:",
+      //   this.education,
+      // )
 
       // console.log(event, this.$refs.formRef.checkValidity())
       this.formValid = this.$refs.formRef.checkValidity()
@@ -148,6 +229,9 @@ export default {
         const accountDetails = {
           email: this.email,
           username: this.username,
+          age: this.age,
+          contactNumber: this.contactNumber,
+          education: this.education,
           type: this.isVolunteer ? "volunteer" : "organisation",
           chats: [],
         }

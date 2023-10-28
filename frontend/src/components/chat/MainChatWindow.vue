@@ -1,7 +1,10 @@
 <template>
   <div class="row">
-    <div class="col-6 text-bg-primary position-fixed bottom-0 end-0" ref="chat-main-window">
-      <div class="row g-0">
+    <div
+      class="col-lg-4 col-6 text-bg-primary position-fixed bottom-0 end-0"
+      ref="chat-main-window"
+    >
+      <div class="row g-0" v-on:click="windowClosed ? animateOpenWindow() : animateCloseWindow()">
         <h4 class="col-11">Chat</h4>
         <div class="col d-flex justify-content-center align-items-center">
           <BIconXCircleFill
