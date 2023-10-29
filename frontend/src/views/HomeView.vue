@@ -1,6 +1,6 @@
 <template>
   <!-- content -->
-  <div class="container-fluid p-0">
+  <div class="container-fluid p-0" style="overflow-x: hidden;">
     <div class="row">
       <router-link v-for="event of events" v-bind:to="'/events/' + event.id" :key="event.id">
         {{ event.id }}
@@ -14,14 +14,15 @@
             Your browser does not support the video tag.
         </video>
       </div>
-      <img src="https://static.wixstatic.com/media/3ecde9_a13d7ce172b6448396516afcfb7a2fa0~mv2.gif" alt="" style="width: 100%; height: 54px; object-fit: cover;" width="980" height="54" fetchpriority="high">
+      <div class="bg-primary" style="width: 100%; height: 5px;"><p></p></div>
+      <!-- <img src="https://static.wixstatic.com/media/3ecde9_a13d7ce172b6448396516afcfb7a2fa0~mv2.gif" alt="" style="width: 100%; height: 54px; object-fit: cover;" width="980" height="54" fetchpriority="high"> -->
     </div>
     
-    <div class="row" style="background-color: white; margin: 0; position: relative;">
+    <div class="row m-0">
       <div class="img-div col-lg-5 col-md-5 col-sm-12">
         <img class="img-info" src="../assets/home/about-us.jpg" alt="">
       </div>
-      <div class="col-lg-7 col-md-7 col-sm-12 p-5 about-us">
+      <div class="col-lg-7 col-md-7 col-sm-12 p-5 my-auto about-us">
         <h2> About us</h2>
         <p>At EcoConnect, we are driven by a shared passion for our planet and a collective belief in the power of
           environmental action. In the face of pressing environmental challenges, we bridge the gap between local
@@ -29,11 +30,11 @@
       </div>
     </div>
 
-    <div class="row mission" style="background-color: pink; margin: 0;">
+    <div class="row bg-primary text-light m-0">
       <div class="img-div col-lg-5 col-md-5 col-sm-12 order-lg-2 order-md-2">
         <img class="img-info" src="../assets/home/mission.jpg" alt="">
       </div>
-      <div class="col-lg-7 col-md-7 col-sm-12 p-5 order-lg-1 order-md-1">
+      <div class="col-lg-7 col-md-7 col-sm-12 p-5 my-auto order-lg-1 order-md-1 mission">
         <h2>Our mission</h2>
         <p>
           Our goal is to empower local organizers and eco-conscious individuals. We provide a platform to boost their impact, 
@@ -43,11 +44,11 @@
       </div>
     </div>
 
-    <div class="row volunteer" style="background-color: white; margin: 0;">
+    <div class="row m-0">
       <div class="img-div col-lg-5 col-md-5 col-sm-12">
         <img class="img-info" src="../assets/home/join-us.jpg" alt="">
       </div>
-      <div class="col-lg-7 col-md-7 col-sm-12 p-5">
+      <div class="col-lg-7 col-md-7 col-sm-12 p-5 my-auto volunteer">
         <h2>Volunteer now</h2>
         <p>Join EcoConnect in our mission for a greener world. Let's turn passion into action and make a difference. 
           Join us today for a sustainable future.</p>
@@ -106,18 +107,48 @@ export default {
       }
     },
   },
-  // mounted() {
-  //   this.$nextTick(() => {
-  //     gsap.to(".about-us", {
-  //       left: '0%',
-  //       duration: 5,
-  //       scrollTrigger: {
-  //         trigger: ".about-us",
-  //         markers: true,
-  //       },
-  //     });
-  //   });
-  // }
+  mounted() {
+    this.$nextTick(() => {
+      gsap.from(".about-us", {
+        x: 100,
+        opacity: 0,
+        duration: 2,
+        delay: 1,
+        scrollTrigger: {
+          trigger: ".about-us",
+          start: "top bottom",
+          end: "top center",
+          markers: true, // This displays markers for testing purposes
+        },
+      });
+
+      gsap.from(".mission", {
+        x: 100,
+        opacity: 0,
+        duration: 2,
+        delay: 1,
+        scrollTrigger: {
+          trigger: ".mission",
+          start: "top bottom",
+          end: "top center",
+          markers: true, // This displays markers for testing purposes
+        },
+      });
+
+      gsap.from(".volunteer", {
+        x: 100,
+        opacity: 0,
+        duration: 2,
+        delay: 1,
+        scrollTrigger: {
+          trigger: ".volunteer",
+          start: "top bottom",
+          end: "top center",
+          markers: true, // This displays markers for testing purposes
+        },
+      });
+    });
+  }
 }
 </script>
 
@@ -137,16 +168,11 @@ export default {
 
 .img-info {
   width: 100%;
-  height: 400px;
+  height: 500px;
   object-fit: cover;
 }
 
 .img-div {
   padding: 0;
 }
-/* 
-.about-us {
-  position: absolute;
-  left: 100%;
-} */
 </style>

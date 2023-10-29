@@ -19,7 +19,7 @@
       >
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav mr-auto menuItems">
           <li class="nav-item">
             <router-link to="/volunteer" class="item"
               ><i class="bi bi-calendar3 me-1"></i> Volunteer</router-link
@@ -54,6 +54,7 @@ import { signOut } from "firebase/auth"
 import { firebase_auth } from "../firebase"
 import router from "../router"
 import { mapGetters } from "vuex"
+import { gsap } from "gsap"
 
 export default {
   data() {
@@ -71,6 +72,16 @@ export default {
       router.push("/login")
       return
     },
+  },
+  mounted() {
+    console.log("Component is mounted.");
+    const menuItems = this.$refs.menuItems
+    gsap.from(menuItems.children, {
+      opacity: 0,
+      x: -50, // Slide in from the left
+      duration: 5,
+      stagger: 0.5, // Delay between each menu item animation
+    });
   },
 }
 </script>
