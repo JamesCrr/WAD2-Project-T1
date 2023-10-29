@@ -61,11 +61,9 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex"
 import { firebase_firestore, firebase_storage } from "../firebase"
 import { collection, doc, getDocs, deleteDoc } from "firebase/firestore"
-import { deleteObject, ref, getDownloadURL } from "firebase/storage"
-import NavBar from "../components/NavBar.vue"
+import { ref, getDownloadURL } from "firebase/storage"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
@@ -75,9 +73,6 @@ export default {
     return {
       events: [],
     }
-  },
-  components: {
-    NavBar,
   },
   created() {
     this.fetchEvents()
