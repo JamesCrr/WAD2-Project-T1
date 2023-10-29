@@ -8,7 +8,7 @@
     </div>
   
     <div class="row">
-      <div class="video-wrap">
+      <div class="video-wrap d-none d-sm-block">
         <video autoplay="" loop="" muted="" class="custom-video" poster="">
             <source src="../assets/WADII.mp4" type="video/mp4">
             Your browser does not support the video tag.

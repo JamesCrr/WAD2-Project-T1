@@ -10,7 +10,20 @@
       <div class="col-sm-7 p-5">
         <div class="row g-0">
           <div class="col-12">
-            <h2 class="text-primary fw-bold mb-0">Welcome Back</h2>
+            <div class="text-container text-primary fw-bold h2 mb-0 d-flex">
+              <span class="letter">W</span>
+              <span class="letter">e</span>
+              <span class="letter">l</span>
+              <span class="letter">c</span>
+              <span class="letter">o</span>
+              <span class="letter">m</span>
+              <span class="letter">e</span>&nbsp
+              <span class="letter">B</span>
+              <span class="letter">a</span>
+              <span class="letter">c</span>
+              <span class="letter">k</span>
+            </div>
+            <!-- <h2 class="text-primary fw-bold mb-0">Welcome Back</h2> -->
             <p>Enter your email and password to sign in</p>
           </div>
         </div>
@@ -117,6 +130,7 @@ import { signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { collection, doc, getDoc } from "firebase/firestore"
 import { firebase_firestore, firebase_auth } from "../firebase"
 import SVGIconVue from "../components/SVGIcon.vue"
+import { gsap } from "gsap";
 
 export default {
   data() {
@@ -247,5 +261,23 @@ export default {
       this.$router.replace({ path: "/" })
     }
   },
+
+  mounted() {
+    const animation = gsap.timeline({ repeat: -1});
+    const letters = document.querySelectorAll(".letter");
+
+    letters.forEach((letter, index) => {
+        // Animate "W" differently
+        animation.to(letter, {
+          y: -5, // Move "W" up
+          duration: 0.2,
+          ease: "power1.inOut",
+        }).to(letter, {
+          y: 0, // Move "W" back down
+          duration: 0.2 ,
+          ease: "power1.inOut",
+        });
+    });
+  }
 }
 </script>
