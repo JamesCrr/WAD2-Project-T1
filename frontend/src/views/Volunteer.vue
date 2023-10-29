@@ -677,74 +677,52 @@
       <!-- Filtering plus event cards start -->
       <div class="col-lg-9 col-sm-12">
         <div class="row">
-          <div
-            class="col-lg-4 col-md-6 pb-2"
-            v-for="(event, eventId) in filteredEventDetails"
-            :key="eventId"
-          >
-            <!-- <div class="card">
-              <img :src="event.imageURL" class="card-img-top" alt="Event Image" />
-              <div class="card-body">
-                <h4 class="card-title" style="text-align: center">{{ event.title }}</h4>
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/109/109613.png"
-                  style="width: 40px; height: auto; margin: 15px"
-                  alt=""
-                />
-                <p class="card-text" style="display: inline; font-size: large">
-                  {{ event.startTime }} to {{ event.endTime }}
-                </p>
-                <img
-                  src="https://media.istockphoto.com/id/1193451471/vector/map-pin-vector-glyph-icon.jpg?s=612x612&w=0&k=20&c=wuWVeHuthNAXzjOO5_VY9SUOd-6cxwpVH8VVfh6Y7Lc="
-                  style="width: 70px; height: auto"
-                  alt=""
-                />
-                <p class="card-text" style="display: inline; font-size: large">
-                  {{ event.location.address }}
-                </p>
-                <img
-                  src="https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg"
-                  style="width: 70px; height: auto"
-                  alt=""
-                />
-                <p class="card-text" style="display: inline; font-size: large">
-                  {{ event.suitability }}
-                </p>
-                <a
-                  href=""
-                  style="
-                    display: block;
-                    text-align: center;
-                    text-decoration: none;
-                    color: #69d8cd;
-                    font-size: larger;
-                    font-weight: bold;
-                  "
-                  >LEARN MORE</a
-                >
-                
+          <div v-if="isLoading">
+            <div class="row">
+              <div class="col-lg-4 col-md-6 pb-2" v-for="index in placeholderCount" :key="index">
+                <div class="card h-100 text-center" aria-hidden="true">
+                  <!-- idk how to make the src take the pathname from json -->
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/2560px-Placeholder_view_vector.svg.png" class="card-img-top" alt="..." />
+                  <div class="card-body">
+                    <h4 class="card-title placeholder-glow"><span class="placeholder col-6"></span></h4>
+                    <span class="placeholder col-7"></span>
+                    <span class="placeholder col-4"></span>
+                    <span class="placeholder col-4"></span>
+                    <span class="placeholder col-6"></span>
+                    <span class="placeholder col-8"></span>
+                    <a class="btn btn-primary disabled placeholder col-6" aria-disabled="true"></a>
+                  </div>
+                </div>
               </div>
-            </div> -->
-            <div class="card h-100">
-              <!-- idk how to make the src take the pathname from json -->
-              <img :src="event.imageURL" class="card-img-top" alt="..." />
-              <div class="card-body">
-                <h4 class="card-title">{{ event.title }}</h4>
-                <p class="card-text" style="display: inline; height: 40px; padding-top: 10px">
-                  <BIconClock class="fs-5" /> {{ event.startTime }} to {{ event.endTime }}
-                </p>
-                <p class="card-text" style="display: inline">
-                  <BIconGeoAltFill class="fs-5" /> {{ event.location.address }}
-                </p>
-                <p class="card-text" style="display: inline">
-                  <BIconPersonFill class="fs-5" /> {{ event.suitability }}
-                </p>
-                <router-link
-                  :to="'/events/' + Object.keys(this.eventDetails)[eventId]"
-                  style="text-align: center"
-                >
-                  <button class="btn btn-primary">Learn More</button>
-                </router-link>
+            </div>
+          </div>
+          <div v-else>
+            <div class="row">
+              <div class="col-lg-4 col-md-6 pb-2"
+              v-for="(event, eventId) in filteredEventDetails"
+              :key="eventId">
+                <div class="card h-100 text-center">
+                  <!-- idk how to make the src take the pathname from json -->
+                  <img :src="event.imageURL" class="card-img-top" alt="..." />
+                  <div class="card-body">
+                    <h4 class="card-title">{{ event.title }}</h4>
+                    <p class="card-text" style="height: 40px; padding-top: 10px">
+                      <BIconClock class="fs-5" /> {{ event.startTime }} to {{ event.endTime }}
+                    </p>
+                    <p class="card-text" >
+                      <BIconGeoAltFill class="fs-5" /> {{ event.location.address }}
+                    </p>
+                    <p class="card-text mb-0">
+                      <BIconPersonFill class="fs-5" /> {{ event.suitability }}
+                    </p>
+                    <router-link
+                      :to="'/events/' + Object.keys(this.eventDetails)[eventId]"
+                      style="text-align: center"
+                    >
+                      <button class="btn btn-primary">Learn More</button>
+                    </router-link>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -777,11 +755,18 @@ export default {
       selectedOpenings: [],
       selectedSuitability: [],
       filteredEventDetails: [],
-      //dateEventDetails:[],
+      isLoading: true,
+      placeholderCount: 6
     }
   },
   mounted() {
-    this.fetchEvents() // Fetch events when the component is mounted
+    setTimeout(() => {
+      // Once data is loaded, set isLoading to false
+      this.isLoading = false;
+      this.fetchEvents() // Fetch events when the component is mounted
+    }, 2000);
+    
+    
   },
   methods: {
     async fetchEvents() {
@@ -874,7 +859,7 @@ export default {
         "November",
         "December",
       ]
-      this.currentDate = `${this.day} ${months[this.month]} ${this.year}`
+      this.currentDate = `${months[this.month]} ${this.year}`
 
       // Get the total number of days in the current month
       const daysInMonth = new Date(this.year, this.month + 1, 0).getDate()
@@ -1087,7 +1072,8 @@ header .calendar-current-date {
 }
 
 .calendar-dates li.active {
-  color: #fff;
+  color: white;
+  background-color: #69d8cd ;
 }
 
 .calendar-dates li::before {
