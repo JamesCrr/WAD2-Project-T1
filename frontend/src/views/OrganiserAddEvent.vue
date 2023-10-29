@@ -236,6 +236,7 @@ export default {
       //   console.log(this.date)
       //   console.log(this.startTime)
       //   console.log(this.endTime)
+      // console.log(this.getAuthDetails.uid)
 
       // Check if a file has been selected
       if (this.selectedFile) {
@@ -252,11 +253,7 @@ export default {
 
           //// Create organiser ref
           // const targetDocumentRef = doc(firebase_firestore, "accounts", getAuthDetails.uid)
-          const targetDocumentRef = doc(
-            firebase_firestore,
-            "accounts",
-            "XWRfwZJPwmbQGrsEukW6C1fuaYo1",
-          )
+          const targetDocumentRef = doc(firebase_firestore, "accounts", this.getAuthDetails.uid)
 
           // Prepare the event data from the form inputs
           const eventData = {
@@ -280,7 +277,7 @@ export default {
             imageUrl: fileName, // Add the image filename to event data
             organiserRef: targetDocumentRef,
             signups: [],
-            donations: []
+            donations: [],
           }
 
           // Create the event with the image filename

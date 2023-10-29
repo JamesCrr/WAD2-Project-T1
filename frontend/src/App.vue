@@ -10,8 +10,8 @@
     </div>
   </div> -->
 
-          <!-- Organisation Navbar -->
-          <!-- <div v-if="!getIsVolunteer">
+  <!-- Organisation Navbar -->
+  <!-- <div v-if="!getIsVolunteer">
             <div class="row">
               <div class="col">
                 <RouterLink to="/organiser/events">events</RouterLink>
@@ -22,8 +22,8 @@
             </div>
           </div> -->
 
-          <!-- Volunteer Navbar -->
-          <!-- <div v-else>
+  <!-- Volunteer Navbar -->
+  <!-- <div v-else>
             <UserNavBar />
           </div>
         </div>
@@ -32,6 +32,11 @@
   </div> -->
 
   <RouterView />
+
+  <div v-if="getIsLoggedIn">
+    <NavBar />
+    <MainChatWindow />
+  </div>
 </template>
 
 <script>
@@ -40,14 +45,16 @@ import { mapGetters, mapMutations, mapActions, mapState } from "vuex"
 import { signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { doc, getDoc } from "firebase/firestore"
 import { firebase_firestore, firebase_auth } from "./firebase"
-import UserNavBar from "./components/UserNavBar.vue"
+import MainChatWindow from "./components/chat/MainChatWindow.vue"
+import NavBar from "./components/NavBar.vue"
 
 export default {
   computed: {
     ...mapGetters("auth", ["getIsLoggedIn", "getIsVolunteer"]),
   },
   components: {
-    UserNavBar,
+    MainChatWindow,
+    NavBar,
   },
 
   methods: {

@@ -6,17 +6,19 @@ const state = {
   isVolunteer: false,
   authDetails: null,
   accountDetails: null,
+  accountRef: null,
 }
 
 const mutations = {
   // Login as User or Organsiation
   m_Login(state, payload) {
-    const { isVolunteer, authDetails, accountDetails } = payload
+    const { isVolunteer, authDetails, accountDetails, accountRef } = payload
 
     state.isLoggedIn = true
     state.isVolunteer = isVolunteer
     state.authDetails = authDetails
     state.accountDetails = accountDetails
+    state.accountRef = accountRef
 
     /**
      * Prob need to store in Cookies or Local Storage
@@ -29,6 +31,7 @@ const mutations = {
     state.isLoggedIn = false
     state.authDetails = null
     state.accountDetails = null
+    state.accountRef = null
     // console.log("LOGOUT")
   },
 }
@@ -56,6 +59,7 @@ const getters = {
   getIsVolunteer: (state) => state.isVolunteer,
   getAuthDetails: (state) => state.authDetails,
   getAccountDetails: (state) => state.accountDetails,
+  getAccountRef: (state) => state.accountRef,
 }
 
 export default {

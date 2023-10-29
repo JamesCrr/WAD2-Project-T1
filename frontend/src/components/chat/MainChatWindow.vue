@@ -1,22 +1,19 @@
 <template>
   <div class="row">
     <div
-      class="col-lg-4 col-6 text-bg-primary position-fixed bottom-0 end-0"
+      class="col-lg-5 col-md-8 col-12 text-bg-primary position-fixed bottom-0 end-0 border-top rounded-top"
       ref="chat-main-window"
+      style="transform: translateY(250px)"
     >
-      <div class="row g-0" v-on:click="windowClosed ? animateOpenWindow() : animateCloseWindow()">
-        <h4 class="col-11">Chat</h4>
+      <div
+        class="row g-0 d-flex justify-content-center align-items-center"
+        v-on:click="windowClosed ? animateOpenWindow() : animateCloseWindow()"
+        style="cursor: pointer"
+      >
+        <h4 class="col-11 mb-0 p-2">Your Chat</h4>
         <div class="col d-flex justify-content-center align-items-center">
-          <BIconXCircleFill
-            v-on:click="windowClosed ? animateOpenWindow() : animateCloseWindow()"
-            class="fs-4"
-            v-if="!windowClosed"
-          />
-          <BIconArrowUpCircleFill
-            v-on:click="windowClosed ? animateOpenWindow() : animateCloseWindow()"
-            class="fs-4"
-            v-else
-          />
+          <BIconXCircleFill class="fs-4" v-if="!windowClosed" />
+          <BIconArrowUpCircleFill class="fs-4" v-else />
         </div>
       </div>
       <div
@@ -27,7 +24,7 @@
           <ChatRoomName
             v-for="(value, key) in getChatDetails"
             :key="key"
-            :roomName="key"
+            :roomName="getChatName(key)"
             :isNewMessages="false"
             :isSelected="selectedRoomKey == key"
             v-on:click="changeSelectedRoomIndex(key)"
@@ -36,7 +33,9 @@
         </div>
         <div class="col">
           <div v-if="selectedRoomKey != ''" class="d-flex flex-column justify-content-center h-100">
-            <div class="chat-messages-container overflow-y-scroll d-flex flex-column">
+            <div
+              class="chat-messages-container overflow-y-scroll d-flex flex-column bg-body-secondary"
+            >
               <ChatRoomMessage
                 v-for="(value, key) in getChatDetails[selectedRoomKey].chats"
                 :key="key"
@@ -46,15 +45,21 @@
             </div>
             <div>
               <form v-on:submit.prevent="submitMessageToChat">
-                <input type="text" v-model="newMessage" class="form-control w-100" />
+                <input
+                  type="text"
+                  v-model="newMessage"
+                  class="form-control w-100"
+                  placeholder="Your Message"
+                />
               </form>
             </div>
           </div>
           <div
             v-else
-            style="height: 100%; display: flex; justify-content: center; align-items: center"
+            style="height: 100%"
+            class="d-flex justify-content-center align-items-center bg-secondary"
           >
-            <h2>Nothing</h2>
+            <p class="text-white">Select your chat</p>
           </div>
         </div>
       </div>
@@ -76,7 +81,7 @@ export default {
     return {
       newMessage: "",
       selectedRoomKey: "",
-      windowClosed: true,
+      windowClosed: true || !this.getChatWindowOpenRequest,
     }
   },
   components: {
@@ -94,13 +99,35 @@ export default {
     ...mapState("chat", {
       getChatDetails: (state) => state.chatDetails,
     }),
-    ...mapGetters("auth", ["getAuthDetails", "getAccountDetails"]),
+    ...mapGetters("chat", ["getChatWindowOpenRequest", "getNewChatName"]),
+    ...mapGetters("auth", [
+      "getAuthDetails",
+      "getAccountDetails",
+      "getIsLoggedIn",
+      "getIsVolunteer",
+    ]),
   },
   methods: {
     ...mapMutations("socket", ["m_EmitMessage"]),
-    ...mapMutations("chat", ["m_ReplaceMessageList_Locally"]),
+    ...mapMutations("chat", ["m_ReplaceMessageList_Locally", "m_SetChatWindowRequest"]),
     ...mapActions("chat", ["a_UpdateFirestoreChat"]),
 
+    /**
+     * Returns the chat name based on whether the account is a volunteer or organisaition
+     * @param {string} name
+     */
+    getChatName(name) {
+      let nameArray = name.split("-")
+      if (this.getIsVolunteer) {
+        return nameArray[0]
+      }
+      return nameArray[1]
+    },
+
+    /**
+     * The new array index of the selected room
+     * @param {string} newKeyIndex
+     */
     changeSelectedRoomIndex(newKeyIndex) {
       if (newKeyIndex == this.selectedRoomKey) return
 
@@ -111,9 +138,16 @@ export default {
     },
 
     /**
-     * Submits the message to chat
+     * Submits the message,
+     * Updates Firestore,
+     * Updates Local Vuex Store,
+     * Emits to SocketIO,
      */
     async submitMessageToChat() {
+      if (this.newMessage.trim().length <= 0) {
+        return
+      }
+
       console.log("Submitting:", this.newMessage)
 
       // Update Firestore
@@ -164,6 +198,8 @@ export default {
      * Closes the Main Chat Window through animation using GSAP
      */
     animateCloseWindow() {
+      if (this.windowClosed) return
+
       gsap.to(this.$refs["chat-content-container"], {
         autoAlpha: 0,
         duration: animateTime,
@@ -177,7 +213,12 @@ export default {
       })
       this.windowClosed = true
     },
+    /**
+     * Opens the Main Chat Window through animation using GSAP
+     */
     animateOpenWindow() {
+      if (!this.windowClosed) return
+
       gsap.to(this.$refs["chat-content-container"], {
         autoAlpha: 1,
         duration: animateTime,
@@ -190,8 +231,13 @@ export default {
     },
   },
 
-  mounted() {
-    this.animateCloseWindow()
+  updated() {
+    // Was there a request to open the chat window?
+    if (this.getChatWindowOpenRequest) {
+      this.animateOpenWindow()
+      this.changeSelectedRoomIndex(this.getNewChatName)
+      this.m_SetChatWindowRequest(false)
+    }
   },
 }
 </script>

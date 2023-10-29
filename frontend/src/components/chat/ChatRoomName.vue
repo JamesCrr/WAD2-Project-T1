@@ -1,5 +1,5 @@
 <template>
-  <p v-bind:class="computeClasses">
+  <p v-bind:class="computeClasses" style="cursor: pointer">
     {{ roomName }}
   </p>
 </template>
@@ -16,6 +16,9 @@ export default {
     computeClasses() {
       return {
         "text-bg-primary": this.isSelected,
+        "fw-bold": this.isSelected,
+        "text-white": this.isSelected,
+        "text-center": true,
       }
     },
   },

@@ -206,9 +206,7 @@ import {
 
 export default {
   data() {
-    return {
-      getIsVolunteer: true,
-    }
+    return {}
   },
   computed: {
     ...mapGetters("auth", ["getIsVolunteer"]),

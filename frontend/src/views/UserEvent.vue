@@ -1,39 +1,5 @@
 <template>
   <div class="container-fluid">
-    <!-- Navbar start -->
-    <!-- <div class="row">
-      <nav class="navbar navbar-expand-md bg-maincolor">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">EcoConnect</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active" href="/volunteer">Volunteer Now!</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#">Login</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#">Sign Up</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </div> -->
-    <!-- Navbar end -->
-
     <div
       class="modal fade"
       id="exampleModalCenteredScrollable"
@@ -56,11 +22,6 @@
             ></button>
           </div>
           <div class="modal-body">
-            <!-- <img class="modal-picture" src="../assets/volunteer-orgs/orgA.jpg" alt="">
-                    <p>{{ eventDetails.title }}</p>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. A, atque odio facilis aliquam officia doloribus sint blanditiis quasi animi modi, nostrum perspiciatis mollitia fuga ducimus. Velit optio rem pariatur rerum.</p>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. A, atque odio facilis aliquam officia doloribus sint blanditiis quasi animi modi, nostrum perspiciatis mollitia fuga ducimus. Velit optio rem pariatur rerum.</p>
-                    <br><br> -->
             <h4 class="donate-text">Choose an amount to donate:</h4>
             <div class="grid-container donation-btn-container">
               <Donate2 class="donate-btn" />
@@ -105,7 +66,6 @@
           </div>
           <div class="col">
             <div class="row">
-              <!-- <div class="col-12">East Coast Park</div> -->
               <p class="col-12 fw-light mb-0" style="font-size: smaller">
                 {{ eventDetails.location ? eventDetails.location.address : "" }}
               </p>
@@ -161,7 +121,7 @@
         </div>
         <div class="row">
           <div class="col">
-            <button class="btn btn-primary">Chat with Us</button>
+            <button class="btn btn-primary" v-on:click="chatWithOrg">Chat with Us</button>
           </div>
         </div>
       </div>
@@ -169,7 +129,7 @@
 
     <div class="row mt-4 mb-5">
       <div class="col d-flex justify-content-center align-items-center">
-        <GMapMap
+        <!-- <GMapMap
           :center="mapcenter"
           :options="mapoptions"
           :zoom="16"
@@ -183,15 +143,13 @@
             :draggable="false"
             @click="center = mapmarker.position"
           >
-            <!-- <GMapInfoWindow>
+          </GMapMarker>
+        </GMapMap> -->
+        <!-- <GMapInfoWindow>
               <div>I am in info window <MyComponent /></div>
             </GMapInfoWindow> -->
-          </GMapMarker>
-        </GMapMap>
       </div>
     </div>
-
-    <MainChatWindow />
   </div>
 </template>
 
@@ -204,20 +162,21 @@ import {
   BIconTelephoneFill,
   BIconEnvelopeFill,
 } from "bootstrap-icons-vue"
+import { mapState, mapMutations, mapActions, mapGetters } from "vuex"
 import { firebase_firestore, firebase_storage } from "../firebase"
-import { collection, doc, getDoc } from "firebase/firestore"
+import { doc, getDoc, setDoc } from "firebase/firestore"
 import { ref, getDownloadURL } from "firebase/storage"
 import Donate2 from "../components/Donate2.vue"
 import Donate5 from "../components/Donate5.vue"
 import Donate10 from "../components/Donate10.vue"
 import Donate50 from "../components/Donate50.vue"
-import MainChatWindow from "../components/chat/MainChatWindow.vue"
 
 export default {
   data() {
     return {
       eventDetails: {},
       eventDates: {},
+      organiserRef: null,
       organiserDetails: {},
       downloadedUrl: null,
 
@@ -240,7 +199,45 @@ export default {
       },
     }
   },
+  components: {
+    BIconCalendar3,
+    BIconClock,
+    BIconPersonFill,
+    BIconGeoAltFill,
+    BIconTelephoneFill,
+    BIconEnvelopeFill,
+    Donate2,
+    Donate5,
+    Donate10,
+    Donate50,
+  },
+
+  computed: {
+    ...mapGetters("auth", ["getAccountRef", "getAccountDetails"]),
+    ...mapGetters("chat", ["getChatWindowOpenRequest"]),
+  },
   methods: {
+    ...mapMutations("chat", ["m_AddNewChat_Locally", "m_SetChatWindowRequest"]),
+
+    /**
+     * Prepares new chat with org
+     * - Updates Local Vuex store only
+     * - Updating of Firebase is only done once message is sent
+     */
+    chatWithOrg() {
+      const payload = {
+        organisationDocRef: this.organiserRef,
+        organisationUsername: this.organiserDetails.username,
+        volunteerDocRef: this.getAccountRef,
+        volunteerUsername: this.getAccountDetails.username,
+        chatID: `${this.organiserDetails.username}-${this.getAccountDetails.username}`,
+      }
+      // console.log(this.organiserDetails)
+      // console.log(payload)
+      this.m_SetChatWindowRequest(true)
+      this.m_AddNewChat_Locally(payload)
+    },
+
     convertTo12HourFormat(time24) {
       // Split the time string into hours and minutes
       const [hours, minutes] = time24.split(":").map(Number)
@@ -297,7 +294,8 @@ export default {
       try {
         let docSnap = await getDoc(this.eventDetails.organiserRef)
         if (docSnap.exists()) {
-          this.organiserDetails = docSnap.data()
+          this.organiserRef = this.eventDetails.organiserRef
+          this.organiserDetails = { id: docSnap.id, ...docSnap.data() }
         } else {
           console.log("No such document!")
         }
@@ -306,23 +304,8 @@ export default {
       }
     },
   },
-  components: {
-    BIconCalendar3,
-    BIconClock,
-    BIconPersonFill,
-    BIconGeoAltFill,
 
-    BIconTelephoneFill,
-    BIconEnvelopeFill,
-
-    Donate2,
-    Donate5,
-    Donate10,
-    Donate50,
-    MainChatWindow,
-  },
-
-  created() {
+  mounted() {
     this.async_FetchDetails()
   },
 }

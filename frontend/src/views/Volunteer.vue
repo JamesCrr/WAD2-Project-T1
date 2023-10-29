@@ -1,6 +1,4 @@
 <template>
-  <NavBar />
-
   <!-- Calendar start -->
   <div class="content">
     <div class="row p-3">
@@ -34,7 +32,7 @@
                 v-on:click="selectDate(day)"
                 v-for="(day, index) in calendarDays"
                 :key="index"
-                :class="dayClass(day)" 
+                :class="dayClass(day)"
               >
                 {{ day }}
               </li>
@@ -48,7 +46,9 @@
     <!-- Show results start -->
     <div class="row">
       <div class="col" style="text-align: center">
-        <h3>Show event on <span>{{ selectedDate }}</span></h3>
+        <h3>
+          Show event on <span>{{ selectedDate }}</span>
+        </h3>
       </div>
     </div>
     <!-- Show results end -->
@@ -726,26 +726,27 @@
               </div>
             </div> -->
             <div class="card h-100">
-                    <!-- idk how to make the src take the pathname from json -->
-                <img :src="event.imageURL" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h4 class="card-title"> {{ event.title }} </h4>
-                    <p class="card-text" style="display: inline; height: 40px; padding-top: 10px;"> 
-                      <BIconClock class="fs-5" /> {{ event.startTime }} to {{ event.endTime }} 
-                    </p>
-                    <p class="card-text" style="display: inline;"> 
-                      <BIconGeoAltFill class="fs-5" /> {{ event.location.address }} 
-                    </p>
-                    <p class="card-text" style="display: inline;"> 
-                      <BIconPersonFill class="fs-5" /> {{ event.suitability }}
-                    </p>
-                      <router-link :to="'/events/' + Object.keys(this.eventDetails)[eventId]" style="text-align: center;">
-                        <button class="btn btn-primary">
-                          Learn More
-                        </button>
-                      </router-link>
-                </div>
-                </div>
+              <!-- idk how to make the src take the pathname from json -->
+              <img :src="event.imageURL" class="card-img-top" alt="..." />
+              <div class="card-body">
+                <h4 class="card-title">{{ event.title }}</h4>
+                <p class="card-text" style="display: inline; height: 40px; padding-top: 10px">
+                  <BIconClock class="fs-5" /> {{ event.startTime }} to {{ event.endTime }}
+                </p>
+                <p class="card-text" style="display: inline">
+                  <BIconGeoAltFill class="fs-5" /> {{ event.location.address }}
+                </p>
+                <p class="card-text" style="display: inline">
+                  <BIconPersonFill class="fs-5" /> {{ event.suitability }}
+                </p>
+                <router-link
+                  :to="'/events/' + Object.keys(this.eventDetails)[eventId]"
+                  style="text-align: center"
+                >
+                  <button class="btn btn-primary">Learn More</button>
+                </router-link>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -755,15 +756,10 @@
 </template>
 
 <script>
-import {
-  BIconClock,
-  BIconPersonFill,
-  BIconGeoAltFill,
-} from "bootstrap-icons-vue"
+import { BIconClock, BIconPersonFill, BIconGeoAltFill } from "bootstrap-icons-vue"
 import { collection, getDocs } from "firebase/firestore"
 import { firebase_firestore, firebase_storage } from "../firebase"
 import { ref as storageRef, getDownloadURL } from "firebase/storage"
-import NavBar from "../components/NavBar.vue"
 export default {
   data() {
     return {
@@ -783,9 +779,6 @@ export default {
       filteredEventDetails: [],
       //dateEventDetails:[],
     }
-  },
-  components: {
-    NavBar,
   },
   mounted() {
     this.fetchEvents() // Fetch events when the component is mounted
@@ -951,7 +944,7 @@ export default {
       ]
       this.day = newDay
       this.selectedDate = `${this.day} ${months[this.month]} ${this.year}`
-      this.dateEventDetails = `${this.year}-${this.month+1}-${this.day}`
+      this.dateEventDetails = `${this.year}-${this.month + 1}-${this.day}`
       console.log(this.day, this.month + 1, this.year)
 
       //create another filter to filter this.filteredEventDetails events with the date
@@ -1126,7 +1119,7 @@ header .calendar-current-date {
   height: 200px; /* Set a fixed height for the image */
 }
 
-.card-text{
+.card-text {
   height: 50px;
 }
 </style>

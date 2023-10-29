@@ -3,7 +3,6 @@
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
   />
-  <NavBar />
   <div class="content">
     <div class="row">
       <div class="col">
@@ -52,16 +51,12 @@ import { RouterLink } from "vue-router"
 import { collection, doc, getDocs, deleteDoc } from "firebase/firestore"
 import { deleteObject, ref, getDownloadURL } from "firebase/storage"
 import { firebase_firestore, firebase_storage } from "../firebase"
-import NavBar from "../components/NavBar.vue"
 
 export default {
   data() {
     return {
       events: [],
     }
-  },
-  components: {
-    NavBar,
   },
   created() {
     // Call the fetchEventData method when the component is created

@@ -3,11 +3,37 @@ import { firebase_firestore } from "../firebase"
 
 const state = {
   chatDetails: {},
+  chatWindowOpenRequest: false,
+  newChatName: "",
 }
 
 const mutations = {
+  m_SetChatWindowRequest(state, payload) {
+    state.chatWindowOpenRequest = payload
+  },
+
   m_initChats(state, payload) {
     state.chatDetails = payload
+  },
+
+  m_AddNewChat_Locally(state, payload) {
+    const { volunteerDocRef, organisationDocRef, volunteerUsername, organisationUsername, chatID } =
+      payload
+
+    // Does chat exist yet?
+    if (chatID in state.chatDetails) {
+      // console.log("Chat with Org already Exists!")
+      return
+    }
+
+    state.newChatName = chatID
+    state.chatDetails[chatID] = {
+      chats: [],
+      organisationDocRef,
+      organisationUsername,
+      volunteerDocRef,
+      volunteerUsername,
+    }
   },
 
   m_AddNewMessage_Locally(state, payload) {
@@ -23,6 +49,7 @@ const mutations = {
     // Does chat exist here locally?
     // Not created yet, so just update the entire object
     if (!chatID in state.chatDetails) {
+      state.newChatName = chatID
       state.chatDetails[chatID] = {
         chats: [messageObj],
         organisationDocRef,
@@ -49,6 +76,7 @@ const mutations = {
     // Does chat exist here locally?
     // Not created yet, so just update the entire object
     if (!chatID in state.chatDetails) {
+      state.newChatName = chatID
       state.chatDetails[chatID] = {
         chats: messageList,
         organisationDocRef,
@@ -123,6 +151,8 @@ const getters = {
   getIsLoggedIn: (state) => state.isLoggedIn,
   getIsVolunteer: (state) => state.isVolunteer,
   getAuthDetails: (state) => state.authDetails,
+  getChatWindowOpenRequest: (state) => state.chatWindowOpenRequest,
+  getNewChatName: (state) => state.newChatName,
 }
 
 export default {

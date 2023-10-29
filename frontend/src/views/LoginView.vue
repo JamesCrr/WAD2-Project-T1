@@ -193,6 +193,7 @@ export default {
           isVolunteer: this.isVolunteer,
           authDetails: user,
           accountDetails,
+          accountRef: docRef,
         })
         // update login cookies never expire , only -1, other negative Numbers are invalid
         // this.$cookies.set("wadt1_email", this.email, -1)

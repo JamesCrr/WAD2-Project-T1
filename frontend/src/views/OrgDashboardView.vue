@@ -1,6 +1,4 @@
 <template>
-  <NavBar />
-
   <div class="content">
     <div class="dashboard-content p-3">
       <h2 class="fs-5">Dashboard</h2>
@@ -14,14 +12,9 @@
 </template>
 
 <script>
-import NavBar from "../components/NavBar.vue"
-
 export default {
   data() {
     return {}
-  },
-  components: {
-    NavBar,
   },
   methods: {},
 }
