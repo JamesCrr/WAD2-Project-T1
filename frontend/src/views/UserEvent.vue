@@ -39,26 +39,35 @@
 
     <!-- Events description start -->
     <div class="row pt-3">
-      <div class="col-md-8 col-sm-12">
+      <div class="col-md-8 col-sm-12" style="padding: 0;">
         <img v-bind:src="downloadedUrl" class="w-100 object-fit-fill" alt="" />
       </div>
-      <div class="col-md-4 col-sm-12">
-        <h3 class="mb-0">{{ eventDetails.title }}</h3>
+      <div class="col-md-4 col-sm-12" style="background-color: bisque;">
+        <h3 class="mb-0" style="font-weight: bold; padding-bottom: 10px;">{{ eventDetails.title }}</h3>
         <p>
           by <span style="display: inline-block">{{ organiserDetails.username }}</span>
         </p>
 
-        <div class="row pt-3 g-3">
-          <div class="col-2 d-flex justify-content-center align-items-center">
+        <div class="header mb-3" style="background-color: pink; padding-left: 5px; padding-top: 10px; padding-bottom: 2px;">
+            <h4>Details</h4>
+        </div>
+        <div class="row pt-3 g-3 pb-3">
+          <div class="col-2 d-flex justify-content-center align-items-center" >
             <BIconCalendar3 class="fs-5" />
           </div>
-          <div class="col">{{ eventDates.startDateString }}</div>
+          <div class="col" style="font-size: larger">{{ eventDates.startDateString }}</div>
         </div>
-        <div class="row pt-3 g-3">
+        <div class="row pt-3 g-3 pb-3">
           <div class="col-2 d-flex justify-content-center align-items-center">
             <BIconClock class="fs-5" />
           </div>
-          <div class="col">{{ eventDates.starTime }} to {{ eventDates.endTime }}</div>
+          <div class="col" style="font-size: larger">{{ eventDates.starTime }} to {{ eventDates.endTime }}</div>
+        </div>
+        <div class="row pt-3 g-3 pb-3">
+          <div class="col-2 d-flex justify-content-center align-items-center">
+            <BIconPersonFill class="fs-5" />
+          </div>
+          <div class="col" style="font-size: larger">Suitable for: {{ eventDetails.suitability }}</div>
         </div>
         <div class="row pt-3 g-3">
           <div class="col-2 d-flex justify-content-center align-items-center">
@@ -66,21 +75,43 @@
           </div>
           <div class="col">
             <div class="row">
-              <p class="col-12 fw-light mb-0" style="font-size: smaller">
+              <p class="col-12 mb-0" style="font-size: larger">
                 {{ eventDetails.location ? eventDetails.location.address : "" }}
               </p>
             </div>
           </div>
         </div>
-        <div class="row pt-3 g-3">
-          <div class="col-2 d-flex justify-content-center align-items-center">
-            <BIconPersonFill class="fs-5" />
+        
+
+        <!-- <div class="header" style="background-color: pink; padding-left: 5px; padding-top: 10px; padding-bottom: 2px;">
+            <h4>Venue</h4>
+        </div> -->
+        <div class="row mt-4 mb-4">
+          <div class="col d-flex justify-content-center align-items-center">
+            <GMapMap
+              :center="mapcenter"
+              :options="mapoptions"
+              :zoom="16"
+              map-type-id="terrain"
+              id="gmap"
+              style="width: 30vw; height: 20rem"
+            >
+              <GMapMarker
+                :position="mapmarker.position"
+                :clickable="false"
+                :draggable="false"
+                @click="center = mapmarker.position"
+              >
+              </GMapMarker>
+            </GMapMap>
+            <!-- <GMapInfoWindow>
+                  <div>I am in info window <MyComponent /></div>
+                </GMapInfoWindow> -->
           </div>
-          <div class="col">Suitable for: {{ eventDetails.suitability }}</div>
         </div>
 
-        <div class="row pt-5 pb-0">
-          <p class="fw-bold text-center mb-1 fs-7">Sign up before XXXXXX, XXXpm</p>
+        <div class="row pt-2 pb-0">
+          <p class="fw-bold text-center mb-1 fs-7" >Sign up before {{ eventDates.startDateString }} {{ eventDates.starTime }}</p>
         </div>
         <div class="d-grid gap-2">
           <button type="button" class="btn btn-primary">Volunteer Now!</button>
@@ -111,15 +142,15 @@
           <div class="col-2">
             <BIconTelephoneFill />
           </div>
-          <div class="col">{{ organiserDetails.contactNumber }}</div>
+          <div class="col" style="font-size: larger">{{ organiserDetails.contactNumber }}</div>
         </div>
-        <div class="row">
+        <div class="row pt-3">
           <div class="col-2">
             <BIconEnvelopeFill />
           </div>
-          <div class="col">{{ organiserDetails.email }}</div>
+          <div class="col" style="font-size: larger">{{ organiserDetails.email }}</div>
         </div>
-        <div class="row">
+        <div class="row pt-3">
           <div class="col">
             <button class="btn btn-primary" v-on:click="chatWithOrg">Chat with Us</button>
           </div>
@@ -127,15 +158,15 @@
       </div>
     </div>
 
-    <div class="row mt-4 mb-5">
+    <!-- <div class="row mt-4 mb-5">
       <div class="col d-flex justify-content-center align-items-center">
-        <!-- <GMapMap
+        <GMapMap
           :center="mapcenter"
           :options="mapoptions"
           :zoom="16"
           map-type-id="terrain"
           id="gmap"
-          style="width: 60vw; height: 20rem"
+          style="width: 30vw; height: 20rem"
         >
           <GMapMarker
             :position="mapmarker.position"
@@ -148,11 +179,18 @@
         <!-- <GMapInfoWindow>
               <div>I am in info window <MyComponent /></div>
             </GMapInfoWindow> -->
-      </div>
-    </div>
+      <!-- </div> -->
+    <!-- </div> -->
   </div>
 </template>
 
+<style scoped>
+  /* @media (min-width: 576px) { 
+    .gmap{
+      padding: 0;
+    }
+  } */
+</style>
 <script>
 import {
   BIconCalendar3,
