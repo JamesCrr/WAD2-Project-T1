@@ -96,7 +96,7 @@ export default {
     setTimeout(() => {
       // Once data is loaded, set isLoading to false
       this.isLoading = false;
-      this.fetchEvents() // Fetch events when the component is mounted
+      this.fetchEventData() // Fetch events when the component is mounted
     }, 2000);
   },
   methods: {
