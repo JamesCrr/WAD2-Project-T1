@@ -706,8 +706,8 @@
                   <img :src="event.imageURL" class="card-img-top" alt="..." />
                   <div class="card-body">
                     <h4 class="card-title">{{ event.title }}</h4>
-                    <p class="card-text" style="height: 40px; padding-top: 10px">
-                      <BIconClock class="fs-5" /> {{ event.startTime }} to {{ event.endTime }}
+                    <p class="card-text" style="padding-top: 10px; ">
+                      <BIconClock class="fs-5" /> {{ convertTo12HourFormat(event.startTime) }} to {{ convertTo12HourFormat(event.endTime) }}
                     </p>
                     <p class="card-text" >
                       <BIconGeoAltFill class="fs-5" /> {{ event.location.address }}
@@ -842,6 +842,19 @@ export default {
         // console.log(suitabilityMatch, categoryMatch, locationMatch, openingsMatch)
         return suitabilityMatch || categoryMatch || locationMatch || openingsMatch //|| dateMatch
       })
+    },
+    convertTo12HourFormat(time24) {
+      // Split the time string into hours and minutes
+      const [hours, minutes] = time24.split(":").map(Number)
+      // Determine if it's AM or PM
+      const period = hours < 12 ? "AM" : "PM"
+      // Convert hours to 12-hour format
+      const hours12 = hours % 12 || 12 // 0 should be converted to 12
+      // Create the 12-hour formatted string
+      const time12 = `${hours12}:${minutes.toString().padStart(2, "0")}${period}`
+
+      // console.log(hours, minutes, hours12, time12)
+      return time12
     },
     manipulate() {
       // Set currentDate to the formatted current month and year
