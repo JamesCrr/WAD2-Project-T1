@@ -1,6 +1,6 @@
 <template>
-  <div class="container-fluid p-0">
-    <div class="row m-0">
+  <div class="content">
+    <div class="row m-0 form-container">
       <div class="col-md-9 my-3 ms-lg-5 ms-md-5 ms-sm-5" style="min-height: 100vh">
         <div class="row">
           <h1 class="mb-5">Create Event</h1>
@@ -299,3 +299,28 @@ export default {
   },
 }
 </script>
+
+
+<style scoped>
+.form-container {
+  width: 100%;
+  justify-content: center;
+}
+
+.content {
+  position: absolute;
+  width: 100%;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  top: 5rem;
+}
+
+@media (min-width: 992px) {
+  .content {
+    position: absolute;
+    max-width: 76%;
+    left: 18rem;
+    top: 2rem;
+  }
+}
+</style>

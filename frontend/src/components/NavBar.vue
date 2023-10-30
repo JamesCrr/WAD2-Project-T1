@@ -1,7 +1,7 @@
 <template>
   <div v-if="!getIsVolunteer">
     <!-- Organiser Dashboard -->
-    <nav class="navbar bg-primary d-none d-lg-block w-25 min-vh-100 fixed-top">
+    <nav class="navbar bg-primary d-none d-lg-block min-vh-100 fixed-top sidebar">
       <div class="container-fluid">
         <div class="row vw-100 vh-100">
           <div class="col-12 d-flex flex-column justify-content-start align-items-start">
@@ -234,6 +234,10 @@ export default {
 
 <style scoped>
 .nav-item {
+}
+
+.sidebar {
+    width: 15rem;
 }
 </style>
 

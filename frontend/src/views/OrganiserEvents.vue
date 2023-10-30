@@ -167,7 +167,7 @@ export default {
   .content {
     position: absolute;
     max-width: 76%;
-    left: 16rem;
+    left: 18rem;
     top: 2rem;
   }
 }
@@ -186,5 +186,19 @@ export default {
   justify-content: space-evenly;
   grid-template-columns: 45% 45%;
   gap: 1rem;
+  vertical-align: bottom;
+}
+.card {
+  height: 100%;
+}
+
+.card-text{
+  height: 72px;
+  overflow: hidden;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 </style>
