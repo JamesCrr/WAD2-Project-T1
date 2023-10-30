@@ -11,7 +11,6 @@ import OrganiserAddEvent from "../views/OrganiserAddEvent.vue"
 import OrganiserEditEvent from "../views/OrganiserEditEvent.vue"
 import OrganiserDonations from "../views/OrganiserDonations.vue"
 import OrganiserEvents from "../views/OrganiserEvents.vue"
-import ViewDonation from "../views/viewDonation.vue"
 import OrgDashboardView from "../views/OrgDashboardView.vue"
 import UserDonationsView from "../views/UserDonationsView.vue"
 import Donate from "../views/Donate.vue"
@@ -93,11 +92,6 @@ const router = createRouter({
       path: "/userdonations",
       name: "userDonations",
       component: UserDonationsView,
-    },
-    {
-      path: "/viewDonation",
-      name: "viewDonation",
-      component: ViewDonation,
     },
     // donate is a test page
     {

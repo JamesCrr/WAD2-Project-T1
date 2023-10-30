@@ -34,7 +34,7 @@
                 </li>
                 <li class="nav-item">
                   <router-link
-                    to="/viewdonation"
+                    to="/organiser/events"
                     class="text-decoration-none d-flex align-items-center text-light mb-3"
                   >
                     <BIconPiggyBankFill class="fs-5" />
@@ -113,7 +113,7 @@
               </li>
               <li class="nav-item">
                 <router-link
-                  to="/viewdonation"
+                  to="/organiser/donations"
                   class="text-decoration-none d-flex align-items-center text-light mb-3"
                 >
                   <BIconPiggyBankFill class="fs-5" />
