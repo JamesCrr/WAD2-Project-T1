@@ -10,7 +10,7 @@
     <div class="card-body">
       <h5 class="card-title">Payment failed :(</h5>
       <p class="card-text">Something went wrong.</p>
-      <button @click="$router.go(-3)" class="btn btn-primary">Return to Event Page</button>
+      <button @click="this.$router.go(-3)" class="btn btn-primary">Return to Event Page</button>
     </div>
   </div>
 </template>

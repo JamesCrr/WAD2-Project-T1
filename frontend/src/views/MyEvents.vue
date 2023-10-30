@@ -9,7 +9,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary cancel" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger" v-on:click="deleteEvent(event)">
+          <button type="button" class="btn btn-danger" @click="withdrawUser(this.toBeDeleted)">
             Confirm Withdrawal
           </button>
         </div>
@@ -40,7 +40,7 @@
                   View Event
                 </router-link>
               </button>
-              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="setValue(event.id)">
                 Withdraw from Event
               </button>
               <!-- <button type="button" class="btn btn-danger" v-on:click="deleteEvent(event)">
@@ -56,8 +56,9 @@
 
 <script>
 import { mapState, mapMutations } from "vuex"
+import { useRouter } from 'vue-router'
 import { firebase_firestore, firebase_storage, firebase_auth } from "../firebase"
-import { collection, doc, getDocs, deleteDoc } from "firebase/firestore"
+import { collection, doc, getDocs, deleteDoc, updateDoc, arrayRemove} from "firebase/firestore"
 import { deleteObject, ref, getDownloadURL } from "firebase/storage"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 
@@ -79,10 +80,14 @@ export default {
     return {
       events: [],
       userID: "",
+      toBeDeleted: "",
     }
   },
   computed: {},
   methods: {
+    setValue(value) {
+      this.toBeDeleted = value
+    },
     async getUserID() {
       const auth = getAuth()
       onAuthStateChanged(auth, (user) => {
@@ -114,10 +119,18 @@ export default {
 
         // Set the events data in your component's data
         this.events = events
-        console.log(events)
       } catch (error) {
         console.error("Error getting documents: ", error)
       }
+    },
+    async withdrawUser(eventID) {
+      const eventRef = doc(firebase_firestore, "events", eventID);
+      // Atomically add a new userID to the "signups" array field.
+      await updateDoc(eventRef, {
+          signups: arrayRemove(this.userID)
+      });
+      // location.reload()
+      this.$router.go()
     },
   },
 

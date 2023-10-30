@@ -1,6 +1,42 @@
 <template>
   <div class="container-fluid">
-    <!-- modal -->
+    <!-- volunteer modal -->
+    <div class="modal fade" id="volunteerModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5 signup-title">Confirm Sign Up for event?</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-footer signup-footer">
+            <button type="button" class="btn btn-secondary cancel" data-bs-dismiss="modal">Cancel</button>
+            <!-- <button type="button" class="btn btn-primary" @click="signup()">
+              Confirm Signup
+            </button> -->
+            <button type="button" @click="signup()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmationModal">
+              Confirm Signup
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- confirmation modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5 confirm-title">Signup Successful !</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-footer confirm-footer">
+            <button type="button" class="btn btn-secondary" @click="back()">
+              Back
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- donate modal -->
     <div
       class="modal fade"
       id="exampleModalCenteredScrollable"
@@ -115,7 +151,9 @@
           <p class="fw-bold text-center mb-1 fs-7" >Sign up before {{ eventDates.startDateString }} {{ eventDates.starTime }}</p>
         </div>
         <div class="d-grid gap-2">
-          <button type="button" class="btn btn-primary" @click="signup()">Volunteer Now!</button>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#volunteerModal">
+            Volunteer Now!
+          </button>
           <button
             type="button"
             class="btn btn-warning modal-button"
@@ -191,6 +229,24 @@
       padding: 0;
     }
   } */
+
+  /* modal */
+.signup-title, .confirm-title {
+  width: 100%;
+  text-align: center;
+  padding-left: 1.5rem;
+}
+.signup-footer {
+  display: grid;
+  grid-template-columns: 180px 180px;
+  gap: 1.5rem;
+  justify-content: center;
+}
+.confirm-footer {
+  display: grid;
+  justify-content: center;
+}
+
   .donation-btn-container {
     display: grid;
     grid-template-columns: 4rem 4rem 4rem 4rem;
@@ -378,6 +434,10 @@ export default {
           this.userID = user.uid
         }
       })
+    },
+
+    back() {
+      this.$router.go("/")
     },
   },
 

@@ -12,7 +12,7 @@
       <h5 class="card-title">Donation received!</h5>
       <p class="card-text">Thank you for your donation! A little goes a long way :)</p>
       <div class="btn-container">
-        <button @click="$router.go(-3)" class="btn btn-primary">Return to Event Page</button>
+        <button @click="this.$router.go(-3)" class="btn btn-primary">Return to Event Page</button>
       </div>
     </div>
   </div>
