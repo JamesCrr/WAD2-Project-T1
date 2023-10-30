@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid">
+    <!-- modal -->
     <div
       class="modal fade"
       id="exampleModalCenteredScrollable"
@@ -114,7 +115,7 @@
           <p class="fw-bold text-center mb-1 fs-7" >Sign up before {{ eventDates.startDateString }} {{ eventDates.starTime }}</p>
         </div>
         <div class="d-grid gap-2">
-          <button type="button" class="btn btn-primary">Volunteer Now!</button>
+          <button type="button" class="btn btn-primary" @click="signup()">Volunteer Now!</button>
           <button
             type="button"
             class="btn btn-warning modal-button"
@@ -215,8 +216,9 @@ import {
   BIconEnvelopeFill,
 } from "bootstrap-icons-vue"
 import { mapState, mapMutations, mapActions, mapGetters } from "vuex"
-import { firebase_firestore, firebase_storage } from "../firebase"
-import { doc, getDoc, setDoc } from "firebase/firestore"
+import { firebase_firestore, firebase_storage, firebase_auth } from "../firebase"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+import { Firestore, doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore"
 import { ref, getDownloadURL } from "firebase/storage"
 import Donate2 from "../components/Donate2.vue"
 import Donate5 from "../components/Donate5.vue"
@@ -231,6 +233,9 @@ export default {
       organiserRef: null,
       organiserDetails: {},
       downloadedUrl: null,
+
+      // Volunteer Now
+      userID: "",
 
       // Google Map API
       mapmarker: {
@@ -355,10 +360,30 @@ export default {
         console.log("Organiser Doc Fetch Error!", error)
       }
     },
+
+    async signup() {
+      const eventRef = doc(firebase_firestore, "events", this.$route.params.id);
+
+      // Atomically add a new userID to the "signups" array field.
+      await updateDoc(eventRef, {
+          signups: arrayUnion(this.userID)
+      });
+
+    },
+
+    async getUserID() {
+      const auth = getAuth()
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          this.userID = user.uid
+        }
+      })
+    },
   },
 
   mounted() {
-    this.async_FetchDetails()
+    this.async_FetchDetails(), this.getUserID()
   },
+
 }
 </script>
