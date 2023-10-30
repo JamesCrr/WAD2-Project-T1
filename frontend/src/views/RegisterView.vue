@@ -4,7 +4,20 @@
       <div class="col-11 position-absolute bg-primary h-50 z-n1 rounded"></div>
     </div>
     <div class="row g-0 justify-content-center mt-4">
-      <h2 class="text-light text-center mb-4">Sign up with us!</h2>
+      <div class="text-container text-light fw-bold h2 mb-4 d-flex justify-content-center">
+        <span class="letter">R</span>
+        <span class="letter">e</span>
+        <span class="letter">g</span>
+        <span class="letter">i</span>
+        <span class="letter">s</span>
+        <span class="letter">t</span>
+        <span class="letter">e</span>
+        <span class="letter">r</span>&nbsp
+        <span class="letter">N</span>
+        <span class="letter">o</span>
+        <span class="letter">w</span>
+      </div>
+      <!-- <h2 class="text-light text-center mb-4">Sign up with us!</h2> -->
     </div>
     <div class="row g-0 justify-content-center">
       <div class="col-11 col-sm-6 p-4 bg-light rounded">
@@ -167,6 +180,7 @@ import { mapMutations } from "vuex"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { doc, setDoc } from "firebase/firestore"
 import { firebase_firestore, firebase_auth } from "../firebase"
+import { gsap } from "gsap";
 
 export default {
   data() {
@@ -256,5 +270,23 @@ export default {
       }
     },
   },
+
+  mounted() {
+    const animation = gsap.timeline({ repeat: -1});
+    const letters = document.querySelectorAll(".letter");
+
+    letters.forEach((letter, index) => {
+        // Animate "W" differently
+        animation.to(letter, {
+          y: -5, // Move "W" up
+          duration: 0.2,
+          ease: "power1.inOut",
+        }).to(letter, {
+          y: 0, // Move "W" back down
+          duration: 0.2 ,
+          ease: "power1.inOut",
+        });
+    });
+  }
 }
 </script>
