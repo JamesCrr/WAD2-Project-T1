@@ -190,6 +190,20 @@
       padding: 0;
     }
   } */
+  .donation-btn-container {
+    display: grid;
+    grid-template-columns: 4rem 4rem 4rem 4rem;
+    gap: 2rem;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .modal-title {
+    width: 100%;
+    text-align: center;
+  }
+  .modal-body {
+    text-align: center;
+  }
 </style>
 <script>
 import {
