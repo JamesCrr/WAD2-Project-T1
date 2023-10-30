@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="content">
     <!-- volunteer modal -->
     <div class="modal fade" id="volunteerModal" tabindex="-1">
       <div class="modal-dialog">
@@ -150,7 +150,7 @@
         <div class="row pt-2 pb-0">
           <p class="fw-bold text-center mb-1 fs-7" >Sign up before {{ eventDates.startDateString }} {{ eventDates.starTime }}</p>
         </div>
-        <div class="d-grid gap-2">
+        <div class="d-grid gap-2 m-4">
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#volunteerModal">
             Volunteer Now!
           </button>
@@ -229,6 +229,16 @@
       padding: 0;
     }
   } */
+
+  /* content */
+
+  .content {
+  position: absolute;
+  width: 100%;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  top: 7rem;
+}
 
   /* modal */
 .signup-title, .confirm-title {
