@@ -170,7 +170,7 @@
             </li>
             <li class="nav-item ms-md-4">
               <router-link
-                to=""
+                to="/myevents"
                 class="text-decoration-none d-flex align-items-center text-light mb-3 mb-md-0"
               >
                 <BIconCalendarEventFill class="fs-5" />

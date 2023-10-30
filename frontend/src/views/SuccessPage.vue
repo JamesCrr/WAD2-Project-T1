@@ -11,7 +11,9 @@
     <div class="card-body">
       <h5 class="card-title">Donation received!</h5>
       <p class="card-text">Thank you for your donation! A little goes a long way :)</p>
-      <button @click="$router.go(-3)" class="btn btn-primary">Return to Event Page</button>
+      <div class="btn-container">
+        <button @click="$router.go(-3)" class="btn btn-primary">Return to Event Page</button>
+      </div>
     </div>
   </div>
 </template>
@@ -22,6 +24,14 @@
   margin-right: auto;
   top: 10rem;
   width: 25rem;
+}
+.card-title, .card-text {
+  text-align: center;
+}
+.btn-container {
+  display: grid;
+  grid-template-columns: 15rem;
+  justify-content: center;
 }
 
 /* success animation */

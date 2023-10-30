@@ -1,4 +1,22 @@
 <template>
+  <!-- confirm delete modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm withdrawal from event?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary cancel" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" v-on:click="deleteEvent(event)">
+            Confirm Withdrawal
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- main content -->
   <div class="content">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
       <div class="col" v-for="event in events" :key="event.id">
@@ -16,15 +34,18 @@
               <button type="button" class="btn btn-primary">
                 <router-link
                   class="link-text"
-                  v-bind:to="'/organiser/editevent/' + event.id"
+                  v-bind:to="'/events/' + event.id"
                   :key="event.id"
                 >
-                  Edit
+                  View Event
                 </router-link>
               </button>
-              <button type="button" class="btn btn-danger" v-on:click="deleteEvent(event)">
-                Delete
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                Withdraw from Event
               </button>
+              <!-- <button type="button" class="btn btn-danger" v-on:click="deleteEvent(event)">
+                Withdraw from Event
+              </button> -->
             </div>
           </div>
         </div>
@@ -106,23 +127,61 @@ export default {
 }
 </script>
 
-<style>
-/* content */
+<style scoped>
 
+/* modal */
+.modal-title {
+  width: 100%;
+  text-align: center;
+}
+.modal-footer {
+  display: grid;
+  grid-template-columns: 180px 180px;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+/* content */
 .content {
   position: absolute;
   width: 100%;
   padding-left: 3rem;
   padding-right: 3rem;
-  top: 5rem;
+  top: 7rem;
 }
 
-@media (min-width: 992px) {
+/* @media (min-width: 992px) {
   .content {
     position: absolute;
     max-width: 76%;
     left: 16rem;
     top: 2rem;
   }
+} */
+.grid-container {
+  display: grid;
+  justify-content: space-evenly;
+  grid-template-columns: 45% 45%;
+  gap: 1rem;
+  vertical-align: bottom;
+}
+.card {
+  height: 100%;
+}
+.card-title {
+  text-align: center;
+}
+.card-text{
+  height: 72px;
+  overflow: hidden;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.link-text {
+  text-decoration: none;
+  color: white;
 }
 </style>

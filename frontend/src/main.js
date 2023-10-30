@@ -25,6 +25,7 @@ app
   .use(store)
   .use(router)
   .use(BootstrapIconsPlugin)
+  .use(StripeCheckout)
   .use(VueGoogleMaps, {
     load: {
       key: import.meta.env.VITE_GOOGLEMAPS_apiKey,

@@ -974,16 +974,7 @@ export default {
   width: 100%;
   padding-left: 3rem;
   padding-right: 3rem;
-  top: 5rem;
-}
-
-@media (min-width: 992px) {
-  .content {
-    position: absolute;
-    max-width: 76%;
-    left: 16rem;
-    top: 2rem;
-  }
+  top: 7rem;
 }
 
 /* calendar styling */

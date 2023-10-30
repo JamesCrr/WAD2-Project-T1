@@ -23,8 +23,8 @@ export default {
     this.publishableKey =
       "pk_test_51O4n0jBWraf69XnWSeezJW88o1buIhc2GF99LFdvQAgYaaw1zpXEeAla8XHQZS08uNrkh0EusMbzHoKWKt0Vb7g500NTzmDcIq"
     return {
-      loading: false,
       readyToPay: false,
+      loading: false,
       lineItems: [
         {
           price: "price_1O5KRPBWraf69XnWeBHNrucd", // The id of the one-time price you created in your Stripe dashboard
