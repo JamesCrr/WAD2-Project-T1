@@ -10,13 +10,65 @@
     <!-- card body -->
     <div class="card-body">
       <h5 class="card-title">Donation received!</h5>
-      <p class="card-text">Thank you for your donation! A little goes a long way :)</p>
+      <p class="card-text">Thank you for your donation! <br />A little goes a long way :)</p>
       <div class="btn-container">
-        <button @click="this.$router.go(-3)" class="btn btn-primary">Return to Event Page</button>
+        <button @click="this.$router.replace({ name: 'myevents' })" class="btn btn-primary">
+          Return to Event Page
+        </button>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+import { firebase_firestore } from "../firebase"
+import { doc, updateDoc, getDoc } from "firebase/firestore"
+
+export default {
+  data() {
+    return {}
+  },
+  methods: {
+    /**
+     * Updates firestore of successful donation
+     */
+    async updateFirestore() {
+      // Get donation detials
+      const eventid = this.$cookies.get("wadt1_donate_eventid")
+      const userid = this.$cookies.get("wadt1_donate_userid")
+      const amount = this.$cookies.get("wadt1_donate_amt")
+      // console.log(userid, eventid, amount)
+      if (!userid || !eventid || !amount) {
+        return
+      }
+      // remove cookies
+      this.$cookies.remove("wadt1_donate_eventid")
+      this.$cookies.remove("wadt1_donate_userid")
+      this.$cookies.remove("wadt1_donate_amt")
+
+      // Get existing data from Firestore
+      const eventRef = doc(firebase_firestore, "events", eventid)
+      const eventSnap = await getDoc(eventRef)
+      if (eventSnap.exists()) {
+        // console.log("Document data:", eventSnap.data())
+        let eventData = eventSnap.data()
+
+        // Update firestore
+        await updateDoc(eventRef, {
+          donations: [...eventData.donations, { userid, amount: parseInt(amount) }],
+        })
+      } else {
+        console.log("No such document!")
+        return
+      }
+    },
+  },
+  mounted() {
+    this.updateFirestore()
+  },
+}
+</script>
+
 <style scoped>
 .success-card {
   position: relative;
@@ -25,7 +77,8 @@
   top: 10rem;
   width: 25rem;
 }
-.card-title, .card-text {
+.card-title,
+.card-text {
   text-align: center;
 }
 .btn-container {

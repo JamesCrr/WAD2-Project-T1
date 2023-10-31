@@ -1,6 +1,7 @@
 <template>
+  <!-- Organiser Dashboard -->
   <div v-if="!getIsVolunteer">
-    <!-- Organiser Dashboard -->
+    <!-- Navbar (Desktop Navbar) -->
     <nav class="navbar bg-primary d-none d-lg-block min-vh-100 fixed-top sidebar">
       <div class="container-fluid">
         <div class="row vw-100 vh-100">
@@ -13,32 +14,59 @@
             <div
               class="w-100 h-100 d-flex flex-column justify-content-between align-items-start mb-4"
             >
-              <ul class="nav flex-column">
+              <ul class="nav flex-column w-100">
                 <li class="nav-item">
                   <router-link
                     to="/orgdashboard"
                     class="text-decoration-none d-flex align-items-center text-light mb-3"
+                    v-bind:style="getOrgNavbarStyles('orgdashboard', 'li')"
                   >
-                    <BIconGrid1x2Fill class="fs-5" />
-                    <label class="ms-2 fs-5">Dashboard</label>
+                    <BIconGrid1x2Fill
+                      class="fs-5"
+                      v-bind:style="getOrgNavbarStyles('orgdashboard', 'svg')"
+                    />
+                    <label
+                      class="ms-2 fs-5"
+                      style="cursor: pointer"
+                      v-bind:style="getOrgNavbarStyles('orgdashboard', '')"
+                      >Dashboard</label
+                    >
                   </router-link>
                 </li>
                 <li class="nav-item">
                   <router-link
                     to="/organiser/events"
                     class="text-decoration-none d-flex align-items-center text-light mb-3"
+                    v-bind:style="getOrgNavbarStyles('organiser_events', 'li')"
                   >
-                    <BIconCalendarEventFill class="fs-5" />
-                    <label class="ms-2 fs-5">Events</label>
+                    <BIconCalendarEventFill
+                      class="fs-5"
+                      v-bind:style="getOrgNavbarStyles('organiser_events', 'svg')"
+                    />
+                    <label
+                      class="ms-2 fs-5"
+                      style="cursor: pointer"
+                      v-bind:style="getOrgNavbarStyles('organiser_events', '')"
+                      >Events</label
+                    >
                   </router-link>
                 </li>
                 <li class="nav-item">
                   <router-link
-                    to="/organiser/events"
+                    to="/organiser/donations"
                     class="text-decoration-none d-flex align-items-center text-light mb-3"
+                    v-bind:style="getOrgNavbarStyles('organiser_donations', 'li')"
                   >
-                    <BIconPiggyBankFill class="fs-5" />
-                    <label class="ms-2 fs-5">Donations</label>
+                    <BIconPiggyBankFill
+                      class="fs-5"
+                      v-bind:style="getOrgNavbarStyles('organiser_donations', 'svg')"
+                    />
+                    <label
+                      class="ms-2 fs-5"
+                      style="cursor: pointer"
+                      v-bind:style="getOrgNavbarStyles('organiser_donations', '')"
+                      >Donations</label
+                    >
                   </router-link>
                 </li>
               </ul>
@@ -51,7 +79,7 @@
       </div>
     </nav>
 
-    <!-- Vertical Navbar -->
+    <!-- Navbar (Mobile Navbar) -->
     <nav class="navbar bg-primary fixed-top d-lg-none">
       <div class="container-fluid justify-content-start">
         <!-- Button to toggle dropdown -->
@@ -91,46 +119,48 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="offcanvas-body">
-            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <div class="offcanvas-body d-flex flex-column justify-content-between">
+            <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
               <li class="nav-item">
                 <router-link
                   to="/orgdashboard"
                   class="text-decoration-none d-flex align-items-center text-light mb-3"
                 >
                   <BIconGrid1x2Fill class="fs-5" />
-                  <label class="ms-2 fs-5">Dashboard</label>
+                  <label class="ms-2 fs-5" style="cursor: pointer">Dashboard</label>
                 </router-link>
               </li>
               <li class="nav-item">
                 <router-link
                   to="/organiser/events"
                   class="text-decoration-none d-flex align-items-center text-light mb-3"
+                  v-bind:style="getUserNavbarStyles('organiser_events')"
                 >
                   <BIconCalendarEventFill class="fs-5" />
-                  <label class="ms-2 fs-5">Events</label>
+                  <label class="ms-2 fs-5" style="cursor: pointer">Events</label>
                 </router-link>
               </li>
               <li class="nav-item">
                 <router-link
                   to="/organiser/donations"
                   class="text-decoration-none d-flex align-items-center text-light mb-3"
+                  v-bind:style="getUserNavbarStyles('organiser_donations')"
                 >
                   <BIconPiggyBankFill class="fs-5" />
-                  <label class="ms-2 fs-5">Donations</label>
+                  <label class="ms-2 fs-5" style="cursor: pointer">Donations</label>
                 </router-link>
               </li>
-              <button style="cursor: pointer" class="btn btn-danger" @click="logOut">
-                <label class="fs-6">Logout</label>
-              </button>
             </ul>
+            <button style="cursor: pointer" class="btn btn-danger w-100" @click="logOut">
+              <label class="fs-6">Logout</label>
+            </button>
           </div>
         </div>
       </div>
     </nav>
   </div>
+  <!-- Volunteer Dashboard -->
   <div v-else>
-    <!-- Volunteer Dashboard -->
     <nav class="navbar navbar-expand-md bg-primary fixed-top">
       <div class="container-fluid">
         <div class="d-flex justify-content-center align-items-center navbar-brand">
@@ -154,34 +184,35 @@
               <router-link
                 to="/"
                 class="text-decoration-none d-flex align-items-center text-light mb-3 mb-md-0"
+                v-bind:style="getUserNavbarStyles('home')"
               >
                 <BIconGrid1x2Fill class="fs-5" />
-                <label class="ms-2 fs-5">Home</label>
+                <label style="cursor: pointer" class="ms-2 fs-5">Home</label>
               </router-link>
             </li>
             <li class="nav-item ms-md-4">
               <router-link
                 to="/volunteer"
                 class="text-decoration-none d-flex align-items-center text-light mb-3 mb-md-0"
+                v-bind:style="getUserNavbarStyles('volunteer')"
               >
                 <BIconHeartFill class="fs-5" />
-                <label class="ms-2 fs-5">Volunteer</label>
+                <label style="cursor: pointer" class="ms-2 fs-5">Volunteer</label>
               </router-link>
             </li>
             <li class="nav-item ms-md-4">
               <router-link
                 to="/myevents"
                 class="text-decoration-none d-flex align-items-center text-light mb-3 mb-md-0"
+                v-bind:style="getUserNavbarStyles('myevents')"
               >
                 <BIconCalendarEventFill class="fs-5" />
-                <label class="ms-2 fs-5">My Events</label>
+                <label style="cursor: pointer" class="ms-2 fs-5">My Events</label>
               </router-link>
             </li>
-            <!-- <li class="nav-item ms-md-3">
-              <button style="cursor: pointer" class="btn btn-danger" @click="logOut">Logout</button>
-            </li> -->
-            <button style="cursor: pointer" class="btn btn-danger ms-md-3" @click="logOut">
-              <label class="fs-6">Logout</label>
+            <button class="btn btn-danger ms-md-3" @click="logOut">
+              <!-- <label class="fs-6">Logout</label> -->
+              Logout
             </button>
           </ul>
         </div>
@@ -210,6 +241,10 @@ export default {
   },
   computed: {
     ...mapGetters("auth", ["getIsVolunteer"]),
+    getCurrentRouteName() {
+      // console.log(this.$router)
+      return this.$router.currentRoute.value.name
+    },
   },
   components: {
     BIconGrid1x2Fill,
@@ -225,19 +260,39 @@ export default {
       this.m_Logout()
       this.$cookies.remove("wadt1_email")
       this.$cookies.remove("wadt1_password")
-      router.push("/login")
+      // this.$cookies.remove("wadt1_lastpage")
+
+      this.$router.replace({ name: "login" })
       return
+    },
+
+    getUserNavbarStyles(pageName) {
+      if (pageName == this.getCurrentRouteName) {
+        return {
+          "border-bottom": "solid 3px",
+        }
+      }
+      return {}
+    },
+    getOrgNavbarStyles(pageNames, component) {
+      if (pageNames.includes(this.getCurrentRouteName)) {
+        if (component == "li") {
+          return { "background-color": "white", padding: "6px", "border-radius": "10px" }
+        } else if (component == "svg") {
+          return { color: "var(--bs-primary)" }
+        } else {
+          return { color: "var(--bs-primary)" }
+        }
+      }
+      return {}
     },
   },
 }
 </script>
 
 <style scoped>
-.nav-item {
-}
-
 .sidebar {
-    width: 15rem;
+  width: 17rem;
 }
 </style>
 

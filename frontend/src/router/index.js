@@ -13,7 +13,6 @@ import OrganiserDonations from "../views/OrganiserDonations.vue"
 import OrganiserEvents from "../views/OrganiserEvents.vue"
 import OrgDashboardView from "../views/OrgDashboardView.vue"
 import UserDonationsView from "../views/UserDonationsView.vue"
-import Donate from "../views/Donate.vue"
 import SuccessPage from "../views/SuccessPage.vue"
 import ErrorPage from "../views/ErrorPage.vue"
 import MyEvents from "../views/MyEvents.vue"
@@ -32,11 +31,11 @@ const router = createRouter({
       component: RegisterView,
     },
 
-    {
-      path: "/user",
-      name: "user",
-      component: UserView,
-    },
+    // {
+    //   path: "/user",
+    //   name: "user",
+    //   component: UserView,
+    // },
     {
       path: "/volunteer",
       name: "volunteer",
@@ -62,11 +61,11 @@ const router = createRouter({
       name: "home",
       component: HomeView,
     },
-    {
-      path: "/chat",
-      name: "chat",
-      component: ChatView,
-    },
+    // {
+    //   path: "/chat",
+    //   name: "chat",
+    //   component: ChatView,
+    // },
     {
       path: "/organiser/addevent",
       name: "organiser_addevent",
@@ -87,18 +86,23 @@ const router = createRouter({
       name: "organiser_events",
       component: OrganiserEvents,
     },
-    // scrap this userdonationsview page
     {
-      path: "/userdonations",
-      name: "userDonations",
-      component: UserDonationsView,
+      path: "/orgdashboard",
+      name: "orgdashboard",
+      component: OrgDashboardView,
     },
-    // donate is a test page
-    {
-      path: "/donate",
-      name: "donate",
-      component: Donate, 
-    },
+    // // scrap this userdonationsview page
+    // {
+    //   path: "/userdonations",
+    //   name: "userDonations",
+    //   component: UserDonationsView,
+    // },
+    // // donate is a test page
+    // {
+    //   path: "/donate",
+    //   name: "donate",
+    //   component: Donate,
+    // },
     {
       path: "/success",
       name: "success",
@@ -114,35 +118,94 @@ const router = createRouter({
     //   name: "viewEvent",
     //   component: ViewEvent,
     // },
-    {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import("../views/AboutView.vue"),
-    },
-    {
-      path: "/orgdashboard",
-      name: "orgdashboard",
-      component: OrgDashboardView,
-    },
+    // {
+    //   path: "/about",
+    //   name: "about",
+    //   // route level code-splitting
+    //   // this generates a separate chunk (About.[hash].js) for this route
+    //   // which is lazy-loaded when the route is visited.
+    //   component: () => import("../views/AboutView.vue"),
+    // },
   ],
 })
 
 // Enable Guarded Routes for everything other than Login and Register
 router.beforeEach((to, from) => {
-  // const getIsLoggedIn = store.getters["auth/getIsLoggedIn"]
-  // // Not logged in but trying to access other routes
-  // if (to.name !== "login" && to.name !== "register" && !getIsLoggedIn) {
-  //   return { name: "login", replace: true }
-  // }
-  // // Already logged in but trying to login/register again
-  // else if ((to.name === "login" || to.name === "register") && getIsLoggedIn) {
-  //   // console.log("AREDD")
-  //   // explicitly return false to cancel the navigation
-  //   return false
-  // }
+  const getIsLoggedIn = store.getters["auth/getIsLoggedIn"]
+  const getIsVolunteer = store.getters["auth/getIsVolunteer"]
+
+  // console.log("Router::", getIsLoggedIn, getIsVolunteer, to.name, from.name)
+  // console.log(window.$cookies.isKey("wadt1_email"))
+
+  // Has the user Logged in already?
+  if (!getIsLoggedIn) {
+    // Stripe
+    if (to.name === "success" || to.name === "error") {
+      return true
+    }
+
+    // Have they already logged in?
+    if (window.$cookies.isKey("wadt1_email")) {
+      return true
+      // // Prevent navigation
+      //  return false
+    } else {
+      // Go to Login page if not already there
+      if (to.name !== "login") return { name: "login", replace: true }
+    }
+    // // Trying to access other routes
+    // if (to.name !== "login" && to.name !== "register") {
+    //     let pagename = "home"
+    //     if (window.$cookies.isKey("wadt1_lastpage")) {
+    //       pagename = window.$cookies.get("wadt1_lastpage")
+    //     }
+
+    //   }
+  } else {
+    // Already logged in but trying to login/register again
+    if (to.name === "login" || to.name === "register") {
+      // explicitly return false to cancel the navigation
+      return false
+    }
+    // Org accessing user pages?
+    if (
+      !getIsVolunteer &&
+      (to.name === "volunteer" ||
+        to.name === "myevents" ||
+        to.name === "eventdetail" ||
+        to.name === "home")
+    ) {
+      if (from.name) {
+        return false
+      } else {
+        // Go to org home page
+        return { name: "orgdashboard", replace: true }
+      }
+    }
+    // User accesing org pages?
+    if (
+      getIsVolunteer &&
+      (to.name === "organiser_addevent" ||
+        to.name === "organiser_editevent" ||
+        to.name === "organiser_donations" ||
+        to.name === "organiser_events" ||
+        to.name === "orgdashboard")
+    ) {
+      if (from.name) {
+        return false
+      } else {
+        // Go to user home page
+        return { name: "home", replace: true }
+      }
+    }
+
+    // Stripe Redirect
+    // if (window.$cookies.isKey("wadt1_donate_amt"))
+    // if (to.name === "success" || to.name === "success") {
+    //   return false
+    // }
+  }
+
   /** Proceed as normal */
   // ...
 })

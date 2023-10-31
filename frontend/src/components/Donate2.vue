@@ -35,6 +35,7 @@ export default {
       cancelURL: `${import.meta.env.VITE_deployedURL}/error`,
     }
   },
+  props: ["eventid", "username"],
   components: {
     StripeCheckout,
   },
@@ -42,6 +43,14 @@ export default {
     async submit() {
       this.readyToPay = true
       await this.$nextTick()
+
+      // Set the page to redirect to as myevents
+      // this.$cookies.set("wadt1_lastpage", "success", -1)
+      // Set donation details for success to upate firestore
+      // console.log(this.eventid)
+      this.$cookies.set("wadt1_donate_eventid", this.eventid, -1)
+      this.$cookies.set("wadt1_donate_userid", this.username, -1)
+      this.$cookies.set("wadt1_donate_amt", 2, -1)
 
       // You will be redirected to Stripe's secure checkout page
       this.$refs.checkoutRef.redirectToCheckout()

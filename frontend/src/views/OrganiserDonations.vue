@@ -1,14 +1,13 @@
 <template>
-  <div class="container-fluid p-0">
-    <div class="row">
-      <div
-        class="col-md-9 my-3 ms-lg-5 ms-md-5 ms-sm-5"
-        style="min-height: 100vh; position: relative"
-      >
+  <div class="container-fluid navbarspace">
+    <div class="row g-0">
+      <div class="col g-1 px-4">
         <div class="row">
-          <h1 class="mb-5">Donations</h1>
-          <table class="table table-light">
-            <thead>
+          <h1 class="mb-3">Donations</h1>
+        </div>
+        <div class="row">
+          <table class="table table-light table-hover">
+            <thead class="table-primary">
               <tr>
                 <th scope="col">Events</th>
                 <th scope="col">Date</th>
@@ -33,7 +32,12 @@
                   >
                     <div class="progress-bar" :style="{ width: progressBarWidth(event) }"></div>
                   </div>
-                  <h4>${{ totalDonations(event) }}<span style="font-size: medium; color: black;">, raised from {{ event.donations.length }} donors</span></h4>
+                  <h4>
+                    ${{ totalDonations(event)
+                    }}<span style="font-size: medium; color: black"
+                      >, raised from {{ event.donations.length }} donors</span
+                    >
+                  </h4>
                 </td>
               </tr>
             </tbody>
@@ -47,7 +51,6 @@
 <script>
 import { collection, getDocs } from "firebase/firestore"
 import { firebase_firestore } from "../firebase"
-
 
 export default {
   data() {
@@ -67,7 +70,7 @@ export default {
           // Access the data from each document
           const eventData = doc.data()
 
-          if(eventData.selectedDonation == true){
+          if (eventData.selectedDonation == true) {
             // Append the event data with the downloadedURL to the events array
             events.push({ ...eventData, id: doc.id })
           }
@@ -81,30 +84,44 @@ export default {
       }
     },
     totalDonations(event) {
-      let sum = 0;
+      let sum = 0
       if (Array.isArray(event.donations)) {
-        sum += event.donations.reduce((acc, donation) => acc + donation.amount, 0);
+        sum += event.donations.reduce((acc, donation) => acc + donation.amount, 0)
       }
-      return sum;
+      return sum
     },
     getProgressStatus(event) {
       if (event.budget <= 0) {
-        return "0% completed";
+        return "0% completed"
       }
-      
-      const percentage = (this.totalDonations(event) / event.budget) * 100;
-      return percentage >= 100 ? "100% Completed" : `${percentage}% completed`;
+
+      const percentage = (this.totalDonations(event) / event.budget) * 100
+      return percentage >= 100 ? "100% Completed" : `${percentage}% completed`
     },
     progressBarWidth(event) {
       if (event.budget <= 0) {
-        return "0%";
+        return "0%"
       }
-      const percentage = (this.totalDonations(event) / event.budget) * 100;      
-      return percentage >= 100 ? "100%" : `${percentage}%`;
-    }
+      const percentage = (this.totalDonations(event) / event.budget) * 100
+      return percentage >= 100 ? "100%" : `${percentage}%`
+    },
   },
-  created() {
+  mounted() {
     this.fetchEventData()
   },
 }
 </script>
+
+<style scoped>
+.navbarspace {
+  padding: 0;
+  padding-left: 17rem;
+}
+
+@media (max-width: 992px) {
+  .navbarspace {
+    padding: 0;
+    margin-top: 10vh;
+  }
+}
+</style>

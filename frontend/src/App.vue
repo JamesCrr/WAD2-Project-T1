@@ -48,7 +48,6 @@ import { firebase_firestore, firebase_auth } from "./firebase"
 import MainChatWindow from "./components/chat/MainChatWindow.vue"
 import NavBar from "./components/NavBar.vue"
 
-
 export default {
   computed: {
     ...mapGetters("auth", ["getIsLoggedIn", "getIsVolunteer"]),
@@ -91,6 +90,7 @@ export default {
           isVolunteer: accountDetails.type === "volunteer",
           authDetails: user,
           accountDetails,
+          accountRef: docRef,
         })
 
         // Fetch all the chats related to this account
@@ -115,8 +115,25 @@ export default {
           process.env.NODE_ENV === "production" ? "YOUR SERVER URL HERE" : "http://localhost:3000"
         this.a_InitializeSocket({ URL, myUsername: accountDetails.username })
 
-        // redirect to home page
-        this.$router.replace({ path: "/" })
+        // // redirect to home page if no other page
+        // let pagename = accountDetails.type === "volunteer" ? "home" : "orgdashboard"
+        // if (this.$cookies.isKey("wadt1_lastpage")) {
+        //   pagename = this.$cookies.get("wadt1_lastpage")
+        //   // reset the redirect
+        //   this.$cookies.set(
+        //     "wadt1_lastpage",
+        //     accountDetails.type === "volunteer" ? "home" : "orgdashboard",
+        //     -1,
+        //   )
+        // }
+        // //redirect USING NAME
+        // this.$router.replace({ name: pagename })
+
+        // Go back to same page to trigger rerouting
+        const currentpagename = this.$router.currentRoute.value.name
+        // console.log("ROUTErr:", this.$router)
+        // console.log("APP ROUTE:", currentpagename)
+        this.$router.replace({ name: currentpagename })
       } catch (error) {
         const errorCode = error.code
         const errorMessage = error.message

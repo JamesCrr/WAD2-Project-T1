@@ -1,19 +1,55 @@
+<!-- <div class="row mt-4 mb-5">
+      <div class="col d-flex justify-content-center align-items-center">
+        <GMapMap
+          :center="mapcenter"
+          :options="mapoptions"
+          :zoom="16"
+          map-type-id="terrain"
+          id="gmap"
+          style="width: 30vw; height: 20rem"
+        >
+          <GMapMarker
+            :position="mapmarker.position"
+            :clickable="false"
+            :draggable="false"
+            @click="center = mapmarker.position"
+          >
+          </GMapMarker>
+        </GMapMap> -->
+<!-- <GMapInfoWindow>
+              <div>I am in info window <MyComponent /></div>
+            </GMapInfoWindow> -->
+<!-- </div> -->
+<!-- </div> -->
 <template>
-  <div class="content">
+  <div>
     <!-- volunteer modal -->
     <div class="modal fade" id="volunteerModal" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5 signup-title">Confirm Sign Up for event?</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-footer signup-footer">
-            <button type="button" class="btn btn-secondary cancel" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-secondary cancel" data-bs-dismiss="modal">
+              Cancel
+            </button>
             <!-- <button type="button" class="btn btn-primary" @click="signup()">
               Confirm Signup
             </button> -->
-            <button type="button" @click="signup()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmationModal">
+            <button
+              type="button"
+              @click="signup()"
+              class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#confirmationModal"
+            >
               Confirm Signup
             </button>
           </div>
@@ -26,11 +62,21 @@
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5 confirm-title">Signup Successful !</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-footer confirm-footer">
-            <button type="button" class="btn btn-secondary" @click="back()">
-              Back
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              @click="this.$router.replace({ name: 'myevents' })"
+            >
+              Okay
             </button>
           </div>
         </div>
@@ -61,10 +107,26 @@
           <div class="modal-body">
             <h4 class="donate-text">Choose an amount to donate:</h4>
             <div class="grid-container donation-btn-container">
-              <Donate2 class="donate-btn" />
-              <Donate5 class="donate-btn" />
-              <Donate10 class="donate-btn" />
-              <Donate50 class="donate-btn" />
+              <Donate2
+                :username="getAuthDetails ? getAuthDetails.uid : ''"
+                :eventid="this.eventid"
+                class="donate-btn"
+              />
+              <Donate5
+                :username="getAuthDetails ? getAuthDetails.uid : ''"
+                :eventid="this.eventid"
+                class="donate-btn"
+              />
+              <Donate10
+                :username="getAuthDetails ? getAuthDetails.uid : ''"
+                :eventid="this.eventid"
+                class="donate-btn"
+              />
+              <Donate50
+                :username="getAuthDetails ? getAuthDetails.uid : ''"
+                :eventid="this.eventid"
+                class="donate-btn"
+              />
             </div>
           </div>
           <div class="modal-footer">
@@ -73,23 +135,33 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Events description start -->
-    <div class="row pt-3">
-      <div class="col-md-8 col-sm-12" style="padding: 0;">
+  <!-- Events Description -->
+  <div class="container-fluid" style="margin-top: 74px">
+    <div class="row">
+      <div class="col-md-8 col-sm-12" style="padding: 0">
         <img v-bind:src="downloadedUrl" class="w-100 object-fit-fill" alt="" />
       </div>
-      <div class="col-md-4 col-sm-12" style="background-color: bisque;">
-        <h3 class="mb-0" style="font-weight: bold; padding-bottom: 10px;">{{ eventDetails.title }}</h3>
-        <p>
-          by <span style="display: inline-block">{{ organiserDetails.username }}</span>
+      <div class="col-md-4 col-sm-12">
+        <h3 class="mb-0" style="font-weight: bold; padding-top: 13px; padding-bottom: 10px">
+          {{ eventDetails.title }}
+        </h3>
+        <p class="fs-5">
+          by
+          <span style="display: inline-block" class="text-primary">{{
+            organiserDetails.username
+          }}</span>
         </p>
 
-        <div class="header mb-3" style="background-color: pink; padding-left: 5px; padding-top: 10px; padding-bottom: 2px;">
-            <h4>Details</h4>
+        <div
+          class="header mb-3"
+          style="background-color: pink; padding-left: 5px; padding-top: 10px; padding-bottom: 2px"
+        >
+          <h4>Details</h4>
         </div>
         <div class="row pt-3 g-3 pb-3">
-          <div class="col-2 d-flex justify-content-center align-items-center" >
+          <div class="col-2 d-flex justify-content-center align-items-center">
             <BIconCalendar3 class="fs-5" />
           </div>
           <div class="col" style="font-size: larger">{{ eventDates.startDateString }}</div>
@@ -98,13 +170,17 @@
           <div class="col-2 d-flex justify-content-center align-items-center">
             <BIconClock class="fs-5" />
           </div>
-          <div class="col" style="font-size: larger">{{ eventDates.starTime }} to {{ eventDates.endTime }}</div>
+          <div class="col" style="font-size: larger">
+            {{ eventDates.starTime }} to {{ eventDates.endTime }}
+          </div>
         </div>
         <div class="row pt-3 g-3 pb-3">
           <div class="col-2 d-flex justify-content-center align-items-center">
             <BIconPersonFill class="fs-5" />
           </div>
-          <div class="col" style="font-size: larger">Suitable for: {{ eventDetails.suitability }}</div>
+          <div class="col" style="font-size: larger">
+            Suitable for: {{ eventDetails.suitability }}
+          </div>
         </div>
         <div class="row pt-3 g-3">
           <div class="col-2 d-flex justify-content-center align-items-center">
@@ -118,11 +194,11 @@
             </div>
           </div>
         </div>
-        
 
         <!-- <div class="header" style="background-color: pink; padding-left: 5px; padding-top: 10px; padding-bottom: 2px;">
             <h4>Venue</h4>
         </div> -->
+        <!-- Google Maps -->
         <div class="row mt-4 mb-4">
           <div class="col d-flex justify-content-center align-items-center">
             <GMapMap
@@ -148,17 +224,27 @@
         </div>
 
         <div class="row pt-2 pb-0">
-          <p class="fw-bold text-center mb-1 fs-7" >Sign up before {{ eventDates.startDateString }} {{ eventDates.starTime }}</p>
+          <p class="fw-bold text-center mb-1 fs-7">
+            Sign up before {{ eventDates.startDateString }} {{ eventDates.starTime }}
+          </p>
         </div>
         <div class="d-grid gap-2 m-4">
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#volunteerModal">
-            Volunteer Now!
+          <button
+            type="button"
+            class="btn"
+            :class="{ 'btn-primary': !signedUpAlready, 'btn-secondary': signedUpAlready }"
+            data-bs-toggle="modal"
+            data-bs-target="#volunteerModal"
+            v-bind:disabled="signedUpAlready"
+          >
+            {{ this.signedUpAlready ? "Already Signed Up" : "Volunteer Now!" }}
           </button>
           <button
             type="button"
             class="btn btn-warning modal-button"
             data-bs-toggle="modal"
             data-bs-target="#exampleModalCenteredScrollable"
+            v-if="this.eventDetails.selectedDonation"
           >
             Donate!
           </button>
@@ -166,13 +252,16 @@
       </div>
     </div>
 
-    <div class="row mt-4">
+    <!-- Other Info -->
+    <div class="row mt-4" style="margin-bottom: 20vh">
+      <!-- About -->
       <div class="col-md-8 col-sm-12">
         <h2>About the Activity</h2>
         <p>
           {{ eventDetails.desc }}
         </p>
       </div>
+      <!-- Contact -->
       <div class="col-md-4 col-sm-12">
         <div class="row">
           <h2>Contact Us</h2>
@@ -196,82 +285,9 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="row mt-4 mb-5">
-      <div class="col d-flex justify-content-center align-items-center">
-        <GMapMap
-          :center="mapcenter"
-          :options="mapoptions"
-          :zoom="16"
-          map-type-id="terrain"
-          id="gmap"
-          style="width: 30vw; height: 20rem"
-        >
-          <GMapMarker
-            :position="mapmarker.position"
-            :clickable="false"
-            :draggable="false"
-            @click="center = mapmarker.position"
-          >
-          </GMapMarker>
-        </GMapMap> -->
-        <!-- <GMapInfoWindow>
-              <div>I am in info window <MyComponent /></div>
-            </GMapInfoWindow> -->
-      <!-- </div> -->
-    <!-- </div> -->
   </div>
 </template>
 
-<style scoped>
-  /* @media (min-width: 576px) { 
-    .gmap{
-      padding: 0;
-    }
-  } */
-
-  /* content */
-
-  .content {
-  position: absolute;
-  width: 100%;
-  padding-left: 3rem;
-  padding-right: 3rem;
-  top: 7rem;
-}
-
-  /* modal */
-.signup-title, .confirm-title {
-  width: 100%;
-  text-align: center;
-  padding-left: 1.5rem;
-}
-.signup-footer {
-  display: grid;
-  grid-template-columns: 180px 180px;
-  gap: 1.5rem;
-  justify-content: center;
-}
-.confirm-footer {
-  display: grid;
-  justify-content: center;
-}
-
-  .donation-btn-container {
-    display: grid;
-    grid-template-columns: 4rem 4rem 4rem 4rem;
-    gap: 2rem;
-    justify-content: center;
-    padding: 2rem;
-  }
-  .modal-title {
-    width: 100%;
-    text-align: center;
-  }
-  .modal-body {
-    text-align: center;
-  }
-</style>
 <script>
 import {
   BIconCalendar3,
@@ -294,14 +310,12 @@ import Donate50 from "../components/Donate50.vue"
 export default {
   data() {
     return {
+      eventid: "",
       eventDetails: {},
       eventDates: {},
       organiserRef: null,
       organiserDetails: {},
       downloadedUrl: null,
-
-      // Volunteer Now
-      userID: "",
 
       // Google Map API
       mapmarker: {
@@ -336,8 +350,16 @@ export default {
   },
 
   computed: {
-    ...mapGetters("auth", ["getAccountRef", "getAccountDetails"]),
+    ...mapGetters("auth", ["getAccountRef", "getAccountDetails", "getAuthDetails"]),
     ...mapGetters("chat", ["getChatWindowOpenRequest"]),
+
+    /**
+     * Helper function to check if the user has already signed up for the event
+     */
+    signedUpAlready() {
+      if (!this.eventDetails.signups || !this.getAuthDetails) return true
+      return this.eventDetails.signups.includes(this.getAuthDetails.uid)
+    },
   },
   methods: {
     ...mapMutations("chat", ["m_AddNewChat_Locally", "m_SetChatWindowRequest"]),
@@ -375,13 +397,17 @@ export default {
       return time12
     },
 
+    /**
+     * Fetches details from Firebase Firestore
+     */
     async async_FetchDetails() {
       // Fetch the Event data from firebase
       let docRef = doc(firebase_firestore, "events", this.$route.params.id)
       try {
         const docSnap = await getDoc(docRef)
         if (docSnap.exists()) {
-          this.eventDetails = docSnap.data()
+          this.eventid = docSnap.id
+          this.eventDetails = { id: docSnap.id, ...docSnap.data() }
         } else {
           console.log("No such document!")
         }
@@ -428,32 +454,78 @@ export default {
     },
 
     async signup() {
-      const eventRef = doc(firebase_firestore, "events", this.$route.params.id);
+      const eventRef = doc(firebase_firestore, "events", this.$route.params.id)
 
       // Atomically add a new userID to the "signups" array field.
       await updateDoc(eventRef, {
-          signups: arrayUnion(this.userID)
-      });
-
-    },
-
-    async getUserID() {
-      const auth = getAuth()
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          this.userID = user.uid
-        }
+        signups: arrayUnion(this.getAuthDetails.uid),
       })
     },
 
-    back() {
-      this.$router.go("/")
-    },
+    // async getUserID() {
+    //   const auth = getAuth()
+    //   onAuthStateChanged(auth, (user) => {
+    //     if (user) {
+    //       this.userID = user.uid
+    //     }
+    //   })
+    // },
   },
 
   mounted() {
-    this.async_FetchDetails(), this.getUserID()
+    this.async_FetchDetails()
+    // this.getUserID()
   },
-
 }
 </script>
+
+<style scoped>
+/* @media (min-width: 576px) { 
+    .gmap{
+      padding: 0;
+    }
+  } */
+
+/* content */
+
+.content {
+  position: absolute;
+  width: 100%;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  top: 7rem;
+}
+
+/* modal */
+.signup-title,
+.confirm-title {
+  width: 100%;
+  text-align: center;
+  padding-left: 1.5rem;
+}
+.signup-footer {
+  display: grid;
+  grid-template-columns: 180px 180px;
+  gap: 1.5rem;
+  justify-content: center;
+}
+.confirm-footer {
+  display: grid;
+  justify-content: center;
+}
+
+.donation-btn-container {
+  display: grid;
+  grid-template-columns: 4rem 4rem 4rem 4rem;
+  gap: 2rem;
+  justify-content: center;
+  padding: 2rem;
+}
+.modal-title {
+  width: 100%;
+  text-align: center;
+}
+.modal-body {
+  text-align: center;
+}
+</style>

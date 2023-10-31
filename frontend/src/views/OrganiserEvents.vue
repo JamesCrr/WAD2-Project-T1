@@ -3,73 +3,98 @@
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
   />
-  <div class="content">
-    <div class="row">
-      <div class="col">
-        <button class="btn btn-primary mt-3 ps-4">
+  <div class="container-fluid navbarspace">
+    <div class="row g-0 ms-3 mt-5 neweventrow">
+      <div class="col d-flex justify-content-center align-items-center">
+        <button
+          class="btn ps-4"
+          :class="{ 'btn-primary': !isLoading, 'btn-secondary': isLoading }"
+          v-bind:disabled="isLoading"
+        >
           <RouterLink class="link-text" to="/organiser/addevent"
-            >Create new Event <i class="bi bi-plus-circle"></i
+            ><h5 style="display: inline">New Event</h5>
+            <i class="bi bi-plus-circle fs-5 fw-b"></i
           ></RouterLink>
         </button>
       </div>
     </div>
-    <div v-if="isLoading">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 pt-2">
-      <div class="col" v-for="index in placeholderCount" :key="index">
-        <div class="card" aria-hidden="true">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/2560px-Placeholder_view_vector.svg.png"
-            class="card-img-top"
-            style="height: 300px; object-fit: cover"
-          />
-          <div class="card-body d-flex flex-column">
-            <h4 class="card-title placeholder-glow"><span class="placeholder col-6"></span></h4>
-            <span class="placeholder col-7"></span>
-            <span class="placeholder col-4"></span>
-            <span class="placeholder col-4"></span>
-            <span class="placeholder col-6"></span>
-            <span class="placeholder col-8"></span>
-            <div class="grid-container pt-5">
-              <a class="btn btn-primary disabled placeholder col-6" aria-disabled="true" style="width: 100px; "></a>
-              <a class="btn btn-primary disabled placeholder col-6" aria-disabled="true" style="width: 100px; "></a>
-            </div>
-          </div>
-        </div>
+    <div class="row g-0 ms-3 mt-5">
+      <div class="col">
+        <h3>Your Events</h3>
       </div>
-    </div>
     </div>
 
-    <div v-else>
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 pt-2">
-      <div class="col" v-for="event in events" :key="event.id">
-        <div class="card">
-          <img
-            :src="event.downloadedURL"
-            class="card-img-top"
-            alt="Event Image"
-            style="height: 300px; object-fit: cover"
-          />
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">{{ event.title }}</h5>
-            <p class="card-text">{{ event.desc }}</p>
-            <div class="grid-container">
-              <button type="button" class="btn btn-primary">
-                <router-link
-                  class="link-text"
-                  v-bind:to="'/organiser/editevent/' + event.id"
-                  :key="event.id"
-                >
-                  Edit
-                </router-link>
-              </button>
-              <button type="button" class="btn btn-danger" v-on:click="deleteEvent(event)">
-                Delete
-              </button>
+    <div v-if="isLoading" class="ms-3">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 pt-2 mw-100">
+        <div class="col" v-for="index in placeholderCount" :key="index">
+          <div class="card" aria-hidden="true">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/2560px-Placeholder_view_vector.svg.png"
+              class="card-img-top"
+              style="height: 300px; object-fit: cover"
+            />
+            <div class="card-body d-flex flex-column">
+              <h4 class="card-title placeholder-glow"><span class="placeholder col-6"></span></h4>
+              <h4 class="card-title placeholder-glow">
+                <span class="placeholder col-7"></span>
+                <span class="placeholder col-4"></span>
+                <span class="placeholder col-4"></span>
+                <span class="placeholder col-6"></span>
+                <span class="placeholder col-8"></span>
+              </h4>
+
+              <div class="grid-container pt-5 placeholder-glow d-flex justify-content-between">
+                <a
+                  class="btn btn-primary disabled placeholder col-6"
+                  aria-disabled="true"
+                  style="width: 100px"
+                ></a>
+                <a
+                  class="btn btn-primary disabled placeholder col-6"
+                  aria-disabled="true"
+                  style="width: 100px"
+                ></a>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <div v-else class="ms-3">
+      <div
+        class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 pt-1 mw-100"
+        style="margin-bottom: 10vh"
+      >
+        <div class="col" v-for="(event, index) in events" :key="event.id">
+          <div class="card h-100">
+            <img
+              :src="event.downloadedURL"
+              class="card-img-top"
+              alt="Event Image"
+              style="height: 300px; object-fit: cover"
+            />
+            <div class="card-body d-flex flex-column justify-content-between">
+              <h5 class="card-title">{{ event.title }}</h5>
+              <p class="card-text">{{ event.desc }}</p>
+              <div class="grid-container d-flex justify-content-between">
+                <button type="button" class="btn btn-primary">
+                  <router-link
+                    class="link-text"
+                    v-bind:to="'/organiser/editevent/' + event.id"
+                    :key="event.id"
+                  >
+                    Edit
+                  </router-link>
+                </button>
+                <button type="button" class="btn btn-danger" v-on:click="deleteEvent(event)">
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -79,25 +104,25 @@ import { RouterLink } from "vue-router"
 import { collection, doc, getDocs, deleteDoc } from "firebase/firestore"
 import { deleteObject, ref, getDownloadURL } from "firebase/storage"
 import { firebase_firestore, firebase_storage } from "../firebase"
+import { mapGetters } from "vuex"
+import { gsap } from "gsap"
 
 export default {
   data() {
     return {
       events: [],
       isLoading: true,
-      placeholderCount: 6
+      placeholderCount: 6,
     }
-  },
-  created() {
-    // Call the fetchEventData method when the component is created
-    this.fetchEventData()
   },
   mounted() {
     setTimeout(() => {
       // Once data is loaded, set isLoading to false
-      this.isLoading = false;
       this.fetchEventData() // Fetch events when the component is mounted
-    }, 2000);
+    }, 500)
+  },
+  computed: {
+    ...mapGetters("auth", ["getAuthDetails", "getAccountDetails"]),
   },
   methods: {
     async fetchEventData() {
@@ -105,7 +130,7 @@ export default {
 
       try {
         const querySnapshot = await getDocs(eventsCollection)
-        const events = []
+        let fetchedEvents = []
 
         for (const doc of querySnapshot.docs) {
           // Access the data from each document
@@ -115,13 +140,20 @@ export default {
           const imageRef = ref(firebase_storage, `posts/${eventData.imageUrl}`)
           const downloadedURL = await getDownloadURL(imageRef)
 
-          // Append the event data with the downloadedURL to the events array
-          events.push({ ...eventData, downloadedURL, id: doc.id })
+          // Append the event data with the downloadedURL to the fetchedEvents array
+          fetchedEvents.push({ ...eventData, downloadedURL, id: doc.id })
+          // console.log(eventData)
         }
+        // Filter out the events not in my org
+        fetchedEvents = fetchedEvents.filter((event) => {
+          let segpatharray = event.organiserRef._key.path.segments
+          return segpatharray[segpatharray.length - 1] != this.getAccountDetails.username
+        })
 
-        // Set the events data in your component's data
-        this.events = events
-        console.log(events)
+        // Set the fetchedEvents data in your component's data
+        this.events = fetchedEvents
+        this.isLoading = false
+        console.log(fetchedEvents)
       } catch (error) {
         console.error("Error getting documents: ", error)
       }
@@ -153,16 +185,26 @@ export default {
 </script>
 
 <style scoped>
-/* content */
-
-.content {
+.navbarspace {
+  padding: 0;
+  padding-left: 17rem;
+}
+@media (max-width: 992px) {
+  .navbarspace {
+    padding: 0;
+    margin-top: 10vh;
+  }
+  .neweventrow {
+    margin-top: 110px !important;
+  }
+}
+/* .content {
   position: absolute;
   width: 100%;
   padding-left: 3rem;
   padding-right: 3rem;
   top: 5rem;
 }
-
 @media (min-width: 992px) {
   .content {
     position: absolute;
@@ -170,7 +212,7 @@ export default {
     left: 18rem;
     top: 2rem;
   }
-}
+} */
 
 .link-text {
   text-decoration: none;
@@ -181,21 +223,21 @@ export default {
   margin-left: 0.5rem;
   margin-right: 0.25rem;
 }
-.grid-container {
+/* .grid-container {
   display: grid;
   justify-content: space-evenly;
   grid-template-columns: 45% 45%;
   gap: 1rem;
   vertical-align: bottom;
-}
-.card {
+} 
+ .card {
   height: 100%;
-}
+} */
 
-.card-text{
+.card-text {
   height: 72px;
   overflow: hidden;
-  text-align: center;
+  text-align: left;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   line-clamp: 2;

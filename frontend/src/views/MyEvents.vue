@@ -5,11 +5,23 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm withdrawal from event?</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary cancel" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger" @click="withdrawUser(this.toBeDeleted)">
+          <button type="button" class="btn btn-secondary cancel" data-bs-dismiss="modal">
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            data-bs-dismiss="modal"
+            @click="withdrawUser(this.toBeDeleted)"
+          >
             Confirm Withdrawal
           </button>
         </div>
@@ -18,6 +30,11 @@
   </div>
   <!-- main content -->
   <div class="content">
+    <div class="row mb-3 mt-3">
+      <div class="col">
+        <h2>My Events</h2>
+      </div>
+    </div>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
       <div class="col" v-for="event in events" :key="event.id">
         <div class="card">
@@ -32,15 +49,17 @@
             <p class="card-text">{{ event.desc }}</p>
             <div class="grid-container">
               <button type="button" class="btn btn-primary">
-                <router-link
-                  class="link-text"
-                  v-bind:to="'/events/' + event.id"
-                  :key="event.id"
-                >
+                <router-link class="link-text" v-bind:to="'/events/' + event.id" :key="event.id">
                   View Event
                 </router-link>
               </button>
-              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="setValue(event.id)">
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteModal"
+                @click="setValue(event.id)"
+              >
                 Withdraw from Event
               </button>
               <!-- <button type="button" class="btn btn-danger" v-on:click="deleteEvent(event)">
@@ -56,9 +75,9 @@
 
 <script>
 import { mapState, mapMutations } from "vuex"
-import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router"
 import { firebase_firestore, firebase_storage, firebase_auth } from "../firebase"
-import { collection, doc, getDocs, deleteDoc, updateDoc, arrayRemove} from "firebase/firestore"
+import { collection, doc, getDocs, deleteDoc, updateDoc, arrayRemove } from "firebase/firestore"
 import { deleteObject, ref, getDownloadURL } from "firebase/storage"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 
@@ -123,14 +142,26 @@ export default {
         console.error("Error getting documents: ", error)
       }
     },
+
+    /**
+     * Removes eventID from user in firestore
+     * @param {string} eventID
+     */
     async withdrawUser(eventID) {
-      const eventRef = doc(firebase_firestore, "events", eventID);
+      const eventRef = doc(firebase_firestore, "events", eventID)
       // Atomically add a new userID to the "signups" array field.
       await updateDoc(eventRef, {
-          signups: arrayRemove(this.userID)
-      });
-      // location.reload()
-      this.$router.go()
+        signups: arrayRemove(this.userID),
+      })
+
+      //// Reload page
+      // this.$router.go()
+      // this.$router.replace({ name: "myevents" })
+
+      // Remove locally
+      this.events = this.events.filter((e) => {
+        return e.id !== eventID
+      })
     },
   },
 
@@ -141,7 +172,6 @@ export default {
 </script>
 
 <style scoped>
-
 /* modal */
 .modal-title {
   width: 100%;
@@ -160,7 +190,8 @@ export default {
   width: 100%;
   padding-left: 3rem;
   padding-right: 3rem;
-  top: 7rem;
+  padding-bottom: 3rem;
+  top: 5rem;
 }
 
 /* @media (min-width: 992px) {
@@ -184,7 +215,7 @@ export default {
 .card-title {
   text-align: center;
 }
-.card-text{
+.card-text {
   height: 72px;
   overflow: hidden;
   text-align: center;

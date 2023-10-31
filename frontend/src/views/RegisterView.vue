@@ -1,9 +1,9 @@
 <template>
   <div class="container-fluid mb-5">
     <div class="row g-0 justify-content-center">
-      <div class="col-11 position-absolute bg-primary h-50 z-n1 rounded"></div>
+      <div class="col-11 position-absolute bg-primary h-75 z-n1 rounded mt-3"></div>
     </div>
-    <div class="row g-0 justify-content-center mt-4">
+    <div class="row g-0 justify-content-center mt-5">
       <div class="text-container text-light fw-bold h2 mb-4 d-flex justify-content-center">
         <span class="letter">R</span>
         <span class="letter">e</span>
@@ -20,10 +20,10 @@
       <!-- <h2 class="text-light text-center mb-4">Sign up with us!</h2> -->
     </div>
     <div class="row g-0 justify-content-center">
-      <div class="col-11 col-sm-6 p-4 bg-light rounded">
+      <div class="col-10 col-md-6 p-4 bg-light rounded">
         <form
           class="needs-validation"
-          v-bind:class="{ 'was-validated': !formValid }"
+          v-bind:class="{ 'was-validated': !formValidInputs }"
           v-on:submit.prevent="handleFirebaseRegistration"
           novalidate=""
           ref="formRef"
@@ -140,7 +140,13 @@
           </div>
 
           <div class="d-flex justify-content-center mt-3">
-            <div class="form-check form-switch">
+            <label
+              class="form-check-label switch-transition"
+              :class="{ 'text-body-secondary': isVolunteer }"
+              :style="!isVolunteer ? { opacity: 1 } : { opacity: 0.2 }"
+              >Organisation</label
+            >
+            <div class="form-check form-switch" style="padding-left: 3em">
               <input
                 class="form-check-input"
                 type="checkbox"
@@ -149,12 +155,26 @@
                 v-model="isVolunteer"
                 checked
               />
-              <label class="form-check-label" for="flexSwitchCheckDefault">Volunteer</label>
             </div>
+            <label
+              class="form-check-label switch-transition"
+              :class="{ 'text-body-secondary': !isVolunteer }"
+              :style="isVolunteer ? { opacity: 1 } : { opacity: 0.2 }"
+              >Volunteer</label
+            >
           </div>
 
           <div class="d-grid mt-5">
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">
+              <span
+                class="spinner-border spinner-border-sm text-light"
+                v-bind:class="{ 'd-none': !submitting }"
+                aria-hidden="true"
+              ></span>
+              <span role="status" class="text-light" v-bind:class="{ 'd-none': submitting }"
+                >Register</span
+              >
+            </button>
           </div>
           <div class="row">
             <div class="col text-center mt-1">
@@ -180,7 +200,7 @@ import { mapMutations } from "vuex"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { doc, setDoc } from "firebase/firestore"
 import { firebase_firestore, firebase_auth } from "../firebase"
-import { gsap } from "gsap";
+import { gsap } from "gsap"
 
 export default {
   data() {
@@ -193,7 +213,10 @@ export default {
       education: "secondary",
       isVolunteer: true,
 
-      formValid: true,
+      formValidInputs: true,
+      formError: false,
+      formErrorMessage: "",
+      submitting: false,
     }
   },
 
@@ -220,11 +243,14 @@ export default {
       // )
 
       // console.log(event, this.$refs.formRef.checkValidity())
-      this.formValid = this.$refs.formRef.checkValidity()
-      if (!this.formValid) {
+      this.formValidInputs = this.$refs.formRef.checkValidity()
+      if (!this.formValidInputs) {
         console.log("Form not submitted!")
+        this.submitting = false
         return
       }
+      this.submitting = true
+      this.formError = false
 
       console.log("Paused Registration!")
       return
@@ -266,27 +292,33 @@ export default {
         const errorCode = error.code
         const errorMessage = error.message
         console.log("Failed to register, ErrorCode:", errorCode, "Message:", errorMessage)
+
         // do some user feedback
+        this.formError = true
+        this.formErrorMessage = "Unable to register!"
+        this.submitting = false
       }
     },
   },
 
   mounted() {
-    const animation = gsap.timeline({ repeat: -1});
-    const letters = document.querySelectorAll(".letter");
+    const animation = gsap.timeline({ repeat: -1 })
+    const letters = document.querySelectorAll(".letter")
 
     letters.forEach((letter, index) => {
-        // Animate "W" differently
-        animation.to(letter, {
+      // Animate "W" differently
+      animation
+        .to(letter, {
           y: -5, // Move "W" up
           duration: 0.2,
           ease: "power1.inOut",
-        }).to(letter, {
+        })
+        .to(letter, {
           y: 0, // Move "W" back down
-          duration: 0.2 ,
+          duration: 0.2,
           ease: "power1.inOut",
-        });
-    });
-  }
+        })
+    })
+  },
 }
 </script>

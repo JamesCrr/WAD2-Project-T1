@@ -32,7 +32,7 @@
           <div class="col mt-4">
             <form
               class="needs-validation"
-              v-bind:class="{ 'was-validated': !formValid }"
+              v-bind:class="{ 'was-validated': !formValidInputs }"
               v-on:submit.prevent="handleFirebaseLogin"
               novalidate=""
               ref="formRef"
@@ -69,7 +69,13 @@
               </div>
 
               <div class="d-flex justify-content-center mt-3">
-                <div class="form-check form-switch">
+                <label
+                  class="form-check-label switch-transition"
+                  :class="{ 'text-body-secondary': isVolunteer }"
+                  :style="!isVolunteer ? { opacity: 1 } : { opacity: 0.2 }"
+                  >Organisation</label
+                >
+                <div class="form-check form-switch" style="padding-left: 3em">
                   <input
                     class="form-check-input"
                     type="checkbox"
@@ -78,14 +84,19 @@
                     v-model="isVolunteer"
                     checked
                   />
-                  <label class="form-check-label" for="flexSwitchCheckDefault">Volunteer</label>
                 </div>
+                <label
+                  class="form-check-label switch-transition"
+                  :class="{ 'text-body-secondary': !isVolunteer }"
+                  :style="isVolunteer ? { opacity: 1 } : { opacity: 0.2 }"
+                  >Volunteer</label
+                >
               </div>
 
               <div v-if="formError" class="row">
                 <div class="col mt-3">
                   <p class="rounded p-2 bg-danger-subtle border border-danger text-center">
-                    Invalid Email or Password!
+                    {{ formErrorMessage }}
                   </p>
                 </div>
               </div>
@@ -130,7 +141,7 @@ import { signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { collection, doc, getDoc } from "firebase/firestore"
 import { firebase_firestore, firebase_auth } from "../firebase"
 import SVGIconVue from "../components/SVGIcon.vue"
-import { gsap } from "gsap";
+import { gsap } from "gsap"
 
 export default {
   data() {
@@ -139,8 +150,9 @@ export default {
       password: "",
       isVolunteer: true,
 
-      formValid: true,
+      formValidInputs: true,
       formError: false,
+      formErrorMessage: "",
       submitting: false,
     }
   },
@@ -155,9 +167,9 @@ export default {
     ...mapActions("socket", ["a_InitializeSocket"]),
 
     async handleFirebaseLogin(event) {
-      console.log("Email:", this.email, "Password:", this.password)
-      this.formValid = this.$refs.formRef.checkValidity()
-      if (!this.formValid) {
+      // console.log("Email:", this.email, "Password:", this.password)
+      this.formValidInputs = this.$refs.formRef.checkValidity()
+      if (!this.formValidInputs) {
         console.log("Form not submitted!")
         this.submitting = false
         return
@@ -198,6 +210,7 @@ export default {
           console.log("SIGNING OUT")
           await signOut(firebase_auth)
           this.formError = true
+          this.formErrorMessage = "No Such Account!"
           this.submitting = false
           return
         }
@@ -210,9 +223,9 @@ export default {
           accountRef: docRef,
         })
         // update login cookies never expire , only -1, other negative Numbers are invalid
-        // this.$cookies.set("wadt1_email", this.email, -1)
-        // this.$cookies.set("wadt1_password", this.password, -1)
-        // By right need to hash before setting as cookie, but we no time :(
+        this.$cookies.set("wadt1_email", this.email, -1)
+        this.$cookies.set("wadt1_password", this.password, -1)
+        // By right need to hash before setting as cookie, but we no time...
 
         // Fetch all the chats related to this account
         const newChats = {}
@@ -240,9 +253,13 @@ export default {
         // Reset form
         this.submitting = false
         this.formError = false
-        //// redirect to home page
-        // this.$router.replace({ path: "/" })
-        this.$router.push({ path: "/" })
+
+        // redirect to home page depending on volunteer or org
+        if (this.isVolunteer) {
+          this.$router.replace({ path: "/" })
+        } else {
+          this.$router.replace({ path: "/orgdashboard" })
+        }
       } catch (error) {
         const errorCode = error.code
         const errorMessage = error.message
@@ -250,6 +267,7 @@ export default {
 
         // do some user feedback
         this.formError = true
+        this.formErrorMessage = "Invalid Email or Password!"
         this.submitting = false
       }
     },
@@ -263,21 +281,29 @@ export default {
   },
 
   mounted() {
-    const animation = gsap.timeline({ repeat: -1});
-    const letters = document.querySelectorAll(".letter");
+    const animation = gsap.timeline({ repeat: -1 })
+    const letters = document.querySelectorAll(".letter")
 
     letters.forEach((letter, index) => {
-        // Animate "W" differently
-        animation.to(letter, {
+      // Animate "W" differently
+      animation
+        .to(letter, {
           y: -5, // Move "W" up
           duration: 0.2,
           ease: "power1.inOut",
-        }).to(letter, {
+        })
+        .to(letter, {
           y: 0, // Move "W" back down
-          duration: 0.2 ,
+          duration: 0.2,
           ease: "power1.inOut",
-        });
-    });
-  }
+        })
+    })
+  },
 }
 </script>
+
+<style scoped>
+.switch-transition {
+  transition: all 0.5s ease;
+}
+</style>

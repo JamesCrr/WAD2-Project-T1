@@ -7,10 +7,12 @@
     <!-- error svg -->
     <i class="bi bi-x-octagon"></i>
     <!-- card body -->
-    <div class="card-body">
-      <h5 class="card-title">Payment failed :(</h5>
-      <p class="card-text">Something went wrong.</p>
-      <button @click="this.$router.go(-3)" class="btn btn-primary">Return to Event Page</button>
+    <div class="card-body btn-container">
+      <h5 class="card-title" style="text-align: center">Payment failed :(</h5>
+      <p class="card-text" style="text-align: center">Something went wrong.</p>
+      <button @click="this.$router.replace({ name: 'myevents' })" class="btn btn-primary">
+        Return to Event Page
+      </button>
     </div>
   </div>
 </template>
@@ -22,6 +24,12 @@
   margin-right: auto;
   top: 10rem;
   width: 25rem;
+}
+
+.btn-container {
+  display: grid;
+  grid-template-columns: 15rem;
+  justify-content: center;
 }
 .bi-x-octagon {
   color: red;

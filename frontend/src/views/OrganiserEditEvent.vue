@@ -1,51 +1,64 @@
 <template>
-  <div class="container-fluid p-0">
-    <div class="row m-0">
-      <div class="col-md-9 my-3 ms-lg-5 ms-md-5 ms-sm-5" style="min-height: 100vh">
+  <div class="container-fluid navbarspace">
+    <form
+      class="row m-0 needs-validation form-container"
+      ref="formRef"
+      v-on:submit.prevent="uploadFileAndCreateEvent"
+    >
+      <div class="col-md-9 mt-3 px-5 px-md-0" style="min-height: 100vh; margin-bottom: 100px">
+        <!-- Name -->
         <div class="row">
-          <h1 class="mb-5">Edit Event</h1>
-          <div class="col-lg-10 col-md-10 col-sm-10">
-            <label for="title" class="form-label">Event Title</label>
+          <h1 class="mb-5 mt-4 text-primary">Create Event</h1>
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <label for="title" class="form-label"><h5>Event Name</h5></label>
             <input
               type="text"
               class="form-control"
               id="title"
               v-model="title"
               placeholder="Enter Event Name"
+              required
             />
+            <div class="invalid-feedback">Please provide a name.</div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-10 col-md-10 col-sm-10">
-            <label for="date" class="form-label">Date</label>
-            <input type="date" class="form-control" id="date" v-model="date" />
+        <!-- Date -->
+        <div class="row mt-3">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <label for="date" class="form-label"><h5>Date</h5></label>
+            <input type="date" class="form-control" id="date" v-model="date" required />
+            <div class="invalid-feedback">Please provide a date.</div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-5 col-md-5 col-sm-5">
-            <label for="startTime" class="form-label">Start Time</label>
-            <input type="time" class="form-control" id="startTime" v-model="startTime" />
+        <!-- Start time -->
+        <div class="row mt-3">
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <label for="startTime" class="form-label"><h5>Start Time</h5></label>
+            <input type="time" class="form-control" id="startTime" v-model="startTime" required />
+            <div class="invalid-feedback">Please provide a start time.</div>
           </div>
-          <div class="col-lg-5 col-md-5 col-sm-5">
-            <label for="endTime" class="form-label">End Time</label>
-            <input type="time" class="form-control" id="endTime" v-model="endTime" />
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <label for="endTime" class="form-label"><h5>End Time</h5></label>
+            <input type="time" class="form-control" id="endTime" v-model="endTime" required />
+            <div class="invalid-feedback">Please provide an end time.</div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-10 col-md-10 col-sm-10">
-            <label for="location" class="form-label">Location</label>
+        <!-- Location -->
+        <div class="row mt-3">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <label for="location" class="form-label"><h5>Location</h5></label>
             <!-- <input
               type="text"
               class="form-control"
               id="location"
               v-model="location"
               placeholder="Enter Event Location"
+              ref="locationRef"
             /> -->
             <GMapAutocomplete
               id="location"
               ref="locationRef"
               placeholder="Search for a location"
-              v-bind:value="locationSearchText"
               @place_changed="setNewLocation"
               @input="locationSearchInput = $event"
               style="font-size: medium"
@@ -54,13 +67,17 @@
                 componentRestrictions: { country: 'sg' },
                 strictBounds: true,
               }"
+              required
+              v-bind:value="locationSearchText"
             >
             </GMapAutocomplete>
+            <div class="invalid-feedback">Please select a location.</div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-10 col-md-10 col-sm-10">
-            <label for="desc" class="form-label">Event Description</label>
+        <!-- Description -->
+        <div class="row mt-3">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <label for="desc" class="form-label"><h5>Event Description</h5></label>
             <textarea
               type="text"
               class="form-control"
@@ -70,14 +87,16 @@
             ></textarea>
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-5 col-md-5 col-sm-5">
-            <label for="suitability" class="form-label">Suitability</label>
+        <!-- Suitability & Category -->
+        <div class="row mt-3">
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <label for="suitability" class="form-label"><h5>Suitability</h5></label>
             <select
               class="form-select"
               aria-label="Default select example"
               id="suitability"
               v-model="suitability"
+              required
             >
               <option selected value="First Timers">First Timers</option>
               <option value="Seniors">Seniors</option>
@@ -86,40 +105,52 @@
               <option value="Organisations">Organisations</option>
               <option value="Group">Group</option>
             </select>
+            <div class="invalid-feedback">Please select a suitability.</div>
           </div>
-          <div class="col-lg-5 col-md-5 col-sm-5">
-            <label for="category" class="form-label">Category</label>
+          <!-- Category -->
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <label for="category" class="form-label"><h5>Category</h5></label>
             <select
               class="form-select"
               aria-label="Default select example"
               id="category"
               v-model="category"
+              required
             >
               <option selected value="Tree Planting">Tree Planting</option>
               <option value="Beach Cleanups">Beach Cleanups</option>
               <option value="Community Composting">Community Composting</option>
             </select>
+            <div class="invalid-feedback">Please select a category.</div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-5 col-md-5 col-sm-5">
-            <label for="openings" class="form-label">Number of Openings</label>
+        <!-- Num of Openings & File -->
+        <div class="row mt-3">
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <label for="openings" class="form-label"><h5>Number of Openings</h5></label>
             <input type="number" class="form-control" id="openings" v-model="openings" min="0" />
+            <div class="invalid-feedback">Please declare the openings.</div>
           </div>
-          <div class="col-lg-5 col-md-5 col-sm-5 mt-4">
+          <!-- File -->
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <label for="formFileSm" class="form-label"><h5>Thumbnail</h5></label>
             <input
               type="file"
               accept="image/*"
               id="filename"
               name="filename"
               @change="handleFileSelect"
-              ref="fileSelect"
+              ref="fileSelectRef"
+              class="form-control form-control-sm"
+              required
             />
+            <div class="invalid-feedback">Please select a thumbnail.</div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-5 col-md-5 col-sm-5">
-            <label for="donation" class="form-label">Ask for Donation</label>
+        <!-- Donations & Budget -->
+        <div class="row mt-3">
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <label for="donation" class="form-label"><h5>Accept Donations?</h5></label>
             <select
               class="form-select"
               aria-label="Default select example"
@@ -130,27 +161,29 @@
               <option :value="false">No</option>
             </select>
           </div>
-          <div class="col-lg-5 col-md-5 col-sm-5">
-            <label for="budget" class="form-label">Budget</label>
+          <!-- Budget -->
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <label for="budget" class="form-label"><h5>Budget</h5></label>
             <input
               type="number"
               class="form-control"
               id="budget"
               v-model="budget"
-              min="1"
+              min="0"
               placeholder="Enter the Budget"
             />
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-10 col-md-10 col-sm-10">
-            <button type="submit" class="btn btn-primary w-100" @click="uploadFileAndCreateEvent">
-              Edit Event
+        <!-- Submit -->
+        <div class="row mt-5">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <button type="submit" class="btn btn-primary w-100">
+              <h5 class="m-0">Edit Event</h5>
             </button>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
@@ -266,10 +299,10 @@ export default {
       if (this.selectedFile) {
         // Delete old Image stored in Firebase Storage, Create a reference to the file to delete
         const imageRef = ref(firebase_storage, `posts/${this.oldImageURL}`)
-
         // Delete the file
         try {
           await deleteObject(imageRef)
+          console.log("Old Image deleted!")
         } catch (error) {
           console.log(error)
         }
@@ -325,3 +358,20 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.navbarspace {
+  padding: 0;
+  padding-left: 17rem;
+}
+@media (max-width: 992px) {
+  .navbarspace {
+    padding: 0;
+    margin-top: 10vh;
+  }
+}
+.form-container {
+  width: 100%;
+  justify-content: center;
+}
+</style>

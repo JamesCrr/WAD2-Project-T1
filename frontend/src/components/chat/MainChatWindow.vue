@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div
-      class="col-lg-5 col-md-8 col-12 text-bg-primary position-fixed bottom-0 end-0 border-top rounded-top"
+      class="col-lg-5 col-md-6 col-12 text-bg-primary position-fixed bottom-0 end-0 border-top rounded-top"
       ref="chat-main-window"
       style="transform: translateY(250px)"
     >
@@ -153,6 +153,8 @@ export default {
       // Update Firestore
       const selectedObject = this.getChatDetails[this.selectedRoomKey]
       const newMessageObj = { content: this.newMessage, senderID: this.getAuthDetails.uid }
+      // console.log(this.getChatDetails, selectedObject)
+
       // Create the payload to send to firestore
       const firestorePayload = {
         volunteerDocRef: selectedObject.volunteerDocRef,
