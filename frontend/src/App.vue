@@ -48,6 +48,7 @@ import { firebase_firestore, firebase_auth } from "./firebase"
 import MainChatWindow from "./components/chat/MainChatWindow.vue"
 import NavBar from "./components/NavBar.vue"
 
+
 export default {
   computed: {
     ...mapGetters("auth", ["getIsLoggedIn", "getIsVolunteer"]),
