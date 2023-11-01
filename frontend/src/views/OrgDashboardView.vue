@@ -5,7 +5,7 @@
       <span class="text-primary">{{ getAccountDetails.username }}</span>
     </h2>
     <div
-      class="d-flex flex-column justify-content-center align-items-center"
+      class="d-flex flex-column justify-content-center align-items-center content-container"
       v-if="getAccountDetails"
     >
       <svg
@@ -19,7 +19,7 @@
         height="330"
         class="singapore-map"
         id="singaporeMap"
-        @click="getPathID()"
+        @click="getChartData()"
       >
         <g transform="scale(0.6)" class="paths">
           <path
@@ -69,11 +69,9 @@
           />
         </g>
       </svg>
+      <em style="font-weight: 300;">Click on the map above to view demographics of your volunteers:</em>
       <div class="chart-container">
-        <div id="bar-chart">
-          <!-- <BarChart ref="barchart" :pathID="this.pathID" :ageArr="this.ageArr" /> -->
-          <BarChart ref="barchart" :chart-data="this.passedChartData" />
-        </div>
+        <BarChart ref="barchart" :chart-data="this.passedChartData" height="250" width="450" />
       </div>
     </div>
   </div>
@@ -126,14 +124,45 @@ export default {
     ...mapGetters("auth", ["getAuthDetails", "getAccountDetails"]),
   },
   methods: {
-    getPathID() {
+    getChartData() {
       this.pathID = event.target.id
       this.ageArr = this.volunteerData[this.pathID]
-      console.log("pathid:", this.pathID, "agearr:", this.ageArr)
+      // console.log("pathid:", this.pathID, "agearr:", this.ageArr)
+
+      let ageGroups = []
+      // below 20
+      let below20 = this.ageArr.filter(age => age < 20).length
+      ageGroups.push(below20)
+      // 20 to 40
+      let between20to40 = this.ageArr.filter(age => age >= 20 && age < 40).length
+      ageGroups.push(between20to40)
+      // 40 to 60
+      let between40to60 = this.ageArr.filter(age => age >= 40 && age < 60).length
+      ageGroups.push(between40to60)
+      // above 60
+      let above60 = this.ageArr.filter(age => age > 60).length
+      ageGroups.push(above60)
+      // this.ageGroupArr = ageGroups
+      // console.log(ageGroups)
 
       this.passedChartData = {
         ...this.passedChartData,
-        datasets: [{ data: [40, 20, 12] }],
+        datasets: [{ 
+          label: "Number of Volunteers", 
+          data: ageGroups,
+          backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+            ],
+            borderColor: [
+              'rgb(255, 99, 132)',
+              'rgb(75, 192, 192)',
+              'rgb(54, 162, 235)',
+              'rgb(153, 102, 255)',
+            ],
+            borderWidth: 1 }],
       }
     },
   },
@@ -194,11 +223,17 @@ export default {
   border-radius: 10px;
 } */
 
+.content-container {
+  margin: 2rem;
+  padding: 1rem;
+}
+
 /* singapore map */
 .singapore-map {
   padding: 1rem;
-  background-color: white;
+  border: #69d8cd solid 2px;
   border-radius: 10px;
+  width: 518px;
 }
 
 @media (min-width: 720px) {
@@ -213,9 +248,14 @@ export default {
   stroke-width: 2;
 }
 
-/* pie chart */
+/* bar chart */
 .chart-container {
-  background-color: white;
+  display: grid;
+  grid-template-columns: auto;
+  justify-content: center;
+  padding: 2rem;
+  border: #69d8cd solid 2px;
   border-radius: 10px;
+  margin-top: 3rem;
 }
 </style>
