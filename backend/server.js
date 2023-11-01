@@ -19,7 +19,7 @@ const io = new Server(server, {
 
 /** Express Server **/
 app.get("/", (req, res) => {
-  res.send("Hello");
+  res.status(200).send("Hello");
 });
 
 const onlineUsers = {};

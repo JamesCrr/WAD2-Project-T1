@@ -112,9 +112,7 @@ export default {
         this.m_initChats(newChats)
 
         // Register SocketIO
-        const URL =
-          process.env.NODE_ENV === "production" ? "YOUR SERVER URL HERE" : "http://localhost:3000"
-        this.a_InitializeSocket({ URL, myUsername: accountDetails.username })
+        this.a_InitializeSocket({ myUsername: accountDetails.username })
 
         // // redirect to home page if no other page
         // let pagename = accountDetails.type === "volunteer" ? "home" : "orgdashboard"

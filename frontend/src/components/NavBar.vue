@@ -265,7 +265,9 @@ import {
 
 export default {
   data() {
-    return {}
+    return {
+      gsapCom: null,
+    }
   },
   computed: {
     ...mapGetters("auth", ["getIsVolunteer"]),
@@ -315,16 +317,29 @@ export default {
       }
       return {}
     },
+
+    /**
+     * When the window width gets resized
+     */
+    onResize() {
+      if (!this.gsapCom) return
+      // console.log(window.innerWidth)
+      if (window.innerWidth > 768) {
+        this.gsapCom.resume()
+        this.gsapCom.progress(0)
+      } else {
+        this.gsapCom.pause()
+        this.gsapCom.progress(1)
+      }
+    },
   },
   mounted() {
-    // this.$nextTick(() => {
-    //   // console.log(this.getCurrentRouteName)
-    //   if (this.getCurrentRouteName == "home") {
+    this.$nextTick(() => {
+      window.addEventListener("resize", this.onResize)
+    })
 
-    //   }
-    // })
     if (this.getIsVolunteer) {
-      gsap.fromTo(
+      this.gsapCom = gsap.fromTo(
         ".volnavbar",
         { backgroundColor: "transparent" },
         {
@@ -341,7 +356,14 @@ export default {
           },
         },
       )
+
+      // console.log(this.gsapCom)
+      // this.gsapCom.pause()
+      this.onResize()
     }
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.onResize)
   },
 }
 </script>
@@ -353,6 +375,12 @@ export default {
 
 .volnavbar {
   transition: background-color 200ms linear;
+}
+@media (max-width: 768px) {
+  .volnavbar {
+    transition: none;
+    background-color: var(--bs-primary);
+  }
 }
 </style>
 

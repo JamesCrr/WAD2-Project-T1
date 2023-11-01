@@ -3,6 +3,8 @@ import { io } from "socket.io-client"
 const state = {
   socketObj: null, // Socket.IO client instance
   connected: false,
+  URL: "https://wadt1.onrender.com",
+  // URL:"http://localhost:3000",
 }
 
 const mutations = {
@@ -23,17 +25,18 @@ const mutations = {
 const actions = {
   async a_InitializeSocket(context, payload) {
     const { dispatch, commit, state } = context
-    const { URL, myUsername } = payload
+    const { myUsername } = payload
     if (state.socketObj) {
       return
     }
 
     // Create the new socket instance
-    const socket = io(URL, {
+    const socket = io(state.URL, {
       autoConnect: true,
     })
 
     /** Define socket events to listen for**/
+    // When we connected to the server
     socket.on("connect", () => {
       commit("m_SetSocket", socket)
       commit("m_SetConnected", true)

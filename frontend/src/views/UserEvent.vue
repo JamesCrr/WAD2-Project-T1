@@ -15,12 +15,12 @@
             @click="center = mapmarker.position"
           >
           </GMapMarker>
-        </GMapMap> -->
-<!-- <GMapInfoWindow>
+        </GMapMap>
+<GMapInfoWindow>
               <div>I am in info window <MyComponent /></div>
-            </GMapInfoWindow> -->
-<!-- </div> -->
-<!-- </div> -->
+            </GMapInfoWindow> 
+</div>
+</div> -->
 <template>
   <div>
     <!-- volunteer modal -->
@@ -137,8 +137,190 @@
     </div>
   </div>
 
-  <!-- Events Description -->
-  <div class="container-fluid" style="margin-top: 74px">
+  <!-- Events -->
+  <div class="container-fluid px-md-4 px-4" style="margin-top: 5rem; margin-bottom: 5rem">
+    <div class="row d-flex justify-content-center mb-3">
+      <div class="col-md-6 col-sm-10">
+        <img v-bind:src="downloadedUrl" class="w-100 object-fit-contain" alt="" />
+      </div>
+    </div>
+
+    <!-- First ROw -->
+    <div class="row">
+      <div class="col-12 col-md-9">
+        <!-- Title and Org -->
+        <div class="row">
+          <div class="col">
+            <h3 class="mb-0" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+              {{ eventDetails.title }}
+            </h3>
+            <p class="fs-5">
+              by
+              <span style="display: inline-block" class="text-primary">{{
+                organiserDetails.username
+              }}</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- About -->
+        <div class="row">
+          <div class="col">
+            <p>
+              {{ eventDetails.desc }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Map -->
+        <div class="row mb-3 mb-md-0">
+          <div class="col d-flex justify-content-center align-items-center w-100">
+            <GMapMap
+              :center="mapcenter"
+              :options="mapoptions"
+              :zoom="16"
+              map-type-id="terrain"
+              id="gmap"
+              class="w-75"
+              style="height: 50vh"
+            >
+              <GMapMarker
+                :position="mapmarker.position"
+                :clickable="false"
+                :draggable="false"
+                @click="center = mapmarker.position"
+              >
+              </GMapMarker>
+            </GMapMap>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <h3>Event Details</h3>
+        <div class="row pt-2 pb-3 g-3">
+          <div class="col-1 col-md-2 d-flex justify-content-center align-items-center">
+            <BIconCalendar3 class="fs-5" />
+          </div>
+          <div class="col">
+            <p class="mb-0">{{ eventDates.startDateString }}</p>
+          </div>
+        </div>
+        <div class="row pb-3 g-3 d-flex justtify-content-center align-items-center">
+          <div class="col-1 col-md-2 d-flex justify-content-center align-items-center">
+            <BIconClock class="fs-5" />
+          </div>
+          <div class="col">
+            <p class="mb-0">{{ eventDates.starTime }} to {{ eventDates.endTime }}</p>
+          </div>
+        </div>
+        <div class="row pb-3 g-3 d-flex justify-content-center align-items-center">
+          <div class="col-1 col-md-2 d-flex justify-content-center align-items-center">
+            <BIconPersonFill class="fs-5" />
+          </div>
+          <div class="col">
+            <p class="mb-0">Suitable for: {{ eventDetails.suitability }}</p>
+          </div>
+        </div>
+        <div class="row pb-3 g-3 d-flex justify-content-center align-items-center">
+          <div class="col-1 col-md-2 d-flex justify-content-center align-items-center">
+            <BIconGeoAltFill class="fs-5" />
+          </div>
+          <div class="col">
+            <p class="mb-0">
+              {{ eventDetails.location ? eventDetails.location.address : "" }}
+            </p>
+          </div>
+        </div>
+        <h3 class="mt-2 mb-3">Contact</h3>
+        <div class="row pb-3 g-3 d-flex justify-content-center align-items-center">
+          <div class="col-1 col-md-2 d-flex justify-content-center align-items-center">
+            <BIconTelephoneFill class="fs-5" />
+          </div>
+          <div class="col">
+            <p class="mb-0">{{ organiserDetails.contactNumber }}</p>
+          </div>
+        </div>
+        <div class="row pb-3 g-3 d-flex justify-content-center align-items-center">
+          <div class="col-1 col-md-2 d-flex justify-content-center align-items-center">
+            <BIconEnvelopeFill class="fs-5" />
+          </div>
+          <div class="col">
+            <p class="mb-0">{{ organiserDetails.email }}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-primary" v-on:click="chatWithOrg">Chat with Us</button>
+          </div>
+        </div>
+
+        <h3 class="mt-3 mb-1">Volunteer</h3>
+        <div class="row pb-0" v-if="!signedUpAlready">
+          <div class="col">
+            <p class="text-center fs-7 m-0">
+              Sign up before {{ eventDates.startDateString }} {{ eventDates.starTime }}
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <button
+              type="button"
+              class="btn w-100"
+              :class="{ 'btn-primary': !signedUpAlready, 'btn-secondary': signedUpAlready }"
+              data-bs-toggle="modal"
+              data-bs-target="#volunteerModal"
+              v-bind:disabled="signedUpAlready"
+            >
+              {{ this.signedUpAlready ? "Already Signed Up" : "Volunteer Now!" }}
+            </button>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col">
+            <button
+              type="button"
+              class="btn btn-warning modal-button w-100"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModalCenteredScrollable"
+              v-if="this.eventDetails.selectedDonation"
+            >
+              Donate!
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Second Row when Mobile -->
+    <div class="row d-block d-md-none mt-3">
+      <div class="col-12 col-md-8">
+        <!-- Map -->
+        <!-- <div class="col d-flex justify-content-center align-items-center w-100">
+          <GMapMap
+            :center="mapcenter"
+            :options="mapoptions"
+            :zoom="16"
+            map-type-id="terrain"
+            id="gmap"
+            class="w-100"
+            style="height: 50vh"
+          >
+            <GMapMarker
+              :position="mapmarker.position"
+              :clickable="false"
+              :draggable="false"
+              @click="center = mapmarker.position"
+            >
+            </GMapMarker>
+          </GMapMap>
+        </div> -->
+      </div>
+      <div class="col"></div>
+    </div>
+  </div>
+
+  <!-- <div class="container-fluid" style="margin-top: 74px">
     <div class="row">
       <div class="col-md-8 col-sm-12" style="padding: 0">
         <img v-bind:src="downloadedUrl" class="w-100 object-fit-fill" alt="" />
@@ -195,10 +377,6 @@
           </div>
         </div>
 
-        <!-- <div class="header" style="background-color: pink; padding-left: 5px; padding-top: 10px; padding-bottom: 2px;">
-            <h4>Venue</h4>
-        </div> -->
-        <!-- Google Maps -->
         <div class="row mt-4 mb-4">
           <div class="col d-flex justify-content-center align-items-center">
             <GMapMap
@@ -217,9 +395,6 @@
               >
               </GMapMarker>
             </GMapMap>
-            <!-- <GMapInfoWindow>
-                  <div>I am in info window <MyComponent /></div>
-                </GMapInfoWindow> -->
           </div>
         </div>
 
@@ -252,16 +427,13 @@
       </div>
     </div>
 
-    <!-- Other Info -->
     <div class="row mt-4" style="margin-bottom: 20vh">
-      <!-- About -->
       <div class="col-md-8 col-sm-12">
         <h2>About the Activity</h2>
         <p>
           {{ eventDetails.desc }}
         </p>
       </div>
-      <!-- Contact -->
       <div class="col-md-4 col-sm-12">
         <div class="row">
           <h2>Contact Us</h2>
@@ -285,7 +457,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>

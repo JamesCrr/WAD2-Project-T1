@@ -247,9 +247,7 @@ export default {
         // console.log(newChats)
 
         // Register SocketIO
-        const URL =
-          process.env.NODE_ENV === "production" ? "YOUR SERVER URL HERE" : "http://localhost:3000"
-        this.a_InitializeSocket({ URL, myUsername: accountDetails.username })
+        this.a_InitializeSocket({ myUsername: accountDetails.username })
 
         // Reset form
         this.submitting = false
