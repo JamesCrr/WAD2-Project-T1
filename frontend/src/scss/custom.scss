@@ -118,3 +118,8 @@ $table-variants: (
   border-color: rgb(255, 255, 255);
   // --bs-navbar-toggler-border-color: rgb(255, 255, 255);
 }
+
+.progress,
+.progress-stacked {
+  --bs-progress-bar-bg: var(--bs-primary);
+}

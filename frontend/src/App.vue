@@ -65,7 +65,8 @@ export default {
     async firebaseLoginFromCookies() {
       const email = this.$cookies.get("wadt1_email")
       const password = this.$cookies.get("wadt1_password")
-      console.log("Email:", email, "Password:", password)
+      const isvol = this.$cookies.get("wadt1_isvol")
+      console.log("Email:", email, "Password:", password, "isvol", isvol)
 
       try {
         // Call Firebase and verify
@@ -130,10 +131,19 @@ export default {
         // this.$router.replace({ name: pagename })
 
         // Go back to same page to trigger rerouting
-        const currentpagename = this.$router.currentRoute.value.name
+        // const currentpagename = this.$router.currentRoute.value.name
+        // const isv = accountDetails.type === "volunteer"
         // console.log("ROUTErr:", this.$router)
         // console.log("APP ROUTE:", currentpagename)
-        this.$router.replace({ name: currentpagename })
+        // if (
+        //   !isv &&
+        //   (currentpagename == "home" ||
+        //     currentpagename == "volunteer" ||
+        //     currentpagename == "myevents" ||
+        //     currentpagename == "eventdetail")
+        // ) {
+        //   this.$router.replace({ name: "orgdashboard" })
+        // }
       } catch (error) {
         const errorCode = error.code
         const errorMessage = error.message

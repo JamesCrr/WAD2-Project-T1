@@ -120,7 +120,7 @@
                     Don't have an account?
                     <label
                       class="text-primary"
-                      v-on:click="$router.push({ path: '/register' })"
+                      v-on:click="this.$router.push({ path: '/register' })"
                       style="cursor: pointer"
                       >Sign Up</label
                     >
@@ -202,7 +202,7 @@ export default {
         }
 
         // DOes it belong to volunteer or organisation?
-        console.log(accountDetails.type, this.isVolunteer)
+        // console.log(accountDetails.type, this.isVolunteer)
         if (
           (accountDetails.type === "volunteer" && !this.isVolunteer) ||
           (accountDetails.type === "organisation" && this.isVolunteer)
@@ -225,6 +225,7 @@ export default {
         // update login cookies never expire , only -1, other negative Numbers are invalid
         this.$cookies.set("wadt1_email", this.email, -1)
         this.$cookies.set("wadt1_password", this.password, -1)
+        this.$cookies.set("wadt1_isvol", this.isVolunteer, -1)
         // By right need to hash before setting as cookie, but we no time...
 
         // Fetch all the chats related to this account
@@ -276,7 +277,11 @@ export default {
   created() {
     // check if auth cookie exist
     if (this.$cookies.isKey("wadt1_email")) {
-      this.$router.replace({ path: "/" })
+      if (this.$cookies.get("wadt1_isvol") == "true") {
+        this.$router.replace({ path: "/" })
+      } else {
+        this.$router.replace({ path: "/orgdashboard" })
+      }
     }
   },
 

@@ -125,29 +125,54 @@
                 <router-link
                   to="/orgdashboard"
                   class="text-decoration-none d-flex align-items-center text-light mb-3"
+                  v-bind:style="getOrgNavbarStyles('orgdashboard', 'li')"
                 >
-                  <BIconGrid1x2Fill class="fs-5" />
-                  <label class="ms-2 fs-5" style="cursor: pointer">Dashboard</label>
+                  <BIconGrid1x2Fill
+                    class="fs-5"
+                    v-bind:style="getOrgNavbarStyles('orgdashboard', 'svg')"
+                  />
+                  <label
+                    class="ms-2 fs-5"
+                    style="cursor: pointer"
+                    v-bind:style="getOrgNavbarStyles('orgdashboard', '')"
+                    >Dashboard</label
+                  >
                 </router-link>
               </li>
               <li class="nav-item">
                 <router-link
                   to="/organiser/events"
                   class="text-decoration-none d-flex align-items-center text-light mb-3"
-                  v-bind:style="getUserNavbarStyles('organiser_events')"
+                  v-bind:style="getOrgNavbarStyles('organiser_events', 'li')"
                 >
-                  <BIconCalendarEventFill class="fs-5" />
-                  <label class="ms-2 fs-5" style="cursor: pointer">Events</label>
+                  <BIconCalendarEventFill
+                    class="fs-5"
+                    v-bind:style="getOrgNavbarStyles('organiser_events', 'svg')"
+                  />
+                  <label
+                    class="ms-2 fs-5"
+                    style="cursor: pointer"
+                    v-bind:style="getOrgNavbarStyles('organiser_events', '')"
+                    >Events</label
+                  >
                 </router-link>
               </li>
               <li class="nav-item">
                 <router-link
                   to="/organiser/donations"
                   class="text-decoration-none d-flex align-items-center text-light mb-3"
-                  v-bind:style="getUserNavbarStyles('organiser_donations')"
+                  v-bind:style="getOrgNavbarStyles('organiser_donations', 'li')"
                 >
-                  <BIconPiggyBankFill class="fs-5" />
-                  <label class="ms-2 fs-5" style="cursor: pointer">Donations</label>
+                  <BIconPiggyBankFill
+                    class="fs-5"
+                    v-bind:style="getOrgNavbarStyles('organiser_donations', 'svg')"
+                  />
+                  <label
+                    class="ms-2 fs-5"
+                    style="cursor: pointer"
+                    v-bind:style="getOrgNavbarStyles('organiser_donations', '')"
+                    >Donations</label
+                  >
                 </router-link>
               </li>
             </ul>
@@ -263,6 +288,7 @@ export default {
       this.m_Logout()
       this.$cookies.remove("wadt1_email")
       this.$cookies.remove("wadt1_password")
+      this.$cookies.remove("wadt1_isvol")
       // this.$cookies.remove("wadt1_lastpage")
 
       this.$router.replace({ name: "login" })
@@ -291,28 +317,31 @@ export default {
     },
   },
   mounted() {
-    this.$nextTick(() => {
-      // console.log(this.getCurrentRouteName)
-      if (this.getCurrentRouteName == "home") {
-        gsap.fromTo(
-          ".volnavbar",
-          { backgroundColor: "transparent" },
-          {
-            // autoAlpha: 1,
-            backgroundColor: "var(--bs-primary)",
-            duration: 0.2,
-            ease: "power1.inOut",
-            scrollTrigger: {
-              start: 400,
-              end: 3,
-              toggleActions: "play none none reverse",
-              scrub: true,
-              markers: false,
-            },
+    // this.$nextTick(() => {
+    //   // console.log(this.getCurrentRouteName)
+    //   if (this.getCurrentRouteName == "home") {
+
+    //   }
+    // })
+    if (this.getIsVolunteer) {
+      gsap.fromTo(
+        ".volnavbar",
+        { backgroundColor: "transparent" },
+        {
+          // autoAlpha: 1,
+          backgroundColor: "var(--bs-primary)",
+          duration: 0.2,
+          ease: "power1.inOut",
+          scrollTrigger: {
+            start: 300,
+            end: 3,
+            toggleActions: "play none none reverse",
+            scrub: true,
+            markers: false,
           },
-        )
-      }
-    })
+        },
+      )
+    }
   },
 }
 </script>

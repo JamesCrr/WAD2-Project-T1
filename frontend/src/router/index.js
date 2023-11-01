@@ -132,10 +132,10 @@ const router = createRouter({
 // Enable Guarded Routes for everything other than Login and Register
 router.beforeEach((to, from) => {
   const getIsLoggedIn = store.getters["auth/getIsLoggedIn"]
-  const getIsVolunteer = store.getters["auth/getIsVolunteer"]
 
-  // console.log("Router::", getIsLoggedIn, getIsVolunteer, to.name, from.name)
+  // console.log("Router::", getIsLoggedIn, window.$cookies.get("wadt1_isvol"), to.name, from.name)
   // console.log(window.$cookies.isKey("wadt1_email"))
+  // console.log(window.$cookies.get("wadt1_isvol"))
 
   // Has the user Logged in already?
   if (!getIsLoggedIn) {
@@ -143,12 +143,25 @@ router.beforeEach((to, from) => {
     if (to.name === "success" || to.name === "error") {
       return true
     }
+    // Stop redirect flow
+    if (
+      (window.$cookies.get("wadt1_isvol") == "true" && to.name === "home") ||
+      (window.$cookies.get("wadt1_isvol") == "false" && to.name === "orgdashboard")
+    ) {
+      return true
+    }
 
     // Have they already logged in?
     if (window.$cookies.isKey("wadt1_email")) {
-      return true
-      // // Prevent navigation
-      //  return false
+      // return true
+      if (window.$cookies.get("wadt1_isvol") == "true") {
+        return { name: "home", replace: true }
+      }
+      console.log("going to orggg")
+      return { name: "orgdashboard", replace: true }
+
+      //// Prevent navigation
+      // return false
     } else {
       // Go to Login page if not already there
       if (to.name !== "login") return { name: "login", replace: true }
@@ -162,6 +175,8 @@ router.beforeEach((to, from) => {
 
     //   }
   } else {
+    const getIsVolunteer = store.getters["auth/getIsVolunteer"]
+
     // Already logged in but trying to login/register again
     if (to.name === "login" || to.name === "register") {
       // explicitly return false to cancel the navigation
