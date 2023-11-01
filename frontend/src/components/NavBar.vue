@@ -161,7 +161,10 @@
   </div>
   <!-- Volunteer Dashboard -->
   <div v-else>
-    <nav class="navbar navbar-expand-md bg-primary fixed-top">
+    <nav
+      class="volnavbar navbar navbar-expand-md fixed-top"
+      v-bind:class="this.getCurrentRouteName != 'home' && 'bg-primary'"
+    >
       <div class="container-fluid">
         <div class="d-flex justify-content-center align-items-center navbar-brand">
           <img src="/ecoconnect-logo.ico" style="width: 3rem" />
@@ -226,7 +229,7 @@ import { mapMutations, mapActions, mapState } from "vuex"
 import { signOut } from "firebase/auth"
 import { firebase_auth } from "../firebase"
 import { mapGetters } from "vuex"
-import router from "../router"
+import { gsap } from "gsap"
 import {
   BIconGrid1x2Fill,
   BIconPiggyBankFill,
@@ -287,12 +290,40 @@ export default {
       return {}
     },
   },
+  mounted() {
+    this.$nextTick(() => {
+      // console.log(this.getCurrentRouteName)
+      if (this.getCurrentRouteName == "home") {
+        gsap.fromTo(
+          ".volnavbar",
+          { backgroundColor: "transparent" },
+          {
+            // autoAlpha: 1,
+            backgroundColor: "var(--bs-primary)",
+            duration: 0.2,
+            ease: "power1.inOut",
+            scrollTrigger: {
+              start: 400,
+              end: 3,
+              toggleActions: "play none none reverse",
+              scrub: true,
+              markers: false,
+            },
+          },
+        )
+      }
+    })
+  },
 }
 </script>
 
 <style scoped>
 .sidebar {
   width: 17rem;
+}
+
+.volnavbar {
+  transition: background-color 200ms linear;
 }
 </style>
 
