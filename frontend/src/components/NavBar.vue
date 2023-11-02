@@ -121,7 +121,7 @@
           </div>
           <div class="offcanvas-body d-flex flex-column justify-content-between">
             <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
-              <li class="nav-item">
+              <li class="nav-item" data-bs-dismiss="offcanvas">
                 <router-link
                   to="/orgdashboard"
                   class="text-decoration-none d-flex align-items-center text-light mb-3"
@@ -139,7 +139,7 @@
                   >
                 </router-link>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" data-bs-dismiss="offcanvas">
                 <router-link
                   to="/organiser/events"
                   class="text-decoration-none d-flex align-items-center text-light mb-3"
@@ -157,7 +157,7 @@
                   >
                 </router-link>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" data-bs-dismiss="offcanvas">
                 <router-link
                   to="/organiser/donations"
                   class="text-decoration-none d-flex align-items-center text-light mb-3"

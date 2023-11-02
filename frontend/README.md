@@ -2,7 +2,7 @@
 
 Built with Vue 3 with Vite template.
 
-## Project Setup
+### Project Setup
 
 ```sh
 npm install
