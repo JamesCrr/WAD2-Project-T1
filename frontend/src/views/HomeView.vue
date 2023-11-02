@@ -9,7 +9,7 @@
 
     <div class="row" style="position: relative">
       <div class="video-wrap d-none d-sm-block">
-        <video autoplay="" loop="" muted="" class="custom-video" poster="">
+        <video ref="vidd" autoplay="" loop="" muted="" class="custom-video" poster="">
           <source src="../assets/WADII.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
@@ -87,15 +87,17 @@ import { mapGetters, mapMutations, mapActions, mapState } from "vuex"
 import { firebase_firestore, firebase_storage } from "../firebase"
 import { collection, doc, getDocs, deleteDoc } from "firebase/firestore"
 import { ref, getDownloadURL } from "firebase/storage"
+import { BIconArrowDown } from "bootstrap-icons-vue"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { BIconArrowDown } from "bootstrap-icons-vue"
 gsap.registerPlugin(ScrollTrigger)
 
 export default {
   data() {
     return {
       events: [],
+
+      gsapctx: null,
     }
   },
   created() {
@@ -138,79 +140,87 @@ export default {
     },
   },
   mounted() {
-    this.$nextTick(() => {
-      gsap.from(".about-us", {
-        x: 100,
-        opacity: 0,
-        duration: 1,
-        delay: 0.7,
-        scrollTrigger: {
-          trigger: ".about-us",
-          start: "top bottom",
-          end: "top center",
-          markers: false, // This displays markers for testing purposes
-        },
-      })
+    // this.gsapctx = gsap.context(() => {
+    //   gsap.from(".about-us", {
+    //     x: 100,
+    //     opacity: 0,
+    //     duration: 1,
+    //     delay: 0.7,
+    //     scrollTrigger: {
+    //       trigger: ".about-us",
+    //       start: "top bottom",
+    //       end: "top center",
+    //       markers: false, // This displays markers for testing purposes
+    //     },
+    //   })
+    //   gsap.from(".mission", {
+    //     x: 100,
+    //     opacity: 0,
+    //     duration: 1,
+    //     delay: 0.7,
+    //     scrollTrigger: {
+    //       trigger: ".mission",
+    //       start: "top bottom",
+    //       end: "top center",
+    //       markers: false, // This displays markers for testing purposes
+    //     },
+    //   })
+    //   gsap.from(".volunteer", {
+    //     x: 100,
+    //     opacity: 0,
+    //     duration: 1,
+    //     delay: 0.7,
+    //     scrollTrigger: {
+    //       trigger: ".volunteer",
+    //       start: "top bottom",
+    //       end: "top center",
+    //       markers: false, // This displays markers for testing purposes
+    //     },
+    //   })
+    //   gsap.to(".custom-video", {
+    //     webkitFilter: "brightness(0.5)",
+    //     filter: "brightness(0.5)",
+    //     duration: 2,
+    //     delay: 0.6,
+    //   })
+    //   const homeduration = 0.5
+    //   gsap.from(".cta-textcontainer", {
+    //     y: 30,
+    //     opacity: 0,
+    //     duration: 1,
+    //     delay: homeduration,
+    //   })
+    //   gsap.from(".cta-buttoncontainer", {
+    //     y: 30,
+    //     opacity: 0,
+    //     duration: 1,
+    //     delay: homeduration * 2,
+    //   })
+    //   gsap.from(".cta-svgcontainer", {
+    //     opacity: 0,
+    //     duration: 1,
+    //     delay: homeduration,
+    //   })
+    //   gsap.to(".cta-svgcontainer", {
+    //     ease: "sine.inOut",
+    //     repeat: -1,
+    //     y: 20,
+    //     duration: homeduration + 1,
+    //     yoyo: true,
+    //   })
+    // })
 
-      gsap.from(".mission", {
-        x: 100,
-        opacity: 0,
-        duration: 1,
-        delay: 0.7,
-        scrollTrigger: {
-          trigger: ".mission",
-          start: "top bottom",
-          end: "top center",
-          markers: false, // This displays markers for testing purposes
-        },
-      })
-
-      gsap.from(".volunteer", {
-        x: 100,
-        opacity: 0,
-        duration: 1,
-        delay: 0.7,
-        scrollTrigger: {
-          trigger: ".volunteer",
-          start: "top bottom",
-          end: "top center",
-          markers: false, // This displays markers for testing purposes
-        },
-      })
-
-      gsap.to(".custom-video", {
-        webkitFilter: "brightness(0.5)",
-        filter: "brightness(0.5)",
-        duration: 2,
-        delay: 0.6,
-      })
-
-      const homeduration = 0.5
-      gsap.from(".cta-textcontainer", {
-        y: 30,
-        opacity: 0,
-        duration: 1,
-        delay: homeduration,
-      })
-      gsap.from(".cta-buttoncontainer", {
-        y: 30,
-        opacity: 0,
-        duration: 1,
-        delay: homeduration * 2,
-      })
-      gsap.from(".cta-svgcontainer", {
-        opacity: 0,
-        duration: 1,
-        delay: homeduration,
-      })
-      gsap.to(".cta-svgcontainer", {
-        ease: "sine.inOut",
-        repeat: -1,
-        y: 20,
-        duration: homeduration + 1,
-        yoyo: true,
-      })
+    this.gsapvid = gsap.to(this.$refs.vidd, {
+      webkitFilter: "brightness(0.5)",
+      filter: "brightness(0.5)",
+      duration: 2,
+      delay: 0.6,
     })
+  },
+
+  beforeUnmount() {
+    if (this.gsapctx) this.gsapctx.revert()
+    if (this.gsapvid) this.gsapvid.kill()
   },
 }
 </script>

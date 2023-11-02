@@ -100,7 +100,7 @@
                       type="checkbox"
                       name="treeplanting"
                       id="treeplantingmain"
-                      value="treeplanting"
+                      value="tree"
                       v-model="selectedCategory"
                       @change="filterEvents"
                     />
@@ -112,7 +112,7 @@
                       type="checkbox"
                       name="communitycomposting"
                       id="communitycompostingmain"
-                      value="communitycomposting"
+                      value="composting"
                       v-model="selectedCategory"
                       @change="filterEvents"
                     />
@@ -126,7 +126,7 @@
                       type="checkbox"
                       name="beachcleanup"
                       id="beachcleanupmain"
-                      value="beachcleanupmain"
+                      value="beach"
                       v-model="selectedCategory"
                       @change="filterEvents"
                     />
@@ -948,11 +948,13 @@ export default {
       } else {
         this.filteredEventDetails = Object.values(this.eventDetails).filter((event, index) => {
           // Category
-          const categoryMatch = this.selectedCategory.some((s) => event.suitability.includes(s))
+          const categoryMatch = this.selectedCategory.some((s) =>
+            event.category.toLowerCase().includes(s),
+          )
           // Openings
           let openingsMatch = false
           for (let opening of this.selectedOpenings) {
-            console.log(event.openings)
+            // console.log(event.openings)
             if (
               (opening == "above30" && event.openings > 30) ||
               (opening == "lessthan30" && event.openings > 20 && event.openings <= 30) ||

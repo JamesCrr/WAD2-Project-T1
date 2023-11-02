@@ -188,7 +188,9 @@
   <div v-else>
     <nav
       class="volnavbar navbar navbar-expand-md fixed-top"
-      v-bind:class="this.getCurrentRouteName != 'home' && 'bg-primary'"
+      v-bind:class="{
+        'bg-primary': this.getCurrentRouteName != 'home' && this.getCurrentRouteName != 'login',
+      }"
     >
       <div class="container-fluid">
         <div class="d-flex justify-content-center align-items-center navbar-brand">
@@ -254,7 +256,6 @@ import { mapMutations, mapActions, mapState } from "vuex"
 import { signOut } from "firebase/auth"
 import { firebase_auth } from "../firebase"
 import { mapGetters } from "vuex"
-import { gsap } from "gsap"
 import {
   BIconGrid1x2Fill,
   BIconPiggyBankFill,
@@ -262,11 +263,15 @@ import {
   BIconBoxArrowRight,
   BIconHeartFill,
 } from "bootstrap-icons-vue"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+gsap.registerPlugin(ScrollTrigger)
 
 export default {
   data() {
     return {
       gsapCom: null,
+      gsapactive: true,
     }
   },
   computed: {
@@ -286,15 +291,18 @@ export default {
   methods: {
     ...mapMutations("auth", ["m_Login", "m_Logout"]),
     async logOut() {
-      await signOut(firebase_auth)
-      this.m_Logout()
-      this.$cookies.remove("wadt1_email")
-      this.$cookies.remove("wadt1_password")
-      this.$cookies.remove("wadt1_isvol")
-      // this.$cookies.remove("wadt1_lastpage")
+      try {
+        await signOut(firebase_auth)
+        this.m_Logout()
+        this.$cookies.remove("wadt1_email")
+        this.$cookies.remove("wadt1_password")
+        this.$cookies.remove("wadt1_isvol")
+        // this.$cookies.remove("wadt1_lastpage")
 
-      this.$router.replace({ name: "login" })
-      return
+        this.$router.replace({ name: "login" })
+      } catch (error) {
+        console.log(error)
+      }
     },
 
     getUserNavbarStyles(pageName) {
@@ -323,46 +331,55 @@ export default {
      */
     onResize() {
       if (!this.gsapCom) return
+
       // console.log(window.innerWidth)
-      if (window.innerWidth > 768) {
-        this.gsapCom.resume()
-        this.gsapCom.progress(0)
-      } else {
-        this.gsapCom.pause()
-        this.gsapCom.progress(1)
-      }
+      // console.log(this.gsapCom.isActive())
+      // Animate the Navbar depending on window width
+      // if (window.innerWidth > 768) {
+      //   if (!this.gsapactive) {
+      //     console.log("RESTARTING")
+      //     this.gsapCom.restart()
+      //     this.gsapactive = true
+      //   }
+      // } else {
+      //   if (this.gsapactive) {
+      //     console.log("REVERINGG")
+      //     this.gsapCom.revert()
+      //     this.gsapactive = false
+      //   }
+      // }
     },
   },
   mounted() {
-    this.$nextTick(() => {
-      window.addEventListener("resize", this.onResize)
-    })
+    window.addEventListener("resize", this.onResize)
 
     if (this.getIsVolunteer) {
-      this.gsapCom = gsap.fromTo(
-        ".volnavbar",
-        { backgroundColor: "transparent" },
-        {
-          // autoAlpha: 1,
-          backgroundColor: "var(--bs-primary)",
-          duration: 0.2,
-          ease: "power1.inOut",
-          scrollTrigger: {
-            start: 300,
-            end: 3,
-            toggleActions: "play none none reverse",
-            scrub: true,
-            markers: false,
+      this.$nextTick(() => {
+        this.gsapCom = gsap.fromTo(
+          ".volnavbar",
+          { backgroundColor: "transparent" },
+          {
+            // autoAlpha: 1,
+            backgroundColor: "var(--bs-primary)",
+            duration: 0.2,
+            ease: "power1.inOut",
+            scrollTrigger: {
+              start: 300,
+              end: 3,
+              toggleActions: "play none none reverse",
+              scrub: true,
+              markers: false,
+            },
           },
-        },
-      )
-
-      // console.log(this.gsapCom)
-      // this.gsapCom.pause()
-      this.onResize()
+        )
+        // console.log(this.gsapCom)
+        // this.gsapCom.pause()
+        // this.onResize()
+      })
     }
   },
-  beforeDestroy() {
+  beforeUnmount() {
+    this.gsapCom.revert()
     window.removeEventListener("resize", this.onResize)
   },
 }
@@ -374,12 +391,13 @@ export default {
 }
 
 .volnavbar {
+  background-color: transparent;
   transition: background-color 200ms linear;
 }
 @media (max-width: 768px) {
   .volnavbar {
     transition: none;
-    background-color: var(--bs-primary);
+    background-color: var(--bs-primary) !important;
   }
 }
 </style>
