@@ -1,11 +1,23 @@
 # WAD2 Project
 
-There are 2 folders you can access, Frontend and Backend
+There are 2 folders in the project, frontend and backend
 
-## Frontend
+## frontend
 
-Frontend
+All the Frontend Code
 
-## Backend
+To navigate to the folder from the root
 
-Backend
+```
+cd frontend
+```
+
+## backend
+
+All the Backend Code
+
+To navigate to the folder from the root
+
+```
+cd backend
+```

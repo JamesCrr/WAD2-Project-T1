@@ -9,74 +9,89 @@
 
     <div class="row" style="position: relative">
       <div class="video-wrap d-none d-sm-block">
-        <video preload="auto" autoplay="" loop="" muted="" class="custom-video" poster="">
+        <video
+          :oncanplaythrough="onVideoLoaded"
+          preload="auto"
+          autoplay=""
+          loop=""
+          muted=""
+          class="custom-video"
+          poster=""
+        >
           <source src="../assets/WADII_smaller.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
-      <div class="col-7 cta-container d-none d-sm-block">
-        <div class="cta-textcontainer">
-          <h2>Start Volunteering with EcoConnect in our mission for a Greener World!</h2>
-          <button type="button" class="btn btn-primary mt-3 cta-buttoncontainer">
-            <router-link to="/volunteer" class="text-decoration-none text-light">
-              <h5 class="m-0 p-2">Volunteer Now!</h5>
-            </router-link>
-          </button>
-        </div>
-        <div
-          style="cursor: pointer; margin-top: 20%"
-          class="cta-svgcontainer"
-          v-on:click="scrollDownToContent"
-        >
-          <BIconArrowDown style="font-size: 3.2rem" />
+
+      <div v-if="videoLoaded">
+        <div class="col-7 cta-container d-none d-sm-block">
+          <div class="cta-textcontainer">
+            <h2>Start Volunteering with EcoConnect in our mission for a Greener World!</h2>
+            <button type="button" class="btn btn-primary mt-3 cta-buttoncontainer">
+              <router-link to="/volunteer" class="text-decoration-none text-light">
+                <h5 class="m-0 p-2">Volunteer Now!</h5>
+              </router-link>
+            </button>
+          </div>
+          <div
+            style="cursor: pointer; margin-top: 20%"
+            class="cta-svgcontainer"
+            v-on:click="scrollDownToContent"
+          >
+            <BIconArrowDown style="font-size: 3.2rem" />
+          </div>
         </div>
       </div>
+
       <!-- <div class="bg-primary" style="width: 100%; height: 5px"><p></p></div> -->
       <!-- <img src="https://static.wixstatic.com/media/3ecde9_a13d7ce172b6448396516afcfb7a2fa0~mv2.gif" alt="" style="width: 100%; height: 54px; object-fit: cover;" width="980" height="54" fetchpriority="high"> -->
     </div>
-    <div class="row m-0" ref="firstcontent">
-      <div class="img-div col-lg-5 col-md-5 col-sm-12">
-        <img class="img-info" src="../assets/home/about-us.jpg" alt="" />
+
+    <div v-if="videoLoaded">
+      <div class="row m-0" ref="firstcontent">
+        <div class="img-div col-lg-5 col-md-5 col-sm-12">
+          <img class="img-info" src="../assets/home/about-us.jpg" alt="" />
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-12 p-5 my-auto about-us">
+          <h2>About us</h2>
+          <p>
+            At EcoConnect, we are driven by a shared passion for our planet and a collective belief
+            in the power of environmental action. In the face of pressing environmental challenges,
+            we bridge the gap between local green initiatives and the individuals eager to make a
+            difference.
+          </p>
+        </div>
       </div>
-      <div class="col-lg-7 col-md-7 col-sm-12 p-5 my-auto about-us">
-        <h2>About us</h2>
-        <p>
-          At EcoConnect, we are driven by a shared passion for our planet and a collective belief in
-          the power of environmental action. In the face of pressing environmental challenges, we
-          bridge the gap between local green initiatives and the individuals eager to make a
-          difference.
-        </p>
+      <div class="row bg-primary text-light m-0">
+        <div class="img-div col-lg-5 col-md-5 col-sm-12 order-lg-2 order-md-2">
+          <img class="img-info" src="../assets/home/mission.jpg" alt="" />
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-12 p-5 my-auto order-lg-1 order-md-1 mission">
+          <h2>Our mission</h2>
+          <p>
+            Our goal is to empower local organizers and eco-conscious individuals. We provide a
+            platform to boost their impact, reach a wider audience, and create a strong community.
+            At the same time, we connect green-minded people with meaningful opportunities to
+            volunteer, contribute, and embrace eco-friendly actions. Join us for a greener world.
+          </p>
+        </div>
       </div>
-    </div>
-    <div class="row bg-primary text-light m-0">
-      <div class="img-div col-lg-5 col-md-5 col-sm-12 order-lg-2 order-md-2">
-        <img class="img-info" src="../assets/home/mission.jpg" alt="" />
-      </div>
-      <div class="col-lg-7 col-md-7 col-sm-12 p-5 my-auto order-lg-1 order-md-1 mission">
-        <h2>Our mission</h2>
-        <p>
-          Our goal is to empower local organizers and eco-conscious individuals. We provide a
-          platform to boost their impact, reach a wider audience, and create a strong community. At
-          the same time, we connect green-minded people with meaningful opportunities to volunteer,
-          contribute, and embrace eco-friendly actions. Join us for a greener world.
-        </p>
-      </div>
-    </div>
-    <div class="row m-0">
-      <div class="img-div col-lg-5 col-md-5 col-sm-12">
-        <img class="img-info" src="../assets/home/join-us.jpg" alt="" />
-      </div>
-      <div class="col-lg-7 col-md-7 col-sm-12 p-5 my-auto volunteer">
-        <h2>Volunteer now</h2>
-        <p>
-          Join EcoConnect in our mission for a greener world. Let's turn passion into action and
-          make a difference. Join us today for a sustainable future.
-        </p>
-        <button type="button" class="btn btn-primary">
-          <router-link to="/volunteer" class="text-decoration-none text-light">
-            Volunteer Now!
-          </router-link>
-        </button>
+      <div class="row m-0">
+        <div class="img-div col-lg-5 col-md-5 col-sm-12">
+          <img class="img-info" src="../assets/home/join-us.jpg" alt="" />
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-12 p-5 my-auto volunteer">
+          <h2>Volunteer now</h2>
+          <p>
+            Join EcoConnect in our mission for a greener world. Let's turn passion into action and
+            make a difference. Join us today for a sustainable future.
+          </p>
+          <button type="button" class="btn btn-primary">
+            <router-link to="/volunteer" class="text-decoration-none text-light">
+              Volunteer Now!
+            </router-link>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -98,7 +113,7 @@ export default {
       events: [],
 
       gsapctx: null,
-      gsapvid: null,
+      videoLoaded: false,
     }
   },
   created() {
@@ -108,6 +123,9 @@ export default {
     ...mapGetters("auth", ["getIsLoggedIn", "getIsVolunteer"]),
   },
   methods: {
+    /**
+     * Fetch all events from Firebase
+     */
     async fetchEvents() {
       const eventsCollection = collection(firebase_firestore, "events") // Reference to the 'events' collection
 
@@ -135,86 +153,104 @@ export default {
       }
     },
 
+    /**
+     * Scrolls the window down to the first content ref
+     */
     scrollDownToContent() {
       // Scroll to element
       this.$refs.firstcontent.scrollIntoView({ behavior: "smooth" })
     },
+
+    /**
+     * When the Background Video is loaded and ready to play
+     */
+    onVideoLoaded() {
+      this.videoLoaded = true
+      this.$nextTick(() => {
+        this.createAnimations()
+      })
+    },
+    /**
+     * Create all the GSAP Animations
+     */
+    createAnimations() {
+      if (this.gsapctx) return
+
+      this.gsapctx = gsap.context(() => {
+        gsap.from(".about-us", {
+          x: 100,
+          opacity: 0,
+          duration: 1,
+          delay: 0.7,
+          scrollTrigger: {
+            trigger: ".about-us",
+            start: "top bottom",
+            end: "top center",
+            markers: false, // This displays markers for testing purposes
+          },
+        })
+        gsap.from(".mission", {
+          x: 100,
+          opacity: 0,
+          duration: 1,
+          delay: 0.7,
+          scrollTrigger: {
+            trigger: ".mission",
+            start: "top bottom",
+            end: "top center",
+            markers: false, // This displays markers for testing purposes
+          },
+        })
+        gsap.from(".volunteer", {
+          x: 100,
+          opacity: 0,
+          duration: 1,
+          delay: 0.7,
+          scrollTrigger: {
+            trigger: ".volunteer",
+            start: "top bottom",
+            end: "top center",
+            markers: false, // This displays markers for testing purposes
+          },
+        })
+        gsap.to(".custom-video", {
+          webkitFilter: "brightness(0.5)",
+          filter: "brightness(0.5)",
+          duration: 2,
+          delay: 0.6,
+        })
+        const homeduration = 0.5
+        gsap.from(".cta-textcontainer", {
+          y: 30,
+          opacity: 0,
+          duration: 1,
+          delay: homeduration,
+        })
+        gsap.from(".cta-buttoncontainer", {
+          y: 30,
+          opacity: 0,
+          duration: 1,
+          delay: homeduration * 2,
+        })
+        gsap.from(".cta-svgcontainer", {
+          opacity: 0,
+          duration: 1,
+          delay: homeduration,
+        })
+        gsap.to(".cta-svgcontainer", {
+          ease: "sine.inOut",
+          repeat: -1,
+          y: 20,
+          duration: homeduration + 1,
+          yoyo: true,
+        })
+      })
+    },
   },
-  mounted() {
-    this.gsapctx = gsap.context(() => {
-      gsap.from(".about-us", {
-        x: 100,
-        opacity: 0,
-        duration: 1,
-        delay: 0.7,
-        scrollTrigger: {
-          trigger: ".about-us",
-          start: "top bottom",
-          end: "top center",
-          markers: false, // This displays markers for testing purposes
-        },
-      })
-      gsap.from(".mission", {
-        x: 100,
-        opacity: 0,
-        duration: 1,
-        delay: 0.7,
-        scrollTrigger: {
-          trigger: ".mission",
-          start: "top bottom",
-          end: "top center",
-          markers: false, // This displays markers for testing purposes
-        },
-      })
-      gsap.from(".volunteer", {
-        x: 100,
-        opacity: 0,
-        duration: 1,
-        delay: 0.7,
-        scrollTrigger: {
-          trigger: ".volunteer",
-          start: "top bottom",
-          end: "top center",
-          markers: false, // This displays markers for testing purposes
-        },
-      })
-      gsap.to(".custom-video", {
-        webkitFilter: "brightness(0.5)",
-        filter: "brightness(0.5)",
-        duration: 2,
-        delay: 0.6,
-      })
-      const homeduration = 0.5
-      gsap.from(".cta-textcontainer", {
-        y: 30,
-        opacity: 0,
-        duration: 1,
-        delay: homeduration,
-      })
-      gsap.from(".cta-buttoncontainer", {
-        y: 30,
-        opacity: 0,
-        duration: 1,
-        delay: homeduration * 2,
-      })
-      gsap.from(".cta-svgcontainer", {
-        opacity: 0,
-        duration: 1,
-        delay: homeduration,
-      })
-      gsap.to(".cta-svgcontainer", {
-        ease: "sine.inOut",
-        repeat: -1,
-        y: 20,
-        duration: homeduration + 1,
-        yoyo: true,
-      })
-    })
-  },
+  mounted() {},
 
   beforeUnmount() {
     if (this.gsapctx) this.gsapctx.revert()
-    // if (this.gsapvid) this.gsapvid.kill()
   },
 }
 </script>

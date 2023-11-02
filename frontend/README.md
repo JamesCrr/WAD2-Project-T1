@@ -1,10 +1,6 @@
 # WAD2 Frontend
 
-Vue 3 with Vite template.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Built with Vue 3 with Vite template.
 
 ## Project Setup
 
