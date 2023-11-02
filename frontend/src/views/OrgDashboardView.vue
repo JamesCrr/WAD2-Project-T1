@@ -265,23 +265,6 @@ export default {
     scale: 100%;
   }
 }
-@media (max-width: 576px) {
-  /* .singapore-map {
-    width: 100%;
-    height: 100%;
-  } */
-
-  /* .chart-container canvas {
-    height: 100%;
-    width: 200px;
-  } */
-}
-
-.hover-path:hover {
-  fill: #ffe0e3;
-  stroke: #ee2536;
-  stroke-width: 2;
-}
 
 /* bar chart */
 .chart-container {
@@ -295,10 +278,25 @@ export default {
 
   position: relative;
   height: 40vh;
-  width: 80vw;
+  width: 60vw;
   margin-top: 1.7rem;
 
   display: flex;
   justify-content: center;
+}
+@media (max-width: 576px) {
+  /* .singapore-map {
+    width: 100%;
+    height: 100%;
+  } */
+  .chart-container {
+    width: 100vw;
+  }
+}
+
+.hover-path:hover {
+  fill: #ffe0e3;
+  stroke: #ee2536;
+  stroke-width: 2;
 }
 </style>
