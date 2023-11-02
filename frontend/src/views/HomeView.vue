@@ -9,8 +9,8 @@
 
     <div class="row" style="position: relative">
       <div class="video-wrap d-none d-sm-block">
-        <video ref="vidd" autoplay="" loop="" muted="" class="custom-video" poster="">
-          <source src="../assets/WADII.mp4" type="video/mp4" />
+        <video preload="auto" autoplay="" loop="" muted="" class="custom-video" poster="">
+          <source src="../assets/WADII_smaller.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
@@ -210,13 +210,6 @@ export default {
         yoyo: true,
       })
     })
-
-    // this.gsapvid = gsap.to(this.$refs.vidd, {
-    //   webkitFilter: "brightness(0.5)",
-    //   filter: "brightness(0.5)",
-    //   duration: 2,
-    //   delay: 0.6,
-    // })
   },
 
   beforeUnmount() {
