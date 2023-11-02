@@ -98,6 +98,7 @@ export default {
       events: [],
 
       gsapctx: null,
+      gsapvid: null,
     }
   },
   created() {
@@ -140,87 +141,87 @@ export default {
     },
   },
   mounted() {
-    // this.gsapctx = gsap.context(() => {
-    //   gsap.from(".about-us", {
-    //     x: 100,
-    //     opacity: 0,
-    //     duration: 1,
-    //     delay: 0.7,
-    //     scrollTrigger: {
-    //       trigger: ".about-us",
-    //       start: "top bottom",
-    //       end: "top center",
-    //       markers: false, // This displays markers for testing purposes
-    //     },
-    //   })
-    //   gsap.from(".mission", {
-    //     x: 100,
-    //     opacity: 0,
-    //     duration: 1,
-    //     delay: 0.7,
-    //     scrollTrigger: {
-    //       trigger: ".mission",
-    //       start: "top bottom",
-    //       end: "top center",
-    //       markers: false, // This displays markers for testing purposes
-    //     },
-    //   })
-    //   gsap.from(".volunteer", {
-    //     x: 100,
-    //     opacity: 0,
-    //     duration: 1,
-    //     delay: 0.7,
-    //     scrollTrigger: {
-    //       trigger: ".volunteer",
-    //       start: "top bottom",
-    //       end: "top center",
-    //       markers: false, // This displays markers for testing purposes
-    //     },
-    //   })
-    //   gsap.to(".custom-video", {
-    //     webkitFilter: "brightness(0.5)",
-    //     filter: "brightness(0.5)",
-    //     duration: 2,
-    //     delay: 0.6,
-    //   })
-    //   const homeduration = 0.5
-    //   gsap.from(".cta-textcontainer", {
-    //     y: 30,
-    //     opacity: 0,
-    //     duration: 1,
-    //     delay: homeduration,
-    //   })
-    //   gsap.from(".cta-buttoncontainer", {
-    //     y: 30,
-    //     opacity: 0,
-    //     duration: 1,
-    //     delay: homeduration * 2,
-    //   })
-    //   gsap.from(".cta-svgcontainer", {
-    //     opacity: 0,
-    //     duration: 1,
-    //     delay: homeduration,
-    //   })
-    //   gsap.to(".cta-svgcontainer", {
-    //     ease: "sine.inOut",
-    //     repeat: -1,
-    //     y: 20,
-    //     duration: homeduration + 1,
-    //     yoyo: true,
-    //   })
-    // })
-
-    this.gsapvid = gsap.to(this.$refs.vidd, {
-      webkitFilter: "brightness(0.5)",
-      filter: "brightness(0.5)",
-      duration: 2,
-      delay: 0.6,
+    this.gsapctx = gsap.context(() => {
+      gsap.from(".about-us", {
+        x: 100,
+        opacity: 0,
+        duration: 1,
+        delay: 0.7,
+        scrollTrigger: {
+          trigger: ".about-us",
+          start: "top bottom",
+          end: "top center",
+          markers: false, // This displays markers for testing purposes
+        },
+      })
+      gsap.from(".mission", {
+        x: 100,
+        opacity: 0,
+        duration: 1,
+        delay: 0.7,
+        scrollTrigger: {
+          trigger: ".mission",
+          start: "top bottom",
+          end: "top center",
+          markers: false, // This displays markers for testing purposes
+        },
+      })
+      gsap.from(".volunteer", {
+        x: 100,
+        opacity: 0,
+        duration: 1,
+        delay: 0.7,
+        scrollTrigger: {
+          trigger: ".volunteer",
+          start: "top bottom",
+          end: "top center",
+          markers: false, // This displays markers for testing purposes
+        },
+      })
+      gsap.to(".custom-video", {
+        webkitFilter: "brightness(0.5)",
+        filter: "brightness(0.5)",
+        duration: 2,
+        delay: 0.6,
+      })
+      const homeduration = 0.5
+      gsap.from(".cta-textcontainer", {
+        y: 30,
+        opacity: 0,
+        duration: 1,
+        delay: homeduration,
+      })
+      gsap.from(".cta-buttoncontainer", {
+        y: 30,
+        opacity: 0,
+        duration: 1,
+        delay: homeduration * 2,
+      })
+      gsap.from(".cta-svgcontainer", {
+        opacity: 0,
+        duration: 1,
+        delay: homeduration,
+      })
+      gsap.to(".cta-svgcontainer", {
+        ease: "sine.inOut",
+        repeat: -1,
+        y: 20,
+        duration: homeduration + 1,
+        yoyo: true,
+      })
     })
+
+    // this.gsapvid = gsap.to(this.$refs.vidd, {
+    //   webkitFilter: "brightness(0.5)",
+    //   filter: "brightness(0.5)",
+    //   duration: 2,
+    //   delay: 0.6,
+    // })
   },
 
   beforeUnmount() {
     if (this.gsapctx) this.gsapctx.revert()
-    if (this.gsapvid) this.gsapvid.kill()
+    // if (this.gsapvid) this.gsapvid.kill()
   },
 }
 </script>

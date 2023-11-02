@@ -355,23 +355,23 @@ export default {
 
     if (this.getIsVolunteer) {
       this.$nextTick(() => {
-        this.gsapCom = gsap.fromTo(
-          ".volnavbar",
-          { backgroundColor: "transparent" },
-          {
-            // autoAlpha: 1,
-            backgroundColor: "var(--bs-primary)",
-            duration: 0.2,
-            ease: "power1.inOut",
-            scrollTrigger: {
-              start: 300,
-              end: 3,
-              toggleActions: "play none none reverse",
-              scrub: true,
-              markers: false,
-            },
-          },
-        )
+        // this.gsapCom = gsap.fromTo(
+        //   ".volnavbar",
+        //   { backgroundColor: "transparent" },
+        //   {
+        //     // autoAlpha: 1,
+        //     backgroundColor: "var(--bs-primary)",
+        //     duration: 0.2,
+        //     ease: "power1.inOut",
+        //     scrollTrigger: {
+        //       start: 300,
+        //       end: 3,
+        //       toggleActions: "play none none reverse",
+        //       scrub: true,
+        //       markers: false,
+        //     },
+        //   },
+        // )
         // console.log(this.gsapCom)
         // this.gsapCom.pause()
         // this.onResize()
@@ -379,7 +379,7 @@ export default {
     }
   },
   beforeUnmount() {
-    this.gsapCom.revert()
+    if (this.gsapCom) this.gsapCom.revert()
     window.removeEventListener("resize", this.onResize)
   },
 }
