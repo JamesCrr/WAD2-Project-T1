@@ -181,8 +181,8 @@
               :zoom="16"
               map-type-id="terrain"
               id="gmap"
-              class="w-75"
-              style="height: 50vh"
+              class="w-100"
+              style="height: 55vh"
             >
               <GMapMarker
                 :position="mapmarker.position"
@@ -196,9 +196,9 @@
         </div>
       </div>
       <div class="col">
-        <h3>Event Details</h3>
+        <h3 class="text-primary">Event Details</h3>
         <div class="row pt-2 pb-3 g-3">
-          <div class="col-1 col-md-2 d-flex justify-content-center align-items-center">
+          <div class="p-0 col-1 col-md-2 d-flex justify-content-center align-items-center">
             <BIconCalendar3 class="fs-5" />
           </div>
           <div class="col">
@@ -206,7 +206,7 @@
           </div>
         </div>
         <div class="row pb-3 g-3 d-flex justtify-content-center align-items-center">
-          <div class="col-1 col-md-2 d-flex justify-content-center align-items-center">
+          <div class="p-0 col-1 col-md-2 d-flex justify-content-center align-items-center">
             <BIconClock class="fs-5" />
           </div>
           <div class="col">
@@ -214,7 +214,7 @@
           </div>
         </div>
         <div class="row pb-3 g-3 d-flex justify-content-center align-items-center">
-          <div class="col-1 col-md-2 d-flex justify-content-center align-items-center">
+          <div class="p-0 col-1 col-md-2 d-flex justify-content-center align-items-center">
             <BIconPersonFill class="fs-5" />
           </div>
           <div class="col">
@@ -222,7 +222,7 @@
           </div>
         </div>
         <div class="row pb-3 g-3 d-flex justify-content-center align-items-center">
-          <div class="col-1 col-md-2 d-flex justify-content-center align-items-center">
+          <div class="p-0 col-1 col-md-2 d-flex justify-content-center align-items-center">
             <BIconGeoAltFill class="fs-5" />
           </div>
           <div class="col">
@@ -231,9 +231,9 @@
             </p>
           </div>
         </div>
-        <h3 class="mt-2 mb-3">Contact</h3>
+        <h3 class="mt-2 mb-3 text-primary">Contact</h3>
         <div class="row pb-3 g-3 d-flex justify-content-center align-items-center">
-          <div class="col-1 col-md-2 d-flex justify-content-center align-items-center">
+          <div class="p-0 col-1 col-md-2 d-flex justify-content-center align-items-center">
             <BIconTelephoneFill class="fs-5" />
           </div>
           <div class="col">
@@ -241,20 +241,20 @@
           </div>
         </div>
         <div class="row pb-3 g-3 d-flex justify-content-center align-items-center">
-          <div class="col-1 col-md-2 d-flex justify-content-center align-items-center">
+          <div class="p-0 col-1 col-md-2 d-flex justify-content-center align-items-center">
             <BIconEnvelopeFill class="fs-5" />
           </div>
           <div class="col">
             <p class="mb-0">{{ organiserDetails.email }}</p>
           </div>
         </div>
-        <div class="row">
+        <div class="row pb-2">
           <div class="col">
             <button class="btn btn-primary" v-on:click="chatWithOrg">Chat with Us</button>
           </div>
         </div>
 
-        <h3 class="mt-3 mb-1">Volunteer</h3>
+        <h3 class="mt-3 mb-2 text-primary">Take Action!</h3>
         <div class="row pb-0" v-if="!signedUpAlready">
           <div class="col">
             <p class="text-center fs-7 m-0">

@@ -193,8 +193,8 @@
       }"
     >
       <div class="container-fluid">
-        <div class="d-flex justify-content-center align-items-center navbar-brand">
-          <img src="/ecoconnect-logo.ico" style="width: 3rem" />
+        <div class="d-flex justify-content-center align-items-center navbar-brand logo-container">
+          <img src="/ecoconnect-logo.ico" />
           <h3 class="d-inline text-light mb-0">EcoConnect</h3>
         </div>
         <button
@@ -210,7 +210,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="ms-auto navbar-nav mb-2 mb-md-0 d-md-flex align-items-center">
-            <li class="nav-item">
+            <li class="nav-item" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
               <router-link
                 to="/"
                 class="text-decoration-none d-flex align-items-center text-light mb-3 mb-md-0"
@@ -220,7 +220,11 @@
                 <label style="cursor: pointer" class="ms-2 fs-5">Home</label>
               </router-link>
             </li>
-            <li class="nav-item ms-md-4">
+            <li
+              class="nav-item ms-md-4"
+              data-bs-toggle="collapse"
+              data-bs-target=".navbar-collapse.show"
+            >
               <router-link
                 to="/volunteer"
                 class="text-decoration-none d-flex align-items-center text-light mb-3 mb-md-0"
@@ -230,7 +234,11 @@
                 <label style="cursor: pointer" class="ms-2 fs-5">Volunteer</label>
               </router-link>
             </li>
-            <li class="nav-item ms-md-4">
+            <li
+              class="nav-item ms-md-4"
+              data-bs-toggle="collapse"
+              data-bs-target=".navbar-collapse.show"
+            >
               <router-link
                 to="/myevents"
                 class="text-decoration-none d-flex align-items-center text-light mb-3 mb-md-0"
@@ -401,6 +409,10 @@ export default {
   width: 17rem;
 }
 
+.logo-container img {
+  width: 3rem;
+}
+
 .volnavbar {
   background-color: transparent;
   transition: background-color 200ms linear;
@@ -409,6 +421,15 @@ export default {
   .volnavbar {
     transition: none;
     background-color: var(--bs-primary) !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .logo-container img {
+    width: 2rem;
+  }
+  .logo-container h3 {
+    font-size: larger;
   }
 }
 </style>

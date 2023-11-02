@@ -8,7 +8,7 @@
     </div> -->
 
     <div class="row" style="position: relative">
-      <div class="video-wrap d-none d-sm-block">
+      <div class="video-wrap d-sm-block">
         <video
           :oncanplaythrough="onVideoLoaded"
           preload="auto"
@@ -24,9 +24,11 @@
       </div>
 
       <div v-if="videoLoaded">
-        <div class="col-7 cta-container d-none d-sm-block">
+        <div class="col-7 cta-container d-sm-block">
           <div class="cta-textcontainer">
-            <h2>Start Volunteering with EcoConnect in our mission for a Greener World!</h2>
+            <h2 class="fs-2">
+              Start Volunteering with EcoConnect in our mission for a Greener World!
+            </h2>
             <button type="button" class="btn btn-primary mt-3 cta-buttoncontainer">
               <router-link to="/volunteer" class="text-decoration-none text-light">
                 <h5 class="m-0 p-2">Volunteer Now!</h5>

@@ -10,8 +10,8 @@
         v-on:click="windowClosed ? animateOpenWindow() : animateCloseWindow()"
         style="cursor: pointer"
       >
-        <h5 class="col-11 mb-0 p-1">Your Chat</h5>
-        <div class="col d-flex justify-content-center align-items-center">
+        <h5 class="col-9 col-sm-11 mb-0 p-1">Your Chat</h5>
+        <div class="col d-flex justify-content-end align-items-center">
           <BIconXCircleFill class="fs-4" v-if="!windowClosed" />
           <BIconArrowUpCircleFill class="fs-4" v-else />
         </div>
