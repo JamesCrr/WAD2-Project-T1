@@ -270,8 +270,7 @@ gsap.registerPlugin(ScrollTrigger)
 export default {
   data() {
     return {
-      gsapCom: null,
-      gsapactive: true,
+      gsapNavbar: null,
     }
   },
   computed: {
@@ -330,32 +329,44 @@ export default {
      * When the window width gets resized
      */
     onResize() {
-      if (!this.gsapCom) return
+      if (!this.gsapNavbar) return
 
       // console.log(window.innerWidth)
-      // console.log(this.gsapCom.isActive())
+      // console.log(this.gsapNavbar.isActive())
       // Animate the Navbar depending on window width
       // if (window.innerWidth > 768) {
       //   if (!this.gsapactive) {
       //     console.log("RESTARTING")
-      //     this.gsapCom.restart()
+      //     this.gsapNavbar.restart()
       //     this.gsapactive = true
       //   }
       // } else {
       //   if (this.gsapactive) {
       //     console.log("REVERINGG")
-      //     this.gsapCom.revert()
+      //     this.gsapNavbar.revert()
       //     this.gsapactive = false
       //   }
       // }
     },
   },
   mounted() {
-    window.addEventListener("resize", this.onResize)
+    // window.addEventListener("resize", this.onResize)
 
     if (this.getIsVolunteer) {
       this.$nextTick(() => {
-        // this.gsapCom = gsap.fromTo(
+        this.gsapNavbar = gsap.to(".volnavbar", {
+          backgroundColor: "var(--bs-primary)",
+          duration: 0.2,
+          ease: "power1.inOut",
+          scrollTrigger: {
+            start: "600 center",
+            end: "700 center",
+            toggleActions: "play none none reverse",
+            scrub: true,
+            markers: false,
+          },
+        })
+        // this.gsapNavbar = gsap.fromTo(
         //   ".volnavbar",
         //   { backgroundColor: "transparent" },
         //   {
@@ -372,15 +383,15 @@ export default {
         //     },
         //   },
         // )
-        // console.log(this.gsapCom)
-        // this.gsapCom.pause()
+        // console.log(this.gsapNavbar)
+        // this.gsapNavbar.pause()
         // this.onResize()
       })
     }
   },
   beforeUnmount() {
-    if (this.gsapCom) this.gsapCom.revert()
-    window.removeEventListener("resize", this.onResize)
+    if (this.gsapNavbar) this.gsapNavbar.revert()
+    // window.removeEventListener("resize", this.onResize)
   },
 }
 </script>
