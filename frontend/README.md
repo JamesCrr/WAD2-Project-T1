@@ -25,3 +25,23 @@ npm run build
 ```sh
 npm run lint
 ```
+
+## Account Credentials
+
+### Organisations
+
+```
+email: org@mail.com
+password: password
+```
+
+(make sure toggler set to 'organisation')
+
+### Volunteers
+
+```
+email: user@mail.com
+password: password
+```
+
+(make sure toggler set to 'volunteer')
