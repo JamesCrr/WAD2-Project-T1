@@ -153,7 +153,7 @@ export default {
         // Set the fetchedEvents data in your component's data
         this.events = fetchedEvents
         this.isLoading = false
-        console.log(fetchedEvents)
+        // console.log(fetchedEvents)
       } catch (error) {
         console.error("Error getting documents: ", error)
       }

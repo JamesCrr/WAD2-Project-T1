@@ -170,7 +170,7 @@ export default {
       // console.log("Email:", this.email, "Password:", this.password)
       this.formValidInputs = this.$refs.formRef.checkValidity()
       if (!this.formValidInputs) {
-        console.log("Form not submitted!")
+        // console.log("Form not submitted!")
         this.submitting = false
         return
       }

@@ -93,7 +93,7 @@ const mutations = {
 
 const actions = {
   async a_UpdateFirestoreChat(state, payload) {
-    console.log("Update firestore from chat message", payload)
+    // console.log("Update firestore from chat message", payload)
     const {
       volunteerDocRef,
       organisationDocRef,

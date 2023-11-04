@@ -157,7 +157,7 @@ router.beforeEach((to, from) => {
       if (window.$cookies.get("wadt1_isvol") == "true") {
         return { name: "home", replace: true }
       }
-      console.log("going to orggg")
+      // console.log("going to orggg")
       return { name: "orgdashboard", replace: true }
 
       //// Prevent navigation

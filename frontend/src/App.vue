@@ -66,7 +66,7 @@ export default {
       const email = this.$cookies.get("wadt1_email")
       const password = this.$cookies.get("wadt1_password")
       const isvol = this.$cookies.get("wadt1_isvol")
-      console.log("Email:", email, "Password:", password, "isvol", isvol)
+      // console.log("Email:", email, "Password:", password, "isvol", isvol)
 
       try {
         // Call Firebase and verify

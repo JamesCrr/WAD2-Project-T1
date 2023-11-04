@@ -228,7 +228,7 @@ export default {
       const fileInput = event.target
       if (fileInput.files.length > 0) {
         this.selectedFile = fileInput.files[0]
-        console.log("File selected:", this.selectedFile.name)
+        // console.log("File selected:", this.selectedFile.name)
       } else {
         this.selectedFile = null
       }
@@ -264,7 +264,7 @@ export default {
 
         this.$refs.fileSelectRef.value = null
 
-        console.log("Document written with ID: ", docRef.id)
+        // console.log("Document written with ID: ", docRef.id)
       } catch (error) {
         console.error("Error adding document: ", error)
       }
@@ -277,7 +277,7 @@ export default {
 
       // console.log("Email:", this.email, "Password:", this.password)
       this.formValidInputs = this.$refs.formRef.checkValidity()
-      console.log(this.formValidInputs)
+      // console.log(this.formValidInputs)
       if (!this.formValidInputs) {
         console.log("Form not submitted!")
         this.formSubmitting = false

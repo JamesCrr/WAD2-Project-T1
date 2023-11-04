@@ -78,7 +78,7 @@ export default {
 
         // Set the events data in your component's data
         this.events = events
-        console.log(events)
+        // console.log(events)
       } catch (error) {
         console.error("Error getting documents: ", error)
       }

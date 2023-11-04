@@ -252,7 +252,7 @@ export default {
       this.submitting = true
       this.formError = false
 
-      console.log("Paused Registration!")
+      console.error("Paused Registration!")
       return
 
       try {

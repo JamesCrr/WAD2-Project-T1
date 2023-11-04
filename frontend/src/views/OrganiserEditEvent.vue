@@ -278,7 +278,7 @@ export default {
       const fileInput = event.target
       if (fileInput.files.length > 0) {
         this.selectedFile = fileInput.files[0]
-        console.log("File selected:", this.selectedFile.name)
+        // console.log("File selected:", this.selectedFile.name)
       } else {
         this.selectedFile = null
       }
@@ -302,7 +302,7 @@ export default {
         // Delete the file
         try {
           await deleteObject(imageRef)
-          console.log("Old Image deleted!")
+          // console.log("Old Image deleted!")
         } catch (error) {
           console.log(error)
         }
@@ -337,7 +337,7 @@ export default {
 
           // update the event with the image filename
           await this.updateEvent(eventData)
-          console.log("Event Updated.")
+          // console.log("Event Updated.")
 
           // Navigate back to events
           this.$router.replace({ name: "organiser_events" })

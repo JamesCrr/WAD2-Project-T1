@@ -38,7 +38,7 @@ const mutations = {
 
 const actions = {
   async a_UpdateFirestoreChat(payload) {
-    console.log("Update chat", payload)
+    // console.log("Update chat", payload)
     const { chatID, messageList } = payload
 
     // messageList = [

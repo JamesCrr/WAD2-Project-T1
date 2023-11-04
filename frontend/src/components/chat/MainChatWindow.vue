@@ -148,7 +148,7 @@ export default {
         return
       }
 
-      console.log("Submitting:", this.newMessage)
+      // console.log("Submitting:", this.newMessage)
 
       // Update Firestore
       const selectedObject = this.getChatDetails[this.selectedRoomKey]

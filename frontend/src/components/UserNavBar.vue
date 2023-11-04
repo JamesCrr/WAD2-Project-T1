@@ -74,14 +74,14 @@ export default {
     },
   },
   mounted() {
-    console.log("Component is mounted.");
+    // console.log("Component is mounted.");
     const menuItems = this.$refs.menuItems
     gsap.from(menuItems.children, {
       opacity: 0,
       x: -50, // Slide in from the left
       duration: 5,
       stagger: 0.5, // Delay between each menu item animation
-    });
+    })
   },
 }
 </script>

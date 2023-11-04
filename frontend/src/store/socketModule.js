@@ -55,7 +55,7 @@ const actions = {
      * New Chat Message, sent from Server
      */
     socket.on("server:send-client-message", (payload) => {
-      console.log("Message received!", payload)
+      // console.log("Message received!", payload)
       const {
         messageObj,
         chatID,
