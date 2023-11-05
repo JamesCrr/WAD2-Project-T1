@@ -15,7 +15,7 @@
               class="w-100 h-100 d-flex flex-column justify-content-between align-items-start mb-4"
             >
               <ul class="nav flex-column w-100">
-                <li class="nav-item">
+                <li class="nav-item" v-on:click="this.selectedOrgNavItem = 'orgdashboard'">
                   <router-link
                     to="/orgdashboard"
                     class="text-decoration-none d-flex align-items-center text-light mb-3"
@@ -33,38 +33,38 @@
                     >
                   </router-link>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-on:click="this.selectedOrgNavItem = 'orgevents'">
                   <router-link
                     to="/organiser/events"
                     class="text-decoration-none d-flex align-items-center text-light mb-3"
-                    v-bind:style="getOrgNavbarStyles('organiser_events', 'li')"
+                    v-bind:style="getOrgNavbarStyles('orgevents', 'li')"
                   >
                     <BIconCalendarEventFill
                       class="fs-5"
-                      v-bind:style="getOrgNavbarStyles('organiser_events', 'svg')"
+                      v-bind:style="getOrgNavbarStyles('orgevents', 'svg')"
                     />
                     <label
                       class="ms-2 fs-5"
                       style="cursor: pointer"
-                      v-bind:style="getOrgNavbarStyles('organiser_events', '')"
+                      v-bind:style="getOrgNavbarStyles('orgevents', '')"
                       >Events</label
                     >
                   </router-link>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-on:click="this.selectedOrgNavItem = 'orgdonations'">
                   <router-link
                     to="/organiser/donations"
                     class="text-decoration-none d-flex align-items-center text-light mb-3"
-                    v-bind:style="getOrgNavbarStyles('organiser_donations', 'li')"
+                    v-bind:style="getOrgNavbarStyles('orgdonations', 'li')"
                   >
                     <BIconPiggyBankFill
                       class="fs-5"
-                      v-bind:style="getOrgNavbarStyles('organiser_donations', 'svg')"
+                      v-bind:style="getOrgNavbarStyles('orgdonations', 'svg')"
                     />
                     <label
                       class="ms-2 fs-5"
                       style="cursor: pointer"
-                      v-bind:style="getOrgNavbarStyles('organiser_donations', '')"
+                      v-bind:style="getOrgNavbarStyles('orgdonations', '')"
                       >Donations</label
                     >
                   </router-link>
@@ -121,7 +121,11 @@
           </div>
           <div class="offcanvas-body d-flex flex-column justify-content-between">
             <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
-              <li class="nav-item" data-bs-dismiss="offcanvas">
+              <li
+                class="nav-item"
+                data-bs-dismiss="offcanvas"
+                v-on:click="this.selectedOrgNavItem = 'orgdashboard'"
+              >
                 <router-link
                   to="/orgdashboard"
                   class="text-decoration-none d-flex align-items-center text-light mb-3"
@@ -139,38 +143,46 @@
                   >
                 </router-link>
               </li>
-              <li class="nav-item" data-bs-dismiss="offcanvas">
+              <li
+                class="nav-item"
+                data-bs-dismiss="offcanvas"
+                v-on:click="this.selectedOrgNavItem = 'orgevents'"
+              >
                 <router-link
                   to="/organiser/events"
                   class="text-decoration-none d-flex align-items-center text-light mb-3"
-                  v-bind:style="getOrgNavbarStyles('organiser_events', 'li')"
+                  v-bind:style="getOrgNavbarStyles('orgevents', 'li')"
                 >
                   <BIconCalendarEventFill
                     class="fs-5"
-                    v-bind:style="getOrgNavbarStyles('organiser_events', 'svg')"
+                    v-bind:style="getOrgNavbarStyles('orgevents', 'svg')"
                   />
                   <label
                     class="ms-2 fs-5"
                     style="cursor: pointer"
-                    v-bind:style="getOrgNavbarStyles('organiser_events', '')"
+                    v-bind:style="getOrgNavbarStyles('orgevents', '')"
                     >Events</label
                   >
                 </router-link>
               </li>
-              <li class="nav-item" data-bs-dismiss="offcanvas">
+              <li
+                class="nav-item"
+                data-bs-dismiss="offcanvas"
+                v-on:click="this.selectedOrgNavItem = 'orgdonations'"
+              >
                 <router-link
                   to="/organiser/donations"
                   class="text-decoration-none d-flex align-items-center text-light mb-3"
-                  v-bind:style="getOrgNavbarStyles('organiser_donations', 'li')"
+                  v-bind:style="getOrgNavbarStyles('orgdonations', 'li')"
                 >
                   <BIconPiggyBankFill
                     class="fs-5"
-                    v-bind:style="getOrgNavbarStyles('organiser_donations', 'svg')"
+                    v-bind:style="getOrgNavbarStyles('orgdonations', 'svg')"
                   />
                   <label
                     class="ms-2 fs-5"
                     style="cursor: pointer"
-                    v-bind:style="getOrgNavbarStyles('organiser_donations', '')"
+                    v-bind:style="getOrgNavbarStyles('orgdonations', '')"
                     >Donations</label
                   >
                 </router-link>
@@ -279,6 +291,7 @@ export default {
   data() {
     return {
       gsapNavbar: null,
+      selectedOrgNavItem: "orgdashboard",
     }
   },
   computed: {
@@ -321,7 +334,7 @@ export default {
       return {}
     },
     getOrgNavbarStyles(pageNames, component) {
-      if (pageNames.includes(this.getCurrentRouteName)) {
+      if (pageNames.includes(this.selectedOrgNavItem)) {
         if (component == "li") {
           return { "background-color": "white", padding: "6px", "border-radius": "10px" }
         } else if (component == "svg") {

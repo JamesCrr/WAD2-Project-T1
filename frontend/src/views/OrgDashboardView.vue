@@ -199,15 +199,7 @@ export default {
   border-radius: 10px;
 }
 
-.navbarspace {
-  padding: 0;
-  padding-left: 17rem;
-}
 @media (max-width: 992px) {
-  .navbarspace {
-    padding: 0;
-    margin-top: 15vh;
-  }
   .neweventrow {
     margin-top: 110px !important;
   }

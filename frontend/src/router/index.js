@@ -11,6 +11,7 @@ import OrganiserAddEvent from "../views/OrganiserAddEvent.vue"
 import OrganiserEditEvent from "../views/OrganiserEditEvent.vue"
 import OrganiserDonations from "../views/OrganiserDonations.vue"
 import OrganiserEvents from "../views/OrganiserEvents.vue"
+import OrganiserViewParticipants from "../views/OrganiserViewParticipants.vue"
 import OrgDashboardView from "../views/OrgDashboardView.vue"
 import UserDonationsView from "../views/UserDonationsView.vue"
 import SuccessPage from "../views/SuccessPage.vue"
@@ -85,6 +86,11 @@ const router = createRouter({
       path: "/organiser/events",
       name: "organiser_events",
       component: OrganiserEvents,
+    },
+    {
+      path: "/organiser/viewparticipants/:id",
+      name: "organiser_viewparticipants",
+      component: OrganiserViewParticipants,
     },
     {
       path: "/orgdashboard",
@@ -204,6 +210,7 @@ router.beforeEach((to, from) => {
         to.name === "organiser_editevent" ||
         to.name === "organiser_donations" ||
         to.name === "organiser_events" ||
+        to.name === "organiser_viewparticipants" ||
         to.name === "orgdashboard")
     ) {
       if (from.name) {

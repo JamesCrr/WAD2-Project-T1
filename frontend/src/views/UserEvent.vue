@@ -265,6 +265,7 @@
         <div class="row">
           <div class="col">
             <button
+              v-if="!outOfOpenings"
               type="button"
               class="btn w-100"
               :class="{ 'btn-primary': !signedUpAlready, 'btn-secondary': signedUpAlready }"
@@ -273,6 +274,9 @@
               v-bind:disabled="signedUpAlready"
             >
               {{ this.signedUpAlready ? "Already Signed Up" : "Volunteer Now!" }}
+            </button>
+            <button v-else type="button" class="btn btn-secondary w-100" disabled>
+              Out of slots!
             </button>
           </div>
         </div>
@@ -531,6 +535,14 @@ export default {
     signedUpAlready() {
       if (!this.eventDetails.signups || !this.getAuthDetails) return true
       return this.eventDetails.signups.includes(this.getAuthDetails.uid)
+    },
+
+    /**
+     * Helper function to check if the event still have openings
+     */
+    outOfOpenings() {
+      if (!this.eventDetails.signups) return true
+      return this.eventDetails.signups.length >= this.eventDetails.openings
     },
   },
   methods: {

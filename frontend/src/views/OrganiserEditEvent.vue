@@ -360,16 +360,6 @@ export default {
 </script>
 
 <style scoped>
-.navbarspace {
-  padding: 0;
-  padding-left: 17rem;
-}
-@media (max-width: 992px) {
-  .navbarspace {
-    padding: 0;
-    margin-top: 10vh;
-  }
-}
 .form-container {
   width: 100%;
   justify-content: center;

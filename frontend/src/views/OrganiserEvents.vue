@@ -60,7 +60,6 @@
         </div>
       </div>
     </div>
-
     <div v-else class="ms-3">
       <div
         class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 pt-1 mw-100"
@@ -77,19 +76,44 @@
             <div class="card-body d-flex flex-column justify-content-between">
               <h5 class="card-title">{{ event.title }}</h5>
               <p class="card-text">{{ event.desc }}</p>
-              <div class="grid-container d-flex justify-content-between">
-                <button type="button" class="btn btn-primary">
-                  <router-link
-                    class="link-text"
-                    v-bind:to="'/organiser/editevent/' + event.id"
-                    :key="event.id"
-                  >
-                    Edit
-                  </router-link>
-                </button>
-                <button type="button" class="btn btn-danger" v-on:click="deleteEvent(event)">
-                  Delete
-                </button>
+              <div class="row">
+                <div class="col">
+                  <div class="row d-flex justify-content-between">
+                    <div class="col">
+                      <button type="button" class="btn btn-primary w-100">
+                        <router-link
+                          class="link-text"
+                          v-bind:to="'/organiser/editevent/' + event.id"
+                          :key="event.id"
+                        >
+                          Edit
+                        </router-link>
+                      </button>
+                    </div>
+                    <div class="col">
+                      <button type="button" class="btn btn-info w-100">
+                        <router-link
+                          class="link-text"
+                          v-bind:to="'/organiser/viewparticipants/' + event.id"
+                          :key="event.id"
+                        >
+                          Participants
+                        </router-link>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row mt-2">
+                    <div class="col">
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger w-100 text-danger"
+                        v-on:click="deleteEvent(event)"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -185,15 +209,7 @@ export default {
 </script>
 
 <style scoped>
-.navbarspace {
-  padding: 0;
-  padding-left: 17rem;
-}
 @media (max-width: 992px) {
-  .navbarspace {
-    padding: 0;
-    margin-top: 10vh;
-  }
   .neweventrow {
     margin-top: 110px !important;
   }
