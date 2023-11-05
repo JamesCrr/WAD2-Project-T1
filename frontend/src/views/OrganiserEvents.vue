@@ -106,7 +106,7 @@
                     <div class="col">
                       <button
                         type="button"
-                        class="btn btn-outline-danger w-100 text-danger"
+                        class="btn btn-outline-danger w-100"
                         v-on:click="deleteEvent(event)"
                       >
                         Delete
